@@ -31,6 +31,7 @@ function getModifiedDate(path) {
 }*/
 
 function getMaxDate(dates) {
+  console.log(dates)
   const maxDate = dates.reduce((latest, current) => {
       const currentDate = new Date(current);
       return currentDate > latest ? currentDate : latest;
@@ -60,7 +61,7 @@ function timeFormat(dateString) {
   return index !== -1 ? dateString.substring(0, index) : dateString;
 }
 
-dates = loadJson("/last_modified_dates.json")
+const dates = await loadJson("/last_modified_dates.json")
 
 document.getElementById("musicp").textContent+= ` (${dates["/projects/music"]})`
 document.getElementById("techp").textContent+= ` (${dates["/projects/tech"]})`
