@@ -36,21 +36,7 @@ function updateCommandClass(index) {
     }
 }
 
-function handleKeyDown(event) {
-    if (event.key === 'ArrowDown') {
-        // Move down
-        highlightedCommand = (highlightedCommand + 1) % commands.length; 
-        updateCommandClass(highlightedCommand);
-    } else if (event.key === 'ArrowUp') {
-        // Move up
-        highlightedCommand = (highlightedCommand - 1 + commands.length) % commands.length; 
-        updateCommandClass(highlightedCommand);
-    } else if (event.key === 'Enter') {
-        if (highlightedCommand >= 0 && highlightedCommand < commands.length) {
-            commands[highlightedCommand].click();
-        }
-    }
-}
+
 
 async function loadEntry(entryIndex) {
     for (x of parentDiv.children){
@@ -73,6 +59,21 @@ async function setup() {
     var entryJSON = await addEntries()
     await delayLoad()
     var commands = Array.from(parentDiv.children)
+    function handleKeyDown(event) {
+        if (event.key === 'ArrowDown') {
+            // Move down
+            highlightedCommand = (highlightedCommand + 1) % commands.length; 
+            updateCommandClass(highlightedCommand);
+        } else if (event.key === 'ArrowUp') {
+            // Move up
+            highlightedCommand = (highlightedCommand - 1 + commands.length) % commands.length; 
+            updateCommandClass(highlightedCommand);
+        } else if (event.key === 'Enter') {
+            if (highlightedCommand >= 0 && highlightedCommand < commands.length) {
+                commands[highlightedCommand].click();
+            }
+        }
+    }
     document.addEventListener('keydown', handleKeyDown);
     function handleMouseOver(event) {
         commands.forEach(child => {
