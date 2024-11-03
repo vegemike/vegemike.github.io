@@ -8,11 +8,12 @@ async function addEntries(){
         let entry = document.createElement("a")
         entry.textContent = `> ${x["name"]} - ${x["date"]}`
         entry.style.display = "none"
-        entry.id = entries["music"].index(x)
+        entry.id = entries["music"].indexOf(x)
         parentDiv.appendChild(entry)
 
     }
     console.log("finished generation")
+    return entries
 }
 
 async function delayLoad(){
@@ -50,12 +51,15 @@ function handleKeyDown(event) {
     }
 }
 
-async function loadEntry(entry) {
-    
+async function loadEntry(entryIndex) {
+    for (x of parentDiv.children){
+        x.style.display = "none"
+    }
+    document.getElementById("titley").textContent = entryJSON[entryIndex]["name"]
 }
 
 async function setup() {
-    await addEntries()
+    var entryJSON = await addEntries()
     await delayLoad()
     const commands = Array.from(parentDiv.children)
     document.addEventListener('keydown', handleKeyDown);
