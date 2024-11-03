@@ -1,0 +1,95 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Courier New', Courier, monospace; /* Adds a console-like font */
+}
+
+body {
+  background-color: #000000;
+  color: rgb(0, 255, 0);
+}
+
+header {
+  text-align: center;
+  padding: 20px;
+  background-color: #3b3f45;
+}
+
+header h1 {
+  font-size: 2em;
+  margin-bottom: 10px;
+  color: #61dafb;
+}/*
+li {
+  display: flex;     
+  align-items: center;  
+}*/
+header p {
+  font-size: 1.2em;
+  color: #adb5bd;
+}
+
+nav {
+  max-width: 600px;
+  margin: 20px auto;
+  padding-left: 20px;
+}
+
+.tree-directory {
+  list-style-type: none;
+  padding: 0;
+}
+
+.tree-directory > li {
+  margin-bottom: 15px;
+}
+
+.dir-btn {
+  background: none;
+  border: none;
+  color: #00ff00;
+  font-size: 1.5em;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: left;
+  /*padding: 5px;*/
+  width: 100%;
+}
+
+.sub-directory {
+  list-style-type: none;
+  /*padding-left: 20px;*/
+  display: none; /* Hidden by default, except for "index" */
+  position: relative;
+  /*border-left: 1px solid #61dafb;*/
+  margin-left: 10px;
+}
+
+.sub-directory.open {
+  display: inline-block; 
+}
+
+.sub-directory li {
+  margin: 5px 0;
+  position: relative;
+  padding-left: 20px;
+}
+
+
+.sub-directory li a {
+  color: #ff0000;
+  text-decoration: none;
+}
+
+.sub-directory li a:hover {
+  color: #61dafb;
+  text-decoration: underline;
+}
+
+footer {
+  text-align: center;
+  padding: 15px;
+  background-color: #3b3f45;
+  color: #adb5bd;
+}

@@ -1,24 +1,39 @@
-<<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]>      <html class="no-js"> <!--<![endif]-->
-<html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title>
-            home
-        </title>
-        <meta name="description" content="nice uh page">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="/styles/home.css">
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
-        <![endif]-->
-        
-        <script src="/scripts/home.js" async defer></script>
-    </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>home</title>
+  <link rel="stylesheet" href="styles/home.css">
+</head>
+<body>
+    <div id="main">
+    <ul class="tree-directory">
+      <li>
+        <!--<span class="line"></span>-->
+        <button class="dir-btn open">└──index</button>
+        <ul class="sub-directory open">
+          <li>
+            <!--<span class="line"></span>-->
+            <button class="dir-btn">├──Projects</button>
+            <ul class="sub-directory">
+              <li><span class="line">├──</span> <a href="/projects/music.html">Music</a></li>
+              <li><span class="line">└──</span> <a href="/projects/tech.html">Tech</a></li>
+            </ul>
+          </li>
+          <li>
+            <!--<span class="line"></span>-->
+            <button class="dir-btn">└──Reviews</button>
+            <ul class="sub-directory">
+              <li><span class="line">├──</span> <a href="music-reviews.html">Music</a></li>
+              <li><span class="line">└──</span> <a href="tv-reviews.html">TV</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
+    </ul>
+</div>
+
+  <script src="scripts/home.js"></script>
+</body>
 </html>
