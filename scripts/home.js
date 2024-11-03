@@ -79,4 +79,5 @@ async function setDates() {
   document.getElementById("reviews").textContent += ` (${maxReviews})`
   document.getElementById("projects").textContent += ` (${maxProjects})`
 }
+
 setDates()
