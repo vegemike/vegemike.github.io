@@ -11,13 +11,14 @@ async function addEntries(){
 
     }
 }
+addEntries()
 async function delayLoad(){
     for (let x of parentDiv.children){
         x.style.display = "block"
-        await delay(120)
+        await delay(220)
     }
 }
-addEntries()
+
 delayLoad()
 const commands = Array.from(parentDiv.children)
 function updateCommandClass(index) {
