@@ -42,6 +42,7 @@ async function loadEntry(entryIndex) {
     backButton.onclick = unloadEntry
     parentDiv.append(backButton)
     // add text to #textHere :) (stagger words?)
+    // also ,make the mouse change highlightedCommand
 }
 
 async function unloadEntry() {
