@@ -39,7 +39,7 @@ function getMaxDate(dates) {
   return maxDate.toISOString(); 
 }
 
-async function loadJson(filePath) {
+async function getJson(filePath) {
   try {
       const response = await fetch(filePath);
       if (!response.ok) {
@@ -52,6 +52,7 @@ async function loadJson(filePath) {
   }
 }
 
+
 function getAlphanumeric(string) {
   return string.match(/[a-zA-Z0-9]+/g)?.join('') || '';
 }
@@ -61,8 +62,11 @@ function timeFormat(dateString) {
   return index !== -1 ? dateString.substring(0, index) : dateString;
 }
 
+async function loadJson(path){
+  const dates = await getJson("path")
+  return dates
+}
 const dates = await loadJson("/last_modified_dates.json")
-
 document.getElementById("musicp").textContent+= ` (${dates["/projects/music"]})`
 document.getElementById("techp").textContent+= ` (${dates["/projects/tech"]})`
 document.getElementById("musicr").textContent+= ` (${dates["/reviews/music"]})`
