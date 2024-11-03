@@ -27,14 +27,7 @@ async function delayLoad(){
 }
 
 
-function updateCommandClass(index) {
-    commands.forEach(child => {
-        child.classList.remove('command');
-    });
-    if (index >= 0 && index < commands.length) {
-        commands[index].classList.add('command');
-    }
-}
+
 
 
 
@@ -59,6 +52,14 @@ async function setup() {
     var entryJSON = await addEntries()
     await delayLoad()
     var commands = Array.from(parentDiv.children)
+    function updateCommandClass(index) {
+        commands.forEach(child => {
+            child.classList.remove('command');
+        });
+        if (index >= 0 && index < commands.length) {
+            commands[index].classList.add('command');
+        }
+    }
     function handleKeyDown(event) {
         if (event.key === 'ArrowDown') {
             // Move down
