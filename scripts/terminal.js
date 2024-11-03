@@ -1,7 +1,25 @@
 const parentDiv = document.getElementById("commands")
 const delay = ms => new Promise(res => setTimeout(res, ms));
 highlightedCommand = 0
+async function addEntries(){
+    const entries = await getJson("../reviews/entries.json")
+    for (let x of entries["music"]){
+        let entry = document.createElement("a")
+        entry.textContent = `> ${x["name"]} - ${x["date"]}`
+        entry.style.display = "none"
+        parentDiv.appendChild(entry)
 
+    }
+}
+async function delayLoad(){
+    for (let x of parentDiv.children){
+        x.style.display = "block"
+        await delay(120)
+    }
+}
+addEntries()
+delayLoad()
+const commands = Array.from(parentDiv.children)
 function updateCommandClass(index) {
     commands.forEach(child => {
         child.classList.remove('command');
@@ -38,24 +56,5 @@ commands.forEach(child => {
     child.addEventListener('mouseover', handleMouseOver);
 });
 
-async function addEntries(){
-    const entries = await getJson("../reviews/entries.json")
-    for (let x of entries["music"]){
-        let entry = document.createElement("a")
-        entry.textContent = `> ${x["name"]} - ${x["date"]}`
-        entry.style.display = "none"
-        parentDiv.appendChild(entry)
 
-    }
-}
 
-addEntries()
-async function delayLoad(){
-    for (let x of parentDiv.children){
-        x.style.display = "block"
-        await delay(120)
-    }
-}
-delayLoad()
-
-const commands = Array.from(parentDiv.children)
