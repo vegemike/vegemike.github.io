@@ -42,7 +42,9 @@ body, html {
     /*padding: 2px;*/
 }
 
-
+a{
+    display:block;
+}
 
 @keyframes blink {
     50% { opacity: 0; }
