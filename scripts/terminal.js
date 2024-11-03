@@ -23,7 +23,7 @@ async function delayLoad(){
     console.log("displayed all")
 }
 
-const commands = Array.from(parentDiv.children)
+
 function updateCommandClass(index) {
     commands.forEach(child => {
         child.classList.remove('command');
@@ -54,6 +54,7 @@ function handleKeyDown(event) {
 async function setup() {
     await addEntries()
     await delayLoad()
+    const commands = Array.from(parentDiv.children)
     document.addEventListener('keydown', handleKeyDown);
     function handleMouseOver(event) {
         commands.forEach(child => {
