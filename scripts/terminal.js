@@ -1,4 +1,5 @@
 const parentDiv = document.getElementById("commands")
+var commands = Array.from(parentDiv.children)
 const delay = ms => new Promise(res => setTimeout(res, ms));
 highlightedCommand = 0
 async function addEntries(){
@@ -71,7 +72,7 @@ async function unloadEntry() {
 async function setup() {
     var entryJSON = await addEntries()
     await delayLoad()
-    const commands = Array.from(parentDiv.children)
+    var commands = Array.from(parentDiv.children)
     document.addEventListener('keydown', handleKeyDown);
     function handleMouseOver(event) {
         commands.forEach(child => {
