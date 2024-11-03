@@ -55,7 +55,8 @@ async function loadEntry(entryIndex) {
     for (x of parentDiv.children){
         x.style.display = "none"
     }
-    document.getElementById("titley").textContent = entryJSON[entryIndex]["name"]
+    document.getElementById("titley").textContent = entryJSON[entryIndex]["name"] + entryJSON[entryIndex]["date"]
+
 }
 
 async function setup() {
