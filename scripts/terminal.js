@@ -8,6 +8,7 @@ async function addEntries(){
         let entry = document.createElement("a")
         entry.textContent = `> ${x["name"]} - ${x["date"]}`
         entry.style.display = "none"
+        entry.id = entries["music"].index(x)
         parentDiv.appendChild(entry)
 
     }
@@ -49,7 +50,9 @@ function handleKeyDown(event) {
     }
 }
 
-
+async function loadEntry(entry) {
+    
+}
 
 async function setup() {
     await addEntries()
