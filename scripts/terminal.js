@@ -1,6 +1,5 @@
-const delay = ms => new Promise(res => setTimeout(res, ms));
 const parentDiv = document.getElementById("commands")
-const commands = Array.from(parentDiv.children)
+const delay = ms => new Promise(res => setTimeout(res, ms));
 highlightedCommand = 0
 
 function updateCommandClass(index) {
@@ -52,8 +51,11 @@ async function addEntries(){
 
 addEntries()
 async function delayLoad(){
-    for (let x of parentDiv){
+    for (let x of parentDiv.children){
         x.style.display = "block"
         await delay(120)
     }
 }
+delayLoad()
+
+const commands = Array.from(parentDiv.children)
