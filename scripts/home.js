@@ -66,7 +66,8 @@ async function loadJson(path){
   const dates = await getJson("path")
   return dates
 }
-const dates = await loadJson("/last_modified_dates.json")
+
+const dates = loadJson("/last_modified_dates.json")
 document.getElementById("musicp").textContent+= ` (${dates["/projects/music"]})`
 document.getElementById("techp").textContent+= ` (${dates["/projects/tech"]})`
 document.getElementById("musicr").textContent+= ` (${dates["/reviews/music"]})`
