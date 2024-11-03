@@ -62,21 +62,20 @@ function timeFormat(dateString) {
   return index !== -1 ? dateString.substring(0, index) : dateString;
 }
 
-async function loadJson(path){
-  const dates = await getJson("path")
-  return dates
+
+async function setDates() {
+  const dates = await getJson("/last_modified_dates.json")
+  document.getElementById("musicp").textContent+= ` (${dates["/projects/music"]})`
+  document.getElementById("techp").textContent+= ` (${dates["/projects/tech"]})`
+  document.getElementById("musicr").textContent+= ` (${dates["/reviews/music"]})`
+  document.getElementById("tvr").textContent+= ` (${dates["/reviews/tv"]})`
+
+  maxProjects = getMaxDate([dates["/projects/music"], dates["/projects/tech"]])
+  maxReviews = getMaxDate([dates["/reviews/music"], dates["/reviews/tv"]])
+  maxIndex = getMaxDate([dates["/reviews/music"], dates["/reviews/tv"], dates["/projects/music"], dates["/projects/tech"]])
+
+  document.getElementById("index").textContent += ` (${maxIndex})`
+  document.getElementById("reviews").textContent += ` (${maxReviews})`
+  document.getElementById("projects").textContent += ` (${maxProjects})`
 }
-
-const dates = loadJson("/last_modified_dates.json")
-document.getElementById("musicp").textContent+= ` (${dates["/projects/music"]})`
-document.getElementById("techp").textContent+= ` (${dates["/projects/tech"]})`
-document.getElementById("musicr").textContent+= ` (${dates["/reviews/music"]})`
-document.getElementById("tvr").textContent+= ` (${dates["/reviews/tv"]})`
-
-maxProjects = getMaxDate([dates["/projects/music"], dates["/projects/tech"]])
-maxReviews = getMaxDate([dates["/reviews/music"], dates["/reviews/tv"]])
-maxIndex = getMaxDate([dates["/reviews/music"], dates["/reviews/tv"], dates["/projects/music"], dates["/projects/tech"]])
-
-document.getElementById("index").textContent += ` (${maxIndex})`
-document.getElementById("reviews").textContent += ` (${maxReviews})`
-document.getElementById("projects").textContent += ` (${maxProjects})`
+setDates()
