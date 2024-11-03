@@ -19,7 +19,6 @@ async function delayLoad(){
     }
 }
 
-delayLoad()
 const commands = Array.from(parentDiv.children)
 function updateCommandClass(index) {
     commands.forEach(child => {
@@ -57,5 +56,7 @@ commands.forEach(child => {
     child.addEventListener('mouseover', handleMouseOver);
 });
 
+
+delayLoad()
 
 
