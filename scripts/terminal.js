@@ -48,7 +48,7 @@ async function loadEntry(entryIndex) {
     backButton.textContent = "> back"
     backButton.onclick = unloadEntry
     parentDiv.append(backButton)
-    // add text to #textHere :)
+    // add text to #textHere :) (stagger words?)
 }
 
 async function unloadEntry() {
