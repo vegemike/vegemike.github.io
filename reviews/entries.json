@@ -1,7 +1,10 @@
 {
     "music":[
             {"name":"name", "path":"/music/name.mike", "date":"01/01/0001"},
-            {}
+            {"name":"name", "path":"/music/name.mike", "date":"01/01/0001"},
+            {"name":"name", "path":"/music/name.mike", "date":"01/01/0001"},
+            {"name":"name", "path":"/music/name.mike", "date":"01/01/0001"},
+            {"name":"name", "path":"/music/name.mike", "date":"01/01/0001"}
         ],
     "tv":[
         {},

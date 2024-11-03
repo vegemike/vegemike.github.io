@@ -1,3 +1,4 @@
+const delay = ms => new Promise(res => setTimeout(res, ms));
 const parentDiv = document.getElementById("commands")
 const commands = Array.from(parentDiv.children)
 highlightedCommand = 0
@@ -43,9 +44,16 @@ async function addEntries(){
     for (let x of entries["music"]){
         let entry = document.createElement("a")
         entry.textContent = `> ${x["name"]} - ${x["date"]}`
+        entry.style.display = "none"
         parentDiv.appendChild(entry)
 
     }
 }
 
 addEntries()
+async function delayLoad(){
+    for (let x of parentDiv){
+        x.style.display = "block"
+        await delay(120)
+    }
+}
