@@ -65,4 +65,5 @@ dates = loadJson("/last_modified_dates.json")
 document.getElementById("musicp") .textContent+= ` (${dates["/projects/music"]})`
 document.getElementById("techp") .textContent+= ` (${dates["/projects/tech"]})`
 document.getElementById("musicr") .textContent+= ` (${dates["/reviews/music"]})`
-document.getElementById("techr") .textContent+= ` (${dates["/reviews/tech"]})`
+document.getElementById("tvr") .textContent+= ` (${dates["/reviews/tv"]})`
+
