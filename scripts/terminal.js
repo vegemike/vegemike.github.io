@@ -47,4 +47,4 @@ async function addEntries(){
     }
 }
 
-await addEntries()
+addEntries()
