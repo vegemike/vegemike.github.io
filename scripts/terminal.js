@@ -3,26 +3,26 @@ const commands = Array.from(parentDiv.children)
 highlightedCommand = 0
 
 function updateCommandClass(index) {
-    children.forEach(child => {
+    commands.forEach(child => {
         child.classList.remove('command');
     });
-    if (index >= 0 && index < children.length) {
-        children[index].classList.add('command');
+    if (index >= 0 && index < commands.length) {
+        commands[index].classList.add('command');
     }
 }
 
 function handleKeyDown(event) {
     if (event.key === 'ArrowDown') {
         // Move down
-        highlightedCommand = (highlightedCommand + 1) % children.length; 
+        highlightedCommand = (highlightedCommand + 1) % commands.length; 
         updateCommandClass(highlightedCommand);
     } else if (event.key === 'ArrowUp') {
         // Move up
-        highlightedCommand = (highlightedCommand - 1 + children.length) % children.length; 
+        highlightedCommand = (highlightedCommand - 1 + commands.length) % commands.length; 
         updateCommandClass(highlightedCommand);
     } else if (event.key === 'Enter') {
-        if (highlightedCommand >= 0 && highlightedCommand < children.length) {
-            children[highlightedCommand].click();
+        if (highlightedCommand >= 0 && highlightedCommand < commands.length) {
+            commands[highlightedCommand].click();
         }
     }
 }
