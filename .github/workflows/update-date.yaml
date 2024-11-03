@@ -1,0 +1,45 @@
+name: Update Last Modified Dates
+
+on:
+  schedule:
+    - cron: '0 * * * *'  # Runs every hour
+
+jobs:
+  update-dates:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Get last modified dates
+        run: |
+          FILES=(
+            "/projects/music.html"
+            "/projects/tech.html"
+            "/reviews/tech.html"
+            "/reviews/music.html"
+          )
+          
+          LAST_MODIFIED_DATES="{}"  # Start with an empty JSON object
+
+          for FILE in "${FILES[@]}"; do
+            LAST_MODIFIED_DATE=$(curl -s \
+              "https://api.github.com/repos/vegemike/vegemike.github.io/commits?path=${FILE}&per_page=1" | \
+              jq -r '.[0].commit.committer.date')
+
+            if [[ "$LAST_MODIFIED_DATE" != "null" ]]; then
+              LAST_MODIFIED_DATES=$(echo "$LAST_MODIFIED_DATES" | jq --arg file "$FILE" --arg date "$LAST_MODIFIED_DATE" \
+                '. + {($file): $date}')
+            fi
+          done
+
+          echo "$LAST_MODIFIED_DATES" > last_modified_dates.json
+          echo "Last modified dates saved to last_modified_dates.json."
+
+      - name: Commit and push changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add last_modified_dates.json
+          git commit -m "Update last modified dates"
+          git push
