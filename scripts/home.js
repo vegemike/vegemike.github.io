@@ -30,13 +30,13 @@ function timeFormat(dateString) {
 }
 
 const anchors = document.querySelectorAll('a');
+const buttons = document.querySelectorAll('button');
 const body = document.body
 anchors.forEach(anchor => {
-  if (anchor.href != undefined){
-    p = anchor.href
-  }
-  else{
-    p = getAlphanumeric(anchor.textContent)
-  }
+  p = anchor.href
   anchor.textContent += `(last modified: ${timeFormat(getModifiedDate(p))})`;
+});
+buttons.forEach(button => {
+  p = getAlphanumeric(button.textContent)
+  button.textContent += `(last modified: ${timeFormat(getModifiedDate(p))})`;
 });
