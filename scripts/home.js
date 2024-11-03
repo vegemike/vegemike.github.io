@@ -21,3 +21,22 @@ function getModifiedDate(path){
     console.error('Error fetching data:', error);
   });
 }
+function getAlphanumeric(string) {
+  return string.match(/[a-zA-Z0-9]+/g)?.join('') || '';
+}
+function timeFormat(dateString) {
+  const index = dateString.indexOf('T');
+  return index !== -1 ? dateString.substring(0, index) : dateString;
+}
+
+const anchors = document.querySelectorAll('a');
+const body = document.body
+anchors.forEach(anchor => {
+  if (anchor.href != undefined){
+    p = anchor.href
+  }
+  else{
+    p = getAlphanumeric(anchor.textContent)
+  }
+  anchor.textContent += `(last modified: ${timeFormat(getModifiedDate(p))})`;
+});
