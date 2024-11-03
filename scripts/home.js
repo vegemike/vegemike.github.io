@@ -11,7 +11,8 @@ function getModifiedDate(path){
   .then(data => {
     if (data.length > 0) {
       const lastModifiedDate = data[0].commit.committer.date;
-      console.log('Last Modified Date:', lastModifiedDate);
+      console.log(lastModifiedDate);
+      return lastModifiedDate
     } else {
       console.log('No commits found for this file.');
     }
