@@ -56,7 +56,16 @@ async function loadEntry(entryIndex) {
         x.style.display = "none"
     }
     document.getElementById("titley").textContent = entryJSON[entryIndex]["name"] + entryJSON[entryIndex]["date"]
+    backButton = document.createElement("a")
+    backButton.id="backButton"
+    backButton.textContent = "> back"
+    backButton.onclick = unloadEntry
+    parentDiv.append(backButton)
+    // add text to #textHere :)
+}
 
+async function unloadEntry() {
+    //restore style.display.block to all the commands and delete all children of #textHere
 }
 
 async function setup() {
