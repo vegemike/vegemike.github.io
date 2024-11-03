@@ -1,2 +1,2 @@
-wrap headers with %, subs with &
+suffix header with %, sub with &
 split paragraphs with ;
