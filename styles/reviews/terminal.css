@@ -43,6 +43,7 @@ body, html {
 }
 
 a{
+    all:unset;
     display:block;
 }
 
