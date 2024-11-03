@@ -27,7 +27,6 @@ function handleKeyDown(event) {
     }
 }
 
-
 document.addEventListener('keydown', handleKeyDown);
 function handleMouseOver(event) {
     commands.forEach(child => {
@@ -40,10 +39,12 @@ commands.forEach(child => {
 });
 
 async function addEntries(){
-    const entries = await getJson("../entries.json")
+    const entries = await getJson("/entries.json")
     for (let x of entries["music"]){
         let entry = document.createElement("a")
         entry.textContent = `> ${x["name"]} - ${x["date"]}`
+        parentDiv.appendChild(entry)
+
     }
 }
 
