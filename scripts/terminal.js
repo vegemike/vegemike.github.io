@@ -38,3 +38,13 @@ function handleMouseOver(event) {
 commands.forEach(child => {
     child.addEventListener('mouseover', handleMouseOver);
 });
+
+async function addEntries(){
+    const entries = await getJson("../entries.json")
+    for (let x of entries["music"]){
+        let entry = document.createElement("a")
+        entry.textContent = `> ${x["name"]} - ${x["date"]}`
+    }
+}
+
+await addEntries()
