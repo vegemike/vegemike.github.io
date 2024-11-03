@@ -11,14 +11,17 @@ async function addEntries(){
         parentDiv.appendChild(entry)
 
     }
+    console.log("finished generation")
 }
-addEntries()
+
 async function delayLoad(){
+    await addEntries()
     console.log("staggering display...")
     for (let x of parentDiv.children){
         x.style.display = "block"
         await delay(220)
     }
+    console.log("displayed all")
 }
 
 const commands = Array.from(parentDiv.children)
