@@ -2,6 +2,7 @@ const parentDiv = document.getElementById("commands")
 const delay = ms => new Promise(res => setTimeout(res, ms));
 highlightedCommand = 0
 async function addEntries(){
+    console.log("generating anchors from JSON")
     const entries = await getJson("../reviews/entries.json")
     for (let x of entries["music"]){
         let entry = document.createElement("a")
@@ -13,6 +14,7 @@ async function addEntries(){
 }
 addEntries()
 async function delayLoad(){
+    console.log("staggering display...")
     for (let x of parentDiv.children){
         x.style.display = "block"
         await delay(220)
