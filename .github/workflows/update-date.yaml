@@ -3,26 +3,29 @@ name: Update Last Modified Dates
 on:
   schedule:
     - cron: '0 * * * *'  # Runs every hour
+  workflow_dispatch:       # Allows manual triggering
 
 jobs:
   update-dates:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}  # Use the GITHUB_TOKEN for authentication
+          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Get last modified dates
         run: |
           FILES=(
             "/projects/music.html"
             "/projects/tech.html"
-            "/reviews/tv.html"
+            "/reviews/tech.html"
             "/reviews/music.html"
           )
           
-          LAST_MODIFIED_DATES="{}"  # Start with an empty JSON object
+          LAST_MODIFIED_DATES="{}"
 
           for FILE in "${FILES[@]}"; do
             LAST_MODIFIED_DATE=$(curl -s \
@@ -40,7 +43,7 @@ jobs:
 
       - name: Commit and push changes
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Use GITHUB_TOKEN for the push
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
