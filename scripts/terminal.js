@@ -1,7 +1,7 @@
 const parentDiv = document.getElementById("commands")
 var commands = Array.from(parentDiv.children)
 const delay = ms => new Promise(res => setTimeout(res, ms));
-highlightedCommand = 0
+var highlightedCommand = 0
 async function addEntries(){
     console.log("generating anchors from JSON")
     const entries = await getJson("../reviews/entries.json")
@@ -81,7 +81,7 @@ async function setup() {
             child.classList.remove('command');
         });
         event.target.classList.add('command');
-        highlightedCommand = parseInt(event.target.id)
+        var highlightedCommand = parseInt(event.target.id)
     }
     commands.forEach(child => {
         child.addEventListener('mouseover', handleMouseOver);
