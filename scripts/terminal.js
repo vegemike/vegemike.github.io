@@ -81,6 +81,7 @@ async function setup() {
             child.classList.remove('command');
         });
         event.target.classList.add('command');
+        highlightedCommand = parseInt(event.target.id)
     }
     commands.forEach(child => {
         child.addEventListener('mouseover', handleMouseOver);
