@@ -4,7 +4,8 @@ document.querySelectorAll('.dir-btn').forEach(button => {
       subDirectory.classList.toggle('open');
     });
   });
-  
+
+/*
 function getModifiedDate(path) {
   return fetch(`https://api.github.com/repos/vegemike/vegemike.github.io/commits?path=${path}&per_page=1`)
     .then(response => {
@@ -27,7 +28,16 @@ function getModifiedDate(path) {
       console.error('Error fetching data:', error);
       return null;
     });
+}*/
+
+function getMaxDate(dates) {
+  const maxDate = dates.reduce((latest, current) => {
+      const currentDate = new Date(current);
+      return currentDate > latest ? currentDate : latest;
+  }, new Date(dates[0])); 
+  return maxDate.toISOString(); 
 }
+
 function getAlphanumeric(string) {
   return string.match(/[a-zA-Z0-9]+/g)?.join('') || '';
 }
@@ -39,34 +49,11 @@ function timeFormat(dateString) {
 
 const anchors = document.querySelectorAll('a');
 const buttons = document.querySelectorAll('button');
-const body = document.body
+
 anchors.forEach(anchor => {
-  const p = `${anchor.getAttribute("href")}.html`;
-  getModifiedDate(p).then(lastModifiedDate => {
-    if (lastModifiedDate) {
-      anchor.textContent += ` (last modified: ${timeFormat(lastModifiedDate)})`;
-    } else {
-      anchor.textContent += ` (last modified: unknown)`;
-    }
-  }).catch(error => {
-    console.error('Error fetching last modified date:', error);
-    anchor.textContent += ` (last modified: error)`;
-  });
+
 });
 
 buttons.forEach(button => {
-  p = getAlphanumeric(button.textContent)
-  if (button.textContent == "└──index"){
-    p = "/"
-  }
-  getModifiedDate(p).then(lastModifiedDate => {
-    if (lastModifiedDate) {
-      button.textContent += ` (last modified: ${timeFormat(lastModifiedDate)})`;
-    } else {
-      button.textContent += ` (last modified: unknown)`;
-    }
-  }).catch(error => {
-    console.error('Error fetching last modified date:', error);
-    button.textContent += ` (last modified: error)`;
-  });
+
 });
