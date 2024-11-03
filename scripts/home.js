@@ -38,6 +38,19 @@ function getMaxDate(dates) {
   return maxDate.toISOString(); 
 }
 
+async function loadJson(filePath) {
+  try {
+      const response = await fetch(filePath);
+      if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const data = await response.json();
+      return data;
+  } catch (error) {
+      console.error('Error loading JSON:', error);
+  }
+}
+
 function getAlphanumeric(string) {
   return string.match(/[a-zA-Z0-9]+/g)?.join('') || '';
 }
@@ -47,13 +60,9 @@ function timeFormat(dateString) {
   return index !== -1 ? dateString.substring(0, index) : dateString;
 }
 
-const anchors = document.querySelectorAll('a');
-const buttons = document.querySelectorAll('button');
+dates = loadJson("/last_modified_dates.json")
 
-anchors.forEach(anchor => {
-
-});
-
-buttons.forEach(button => {
-
-});
+document.getElementById("musicp") .textContent+= ` (${dates["/projects/music"]})`
+document.getElementById("techp") .textContent+= ` (${dates["/projects/tech"]})`
+document.getElementById("musicr") .textContent+= ` (${dates["/reviews/music"]})`
+document.getElementById("techr") .textContent+= ` (${dates["/reviews/tech"]})`

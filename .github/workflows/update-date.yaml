@@ -2,14 +2,17 @@ name: Update Last Modified Dates
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
+    - cron: '0 * * * *'  
 
 jobs:
   update-dates:
     runs-on: ubuntu-latest
-    steps:
+    permissions:
+      contents: write 
       - name: Checkout repository
         uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} 
 
       - name: Get last modified dates
         run: |
@@ -37,6 +40,8 @@ jobs:
           echo "Last modified dates saved to last_modified_dates.json."
 
       - name: Commit and push changes
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} 
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
