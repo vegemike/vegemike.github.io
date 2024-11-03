@@ -1,7 +1,7 @@
 {
     "music":[
         [
-            {"name":"name", "path":"/music/name.mike"},
+            {"name":"name", "path":"/music/name.mike", "date":"01/01/0001"},
             {}
         ]
     ]

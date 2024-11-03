@@ -66,18 +66,18 @@ function timeFormat(dateString) {
 async function setDates() {
   const dates = await getJson("/last_modified_dates.json")
   console.log(dates)
-  document.getElementById("musicp").textContent += ` modified: (${dates["/projects/music.html"]})`
-  document.getElementById("techp").textContent += ` modified: (${dates["/projects/tech.html"]})`
-  document.getElementById("musicr").textContent += ` modified: (${dates["/reviews/music.html"]})`
-  document.getElementById("tvr").textContent += ` modified: (${dates["/reviews/tv.html"]})`
+  document.getElementById("musicp").textContent += `  [modified: (${dates["/projects/music.html"]})]`
+  document.getElementById("techp").textContent += `  [modified: (${dates["/projects/tech.html"]})]`
+  document.getElementById("musicr").textContent += `  [modified: (${dates["/reviews/music.html"]})]`
+  document.getElementById("tvr").textContent += `  [modified: (${dates["/reviews/tv.html"]})]`
 
   maxProjects = getMaxDate([dates["/projects/music.html"], dates["/projects/tech.html"]])
   maxReviews = getMaxDate([dates["/reviews/music.html"], dates["/reviews/tv.html"]])
   maxIndex = getMaxDate([dates["/reviews/music.html"], dates["/reviews/tv.html"], dates["/projects/music.html"], dates["/projects/tech.html"]])
 
-  document.getElementById("index").textContent += ` modified: (${maxIndex})`
-  document.getElementById("reviews").textContent += ` modified: (${maxReviews})`
-  document.getElementById("projects").textContent += ` modified: (${maxProjects})`
+  document.getElementById("index").textContent += `  [modified: (${maxIndex})]`
+  document.getElementById("reviews").textContent += `  [modified: (${maxReviews})]`
+  document.getElementById("projects").textContent += `  [modified: (${maxProjects})]`
 }
 
 setDates()
