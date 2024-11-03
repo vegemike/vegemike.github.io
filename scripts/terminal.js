@@ -15,11 +15,10 @@ async function addEntries(){
 }
 
 async function delayLoad(){
-    await addEntries()
     console.log("staggering display...")
     for (let x of parentDiv.children){
         x.style.display = "block"
-        await delay(220)
+        await delay(120)
     }
     console.log("displayed all")
 }
@@ -50,18 +49,22 @@ function handleKeyDown(event) {
     }
 }
 
-document.addEventListener('keydown', handleKeyDown);
-function handleMouseOver(event) {
+
+
+async function setup() {
+    await addEntries()
+    await delayLoad()
+    document.addEventListener('keydown', handleKeyDown);
+    function handleMouseOver(event) {
+        commands.forEach(child => {
+            child.classList.remove('command');
+        });
+        event.target.classList.add('command');
+    }
     commands.forEach(child => {
-        child.classList.remove('command');
+        child.addEventListener('mouseover', handleMouseOver);
     });
-    event.target.classList.add('command');
 }
-commands.forEach(child => {
-    child.addEventListener('mouseover', handleMouseOver);
-});
 
 
-delayLoad()
-
-
+setup()
