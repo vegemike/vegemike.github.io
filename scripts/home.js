@@ -33,7 +33,10 @@ const anchors = document.querySelectorAll('a');
 const buttons = document.querySelectorAll('button');
 const body = document.body
 anchors.forEach(anchor => {
+
   p = anchor.href
+  console.log(anchor)
+  console.log(p)
   anchor.textContent += `(last modified: ${timeFormat(getModifiedDate(p))})`;
 });
 buttons.forEach(button => {
