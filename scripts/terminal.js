@@ -127,7 +127,7 @@ async function setup(skipEntries = false) {
     });}
 }
 
-if (pID != null){
+if (pID == null){
     setup()
 }
 else {
