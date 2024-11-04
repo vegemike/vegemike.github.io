@@ -42,6 +42,7 @@ async function delayLoad(){
 
 
 async function loadEntry(entryIndex) {
+    console.log(entryJSON)
     entryJSON = entryJSON["music"]
     params.set("name", encodeURIComponent(entryJSON[entryIndex]["name"]));
     params.set("id", entryIndex);
