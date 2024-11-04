@@ -1,6 +1,6 @@
 //https://vegemike.github.io/reviews/music?name=review+of+something&id=idOfPost
 params = new URLSearchParams(window.location.search);
-pID = urlParams.get('id');
+pID = params.get('id');
 var entryJSON
 //encodeURIComponent(name)
 //params.set("example", "test");  set a qury value
