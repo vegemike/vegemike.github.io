@@ -14,13 +14,13 @@ var highlightedCommand = 0
 
 async function addEntries(skip = false){
     console.log("generating anchors from JSON")
-    const entries = await getJson("../reviews/entries.json")
+    const entries = await getJson("../projects/entries.json")
     if (!skip){
-    for (let x of entries["tv"]){
+    for (let x of entries["music"]){
         let entry = document.createElement("a")
         entry.textContent = `> ${x["name"]} - ${x["date"]}`
         entry.style.display = "none"
-        entry.id = entries["tv"].indexOf(x)
+        entry.id = entries["music"].indexOf(x)
         entry.classList.add("entry")
         parentDiv.appendChild(entry)
 
@@ -43,7 +43,7 @@ async function delayLoad(){
 
 async function loadEntry(entryIndex) {
     console.log(entryJSON)
-    entryJSON = entryJSON["tv"]
+    entryJSON = entryJSON["music"]
     params.set("name", encodeURIComponent(entryJSON[entryIndex]["name"]));
     params.set("id", entryIndex);
     history.pushState(null, "", "?" + params.toString());
@@ -74,7 +74,7 @@ async function loadEntry(entryIndex) {
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
         for (i of x.split(" ")){
-            if (!(document.getElementById("titley").textContent == "TV/film reviews")){
+            if (!(document.getElementById("titley").textContent == "music projects")){
                 if (i.includes('<IMG="')){
                     imageElement = document.createElement("img")
                     source = i.replace('<IMG="', "")
@@ -115,7 +115,7 @@ async function unloadEntry() {
     //restore style.display.block to all the commands and delete all children of #textHere as well as the button itself
     history.replaceState(null, "", window.location.pathname);
     document.getElementById("textHere").innerHTML = ""
-    document.getElementById("titley").textContent = "TV/film reviews"
+    document.getElementById("titley").textContent = "music projects"
     setup()
 }
 
