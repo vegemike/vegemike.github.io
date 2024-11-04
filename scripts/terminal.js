@@ -47,7 +47,7 @@ async function loadEntry(entryIndex) {
     params.set("id", entryIndex);
     history.pushState(null, "", "?" + params.toString());
     parentDiv.innerHTML = ""
-    document.getElementById("titley").textContent = entryJSON[entryIndex]["name"] + entryJSON[entryIndex]["date"]
+    document.getElementById("titley").textContent = entryJSON[entryIndex]["name"] + "  -  " + entryJSON[entryIndex]["date"]
     backButton = document.createElement("a")
     backButton.id="backButton"
     backButton.textContent = "> back"
