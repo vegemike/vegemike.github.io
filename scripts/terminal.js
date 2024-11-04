@@ -41,6 +41,7 @@ async function delayLoad(){
 
 
 async function loadEntry(entryIndex) {
+    entryJSON = entryJSON[0]
     params.set("name", encodeURIComponent(entryJSON[entryIndex]["name"]));
     params.set("id", entryIndex);
     history.pushState(null, "", "?" + params.toString());
