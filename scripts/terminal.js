@@ -73,7 +73,7 @@ async function loadEntry(entryIndex) {
     for (x of content){
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
-        for (i of x){
+        for (i of x.split(" ")){
             textbit.textContent += i
             await delay(10)
         }
