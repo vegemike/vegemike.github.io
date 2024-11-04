@@ -86,7 +86,7 @@ async function loadEntry(entryIndex) {
             }
             else {
                 textbit.textContent += i + " "
-                await delay(3)
+                await delay(2)
             }
         }
         textBox.appendChild(document.createElement("hr"))
