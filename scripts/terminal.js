@@ -98,6 +98,7 @@ async function unloadEntry() {
 async function setup(skipEntries = false) {
     parentDiv.innerHTML = '<a href="../index" class="command">> back</a>'
     entryJSON = await addEntries(skipEntries)
+    console.log(entryJSON)
     if (!skipEntries){
         await delayLoad()
         entriesList = document.querySelectorAll(".entry");
