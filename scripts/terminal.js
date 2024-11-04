@@ -74,8 +74,19 @@ async function loadEntry(entryIndex) {
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
         for (i of x.split(" ")){
-            textbit.textContent += i + " "
-            await delay(30)
+            if ('<IMG="' in i){
+                imageElement = document.createElement("img")
+                source = i.replace('<IMG="', "")
+                source = source.replace('"> ', "")
+                imageElement.src = source
+                textBox.appendChild(imageElement)
+                textbit = document.createElement("p")
+                textBox.appendChild(textbit)
+            }
+            else {
+                textbit.textContent += i + " "
+                await delay(30)
+            }
         }
         textBox.appendChild(document.createElement("hr"))
         textBox.appendChild(document.createElement("br"))
