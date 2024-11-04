@@ -74,8 +74,8 @@ async function loadEntry(entryIndex) {
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
         for (i of x.split(" ")){
-            textbit.textContent += i
-            await delay(70)
+            textbit.textContent += i + " "
+            await delay(30)
         }
         textBox.appendChild(document.createElement("hr"))
         textBox.appendChild(document.createElement("br"))
