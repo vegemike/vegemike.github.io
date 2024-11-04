@@ -53,7 +53,7 @@ async function loadEntry(entryIndex) {
     backButton.textContent = "> back"
     backButton.onclick = unloadEntry
     parentDiv.append(backButton)
-    postData = await fileContents(entryJSON[entryIndex]["path"])
+    postData = await fileContents("/reviews" + entryJSON[entryIndex]["path"])
     tempString = postData.split("%")
     header = tempString[0]
     tempString = tempString[1]
