@@ -68,10 +68,11 @@ hr {
 
 .content {
     flex: 1;
-    margin-top: 20px;
+    margin-top: 0px;
+    padding-top: 10px;
     font-size: 1.3em;
     line-height: 1.5;
-    padding: 20px;
+    padding: 10px 20px 10px 20px;
 }
 
 .header *{
