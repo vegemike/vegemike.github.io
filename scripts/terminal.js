@@ -12,9 +12,10 @@ var commands = Array.from(parentDiv.children)
 const delay = ms => new Promise(res => setTimeout(res, ms));
 var highlightedCommand = 0
 
-async function addEntries(){
+async function addEntries(skip = false){
     console.log("generating anchors from JSON")
     const entries = await getJson("../reviews/entries.json")
+    if (!skip){
     for (let x of entries["music"]){
         let entry = document.createElement("a")
         entry.textContent = `> ${x["name"]} - ${x["date"]}`
@@ -22,7 +23,7 @@ async function addEntries(){
         entry.id = entries["music"].indexOf(x)
         parentDiv.appendChild(entry)
 
-    }
+    }}
     console.log("finished generation")
     return entries
 }
@@ -83,46 +84,52 @@ async function unloadEntry() {
 
 
 
-async function setup() {
+async function setup(skipEntries = false) {
     parentDiv.innerHTML = '<a href="../index" class="command">> back</a>'
-    entryJSON = await addEntries()
-    await delayLoad()
-    var commands = Array.from(parentDiv.children)
-    function updateCommandClass(index) {
-        commands.forEach(child => {
-            child.classList.remove('command');
-        });
-        if (index >= 0 && index < commands.length) {
-            commands[index].classList.add('command');
-        }
-    }
-    function handleKeyDown(event) {
-        if (event.key === 'ArrowDown') {
-            // Move down
-            highlightedCommand = (highlightedCommand + 1) % commands.length; 
-            updateCommandClass(highlightedCommand);
-        } else if (event.key === 'ArrowUp') {
-            // Move up
-            highlightedCommand = (highlightedCommand - 1 + commands.length) % commands.length; 
-            updateCommandClass(highlightedCommand);
-        } else if (event.key === 'Enter') {
-            if (highlightedCommand >= 0 && highlightedCommand < commands.length) {
-                commands[highlightedCommand].click();
+    entryJSON = await addEntries(skipEntries)
+    if (!skipEntries){
+        await delayLoad()
+        var commands = Array.from(parentDiv.children)
+        function updateCommandClass(index) {
+            commands.forEach(child => {
+                child.classList.remove('command');
+            });
+            if (index >= 0 && index < commands.length) {
+                commands[index].classList.add('command');
             }
         }
-    }
-    document.addEventListener('keydown', handleKeyDown);
-    function handleMouseOver(event) {
+        function handleKeyDown(event) {
+            if (event.key === 'ArrowDown') {
+                // Move down
+                highlightedCommand = (highlightedCommand + 1) % commands.length; 
+                updateCommandClass(highlightedCommand);
+            } else if (event.key === 'ArrowUp') {
+                // Move up
+                highlightedCommand = (highlightedCommand - 1 + commands.length) % commands.length; 
+                updateCommandClass(highlightedCommand);
+            } else if (event.key === 'Enter') {
+                if (highlightedCommand >= 0 && highlightedCommand < commands.length) {
+                    commands[highlightedCommand].click();
+                }
+            }
+        }
+        document.addEventListener('keydown', handleKeyDown);
+        function handleMouseOver(event) {
+            commands.forEach(child => {
+                child.classList.remove('command');
+            });
+            event.target.classList.add('command');
+            var highlightedCommand = parseInt(event.target.id)
+        }
         commands.forEach(child => {
-            child.classList.remove('command');
-        });
-        event.target.classList.add('command');
-        var highlightedCommand = parseInt(event.target.id)
-    }
-    commands.forEach(child => {
-        child.addEventListener('mouseover', handleMouseOver);
-    });
+            child.addEventListener('mouseover', handleMouseOver);
+    });}
 }
 
-
-setup()
+if (pID != null){
+    setup()
+}
+else {
+    setup(true)
+    loadEntry(pID)
+}
