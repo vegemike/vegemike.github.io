@@ -110,10 +110,12 @@ async function loadEntry(entryIndex) {
         textBox.appendChild(document.createElement("br"))
     }
     // also ,make the mouse change highlightedCommand
+    //cant be bothered actually maybe in a few weeks
 }
 
 async function unloadEntry() {
     //restore style.display.block to all the commands and delete all children of #textHere as well as the button itself
+    //done
     history.replaceState(null, "", window.location.pathname);
     document.getElementById("textHere").innerHTML = ""
     document.getElementById("titley").textContent = "Music Reviews"
