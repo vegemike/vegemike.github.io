@@ -74,7 +74,7 @@ async function loadEntry(entryIndex) {
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
         for (i of x.split(" ")){
-            if ('<IMG="' in i){
+            if (i.includes('<IMG="')){
                 imageElement = document.createElement("img")
                 source = i.replace('<IMG="', "")
                 source = source.replace('"> ', "")
