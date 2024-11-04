@@ -89,7 +89,7 @@ async function loadEntry(entryIndex) {
                     imageElement = document.createElement("h2")
                     texthead = i.replace('(**', "")
                     texthead = texthead.replace('**)', "")
-                    texthead = texthead.replace('-', " ")
+                    texthead = texthead.replace('_', " ")
                     imageElement.textContent = texthead
                     textBox.appendChild(imageElement)
                     textbit = document.createElement("p")
