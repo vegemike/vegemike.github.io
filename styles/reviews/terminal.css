@@ -74,6 +74,10 @@ hr {
     padding: 20px;
 }
 
+.header *{
+    margin:8px 0px 8px 0px;
+}
+
 .command {
     background-color: rgba(0, 255, 0, 0.1);
     /*display: inline-block;*/

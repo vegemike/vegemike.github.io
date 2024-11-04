@@ -86,7 +86,7 @@ async function loadEntry(entryIndex) {
                     textBox.appendChild(textbit)
                 }
                 else if (i.includes("(**")) {
-                    imageElement = document.createElement("h2")
+                    imageElement = document.createElement("h1")
                     texthead = i.replace('(**', "")
                     texthead = texthead.replace('**)', "")
                     texthead = texthead.replace(/_/g, " ")
