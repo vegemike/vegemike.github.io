@@ -1,2 +1,3 @@
 suffix header with %, sub with &
 split paragraphs with (;)
+images with <IMG="path">
