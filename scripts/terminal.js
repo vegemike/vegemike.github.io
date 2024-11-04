@@ -88,7 +88,6 @@ async function loadEntry(entryIndex) {
                 else if (i.includes("(**")) {
                     imageElement = document.createElement("h2")
                     texthead = i.replace('(**', "")
-                    console.log(source)
                     texthead = texthead.replace('**)', "")
                     texthead = texthead.replace('-', " ")
                     imageElement.textContent = texthead
