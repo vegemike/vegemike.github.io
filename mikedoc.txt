@@ -1,2 +1,2 @@
 suffix header with %, sub with &
-split paragraphs with ;
+split paragraphs with (;)
