@@ -21,6 +21,7 @@ async function addEntries(skip = false){
         entry.textContent = `> ${x["name"]} - ${x["date"]}`
         entry.style.display = "none"
         entry.id = entries["music"].indexOf(x)
+        entry.classList.add("entry")
         parentDiv.appendChild(entry)
 
     }}
@@ -91,7 +92,12 @@ async function setup(skipEntries = false) {
     entryJSON = await addEntries(skipEntries)
     if (!skipEntries){
         await delayLoad()
+        entriesList = document.querySelectorAll(".entry");
         var commands = Array.from(parentDiv.children)
+        entriesList.forEach(element => {
+            element.addEventListener("click", function() {
+                loadEntry(this.id); 
+            });});
         function updateCommandClass(index) {
             commands.forEach(child => {
                 child.classList.remove('command');
