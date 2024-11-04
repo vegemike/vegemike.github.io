@@ -143,10 +143,14 @@ async function setup(skipEntries = false) {
     });}
 }
 
+async function start() {
+    
 if (pID == null){
     setup()
 }
 else {
-    setup(true)
-    loadEntry(pID)
-}
+    await setup(true)
+    await loadEntry(pID)
+}}
+
+start()
