@@ -77,7 +77,8 @@ async function loadEntry(entryIndex) {
             if (i.includes('<IMG="')){
                 imageElement = document.createElement("img")
                 source = i.replace('<IMG="', "")
-                source = source.replace('"> ', "")
+                console.log(source)
+                source = source.replace('">', "")
                 imageElement.src = "../" + source
                 textBox.appendChild(imageElement)
                 textbit = document.createElement("p")
