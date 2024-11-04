@@ -53,7 +53,7 @@ async function loadEntry(entryIndex) {
     backButton.textContent = "> back"
     backButton.onclick = unloadEntry
     parentDiv.append(backButton)
-    postData = await fileContents("../"+entryJSON[entryIndex]["path"])
+    postData = await fileContents(entryJSON[entryIndex]["path"])
     tempString = postData.split("%")
     header = tempString[0]
     tempString = tempString[1]
@@ -79,7 +79,7 @@ async function unloadEntry() {
     //restore style.display.block to all the commands and delete all children of #textHere as well as the button itself
     history.replaceState(null, "", window.location.pathname);
     document.getElementById("textHere").innerHTML = ""
-    document.getElementById("titley").textContent = "mouse-over or use up/down and enter"
+    document.getElementById("titley").textContent = "Music Reviews"
     setup()
 }
 
