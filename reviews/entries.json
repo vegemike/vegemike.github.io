@@ -3,7 +3,6 @@
             {"name":"template example like thing", "path":"/m/name.mike", "date":"04/11/2024"}
         ],
     "tv":[
-        {},
-        {}
+        {"name":"template example like thing", "path":"/m/name.mike", "date":"04/11/2024"}
     ]
 }

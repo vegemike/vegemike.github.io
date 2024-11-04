@@ -74,7 +74,6 @@ async function loadEntry(entryIndex) {
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
         for (i of x.split(" ")){
-            if (!(document.getElementById("titley").textContent == "Music Reviews")){
             if (i.includes('<IMG="')){
                 imageElement = document.createElement("img")
                 source = i.replace('<IMG="', "")
@@ -90,11 +89,6 @@ async function loadEntry(entryIndex) {
                 await delay(10)
             }
         }
-        else {
-            return ""
-        }
-    }
-
         textBox.appendChild(document.createElement("hr"))
         textBox.appendChild(document.createElement("br"))
     }
