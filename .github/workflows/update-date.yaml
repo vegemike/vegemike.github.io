@@ -2,8 +2,8 @@ name: Update Last Modified Dates
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
-  workflow_dispatch:       # Allows manual triggering
+    - cron: '*/30 * * * *'
+  workflow_dispatch:    
 
 jobs:
   update-dates:
@@ -41,7 +41,16 @@ jobs:
           echo "$LAST_MODIFIED_DATES" > last_modified_dates.json
           echo "Last modified dates saved to last_modified_dates.json."
 
-      - name: Commit and push changes
+      - name: Check if last_modified_dates.json changed
+        id: check_changes
+        run: |
+          if git diff --exit-code last_modified_dates.json; then
+            echo "file_changed=false" >> $GITHUB_ENV
+          else
+            echo "file_changed=true" >> $GITHUB_ENV
+
+      - name: Commit and push changes if file changed
+        if: env.file_changed == 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
