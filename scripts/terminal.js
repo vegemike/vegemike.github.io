@@ -78,7 +78,7 @@ async function loadEntry(entryIndex) {
                 imageElement = document.createElement("img")
                 source = i.replace('<IMG="', "")
                 source = source.replace('"> ', "")
-                imageElement.src = source
+                imageElement.src = "../" + source
                 textBox.appendChild(imageElement)
                 textbit = document.createElement("p")
                 textBox.appendChild(textbit)
