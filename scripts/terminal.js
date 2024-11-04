@@ -75,20 +75,31 @@ async function loadEntry(entryIndex) {
         textBox.appendChild(textbit)
         for (i of x.split(" ")){
             if (!(document.getElementById("titley").textContent == "Music Reviews")){
-            if (i.includes('<IMG="')){
-                imageElement = document.createElement("img")
-                source = i.replace('<IMG="', "")
-                console.log(source)
-                source = source.replace('">', "")
-                imageElement.src = "../" + source
-                textBox.appendChild(imageElement)
-                textbit = document.createElement("p")
-                textBox.appendChild(textbit)
-            }
-            else {
-                textbit.textContent += i + " "
-                await delay(10)
-            }
+                if (i.includes('<IMG="')){
+                    imageElement = document.createElement("img")
+                    source = i.replace('<IMG="', "")
+                    console.log(source)
+                    source = source.replace('">', "")
+                    imageElement.src = "../" + source
+                    textBox.appendChild(imageElement)
+                    textbit = document.createElement("p")
+                    textBox.appendChild(textbit)
+                }
+                else if (i.includes("(**")) {
+                    imageElement = document.createElement("h2")
+                    texthead = i.replace('(**', "")
+                    console.log(source)
+                    texthead = texthead.replace('**)', "")
+                    texthead = texthead.replace('-', " ")
+                    imageElement.textContent = texthead
+                    textBox.appendChild(imageElement)
+                    textbit = document.createElement("p")
+                    textBox.appendChild(textbit)
+                }
+                else {
+                    textbit.textContent += i + " "
+                    await delay(10)
+                }
         }
         else {
             return ""

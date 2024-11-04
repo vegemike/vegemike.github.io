@@ -1,3 +1,5 @@
 suffix header with %, sub with &
 split paragraphs with (;)
 images with <IMG="path"> (put spaces before and after)
+subsubheaders are surrounded by (**text**) and should use _s instead of spaces (e.g. (**this_text_is_big**))
+should also be surrounded by spaces
