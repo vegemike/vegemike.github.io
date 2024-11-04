@@ -63,12 +63,19 @@ async function loadEntry(entryIndex) {
     content = tempString[1].split("(;)")
     delete tempString
     textBox = document.getElementById("textHere")
+    titlebit = document.createElement("h1")
+    titlebit.textContent = header
+    textBox.appendChild(titlebit)
+    titlebit = document.createElement("h2")
+    titlebit.textContent = subheader
+    textBox.appendChild(titlebit)
+    textBox.appendChild(document.createElement("hr"))
     for (x of content){
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
         for (i of x){
             textbit.textContent += i
-            await delay(50)
+            await delay(10)
         }
         textBox.appendChild(document.createElement("hr"))
         textBox.appendChild(document.createElement("br"))
