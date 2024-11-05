@@ -41,76 +41,7 @@ async function delayLoad(){
 
 
 
-async function loadEntry(entryIndex) {
-    console.log(entryJSON)
-    entryJSON = entryJSON["music"]
-    params.set("name", encodeURIComponent(entryJSON[entryIndex]["name"]));
-    params.set("id", entryIndex);
-    history.pushState(null, "", "?" + params.toString());
-    parentDiv.innerHTML = ""
-    document.getElementById("titley").textContent = entryJSON[entryIndex]["name"] + "  -  " + entryJSON[entryIndex]["date"]
-    backButton = document.createElement("a")
-    backButton.id="backButton"
-    backButton.textContent = "> back"
-    backButton.onclick = unloadEntry
-    parentDiv.append(backButton)
-    postData = await fileContents("/reviews" + entryJSON[entryIndex]["path"])
-    tempString = postData.split("%")
-    header = tempString[0]
-    tempString = tempString[1]
-    tempString = tempString.split("&")
-    subheader = tempString[0]
-    content = tempString[1].split("(;)")
-    delete tempString
-    textBox = document.getElementById("textHere")
-    titlebit = document.createElement("h1")
-    titlebit.textContent = header
-    textBox.appendChild(titlebit)
-    titlebit = document.createElement("h2")
-    titlebit.textContent = subheader
-    textBox.appendChild(titlebit)
-    textBox.appendChild(document.createElement("hr"))
-    for (x of content){
-        textbit = document.createElement("p")
-        textBox.appendChild(textbit)
-        for (i of x.split(" ")){
-            if (!(document.getElementById("titley").textContent == "Music Reviews")){
-                if (i.includes('<IMG="')){
-                    imageElement = document.createElement("img")
-                    source = i.replace('<IMG="', "")
-                    console.log(source)
-                    source = source.replace('">', "")
-                    imageElement.src = "../" + source
-                    textBox.appendChild(imageElement)
-                    textbit = document.createElement("p")
-                    textBox.appendChild(textbit)
-                }
-                else if (i.includes("(**")) {
-                    imageElement = document.createElement("h1")
-                    texthead = i.replace('(**', "")
-                    texthead = texthead.replace('**)', "")
-                    texthead = texthead.replace(/_/g, " ")
-                    imageElement.textContent = texthead
-                    textBox.appendChild(imageElement)
-                    textbit = document.createElement("p")
-                    textBox.appendChild(textbit)
-                }
-                else {
-                    textbit.textContent += i + " "
-                    await delay(40)
-                }
-        }
-        else {
-            return ""
-        }
-    }
 
-        textBox.appendChild(document.createElement("hr"))
-        textBox.appendChild(document.createElement("br"))
-    }
-    // also ,make the mouse change highlightedCommand
-    //cant be bothered actually maybe in a few weeks
-}
 
 async function unloadEntry() {
     //restore style.display.block to all the commands and delete all children of #textHere as well as the button itself
