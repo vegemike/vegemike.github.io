@@ -27,7 +27,7 @@ async function fileContents(url) {
 }
 
 async function loadEntry(entryIndex) {
-    console.log("title found to be", titlebit)
+    console.log("title found to be", toptitlething)
     coding = false
     console.log(entryJSON)
     entryJSON = entryJSON["music"]
