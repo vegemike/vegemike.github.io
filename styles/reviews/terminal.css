@@ -111,3 +111,14 @@ a{
     pointer-events: none;
     opacity: 0.05;
 }
+code {
+    font-size:0.9em;
+    background-color: rgba(0, 255, 0, 0.2);
+    color: #00FF00;
+    padding: 4px 6px;
+    font-family: 'Courier New', monospace;
+    border-radius: 3px;
+    display: inline-block;
+    box-shadow: inset 0 0 3px rgba(0, 255, 0, 0.5);
+    line-height: 1.3;
+}
