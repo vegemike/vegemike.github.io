@@ -2,8 +2,8 @@ name: Update Last Modified Dates
 
 on:
   schedule:
-    - cron: '0 * * * *'  # Runs every hour
-  workflow_dispatch:       # Allows manual triggering
+    - cron: '0 * * * *'
+  workflow_dispatch:
 
 jobs:
   update-dates:
@@ -41,7 +41,15 @@ jobs:
           echo "$LAST_MODIFIED_DATES" > last_modified_dates.json
           echo "Last modified dates saved to last_modified_dates.json."
 
+      - name: Check for changes
+        run: |
+          if git diff --quiet last_modified_dates.json; then
+            echo "No changes in last_modified_dates.json. Skipping commit."
+            exit 0
+          fi
+
       - name: Commit and push changes
+        if: success()
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
