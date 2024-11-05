@@ -27,6 +27,7 @@ async function fileContents(url) {
 }
 
 async function loadEntry(entryIndex) {
+    coding = false
     console.log(entryJSON)
     entryJSON = entryJSON["music"]
     params.set("name", encodeURIComponent(entryJSON[entryIndex]["name"]));
@@ -79,6 +80,22 @@ async function loadEntry(entryIndex) {
                     textBox.appendChild(imageElement)
                     textbit = document.createElement("p")
                     textBox.appendChild(textbit)
+                }
+                else if (i.includes("'''")){
+                    
+                    if (!coding){
+                        codeBit = document.createElement("code")
+                        textBox.appendChild(codeBit)
+                    }
+                    else {
+                        textbit = document.createElement("p")
+                        textBox.appendChild(textbit)
+                    }
+                    coding = !coding
+                }
+                else if (coding){
+                    codeBit += i + " "
+                    await delay(30)
                 }
                 else {
                     textbit.textContent += i + " "
