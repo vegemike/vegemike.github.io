@@ -9,7 +9,7 @@ body, html {
     align-items: center;
 }
 
-#textHere{
+#textHere {
     overflow-wrap: break-word;
     overflow-y: scroll;
 }
@@ -32,7 +32,6 @@ body, html {
 .terminal::-webkit-scrollbar-thumb:hover {
     background-color: #33FF33; 
 }
-
 
 .terminal {
     scrollbar-width: thin;
@@ -75,25 +74,24 @@ hr {
     padding: 10px 20px 10px 20px;
 }
 
-.header *{
-    margin:8px 0px 8px 0px;
+.header * {
+    margin: 8px 0px 8px 0px;
 }
 
 .command {
     background-color: rgba(0, 255, 0, 0.1);
-    /*display: inline-block;*/
-    /*padding: 2px;*/
 }
 
-a{
-    all:unset;
-    display:block;
+a {
+    all: unset;
+    display: block;
 }
 
 @keyframes blink {
     50% { opacity: 0; }
 }
 
+/* Larger scanlines with continuous upward animation */
 .terminal::before {
     content: "";
     position: absolute;
@@ -103,16 +101,24 @@ a{
     bottom: 0;
     background-image: repeating-linear-gradient(
         0deg,
-        rgba(0, 255, 0, 0.1) 0px,
-        rgba(0, 255, 0, 0.1) 6px,
-        transparent 6px,
-        transparent 12px
+        rgba(0, 255, 0, 0.3) 0px,
+        rgba(0, 255, 0, 0.3) 5px, /* Increased line thickness */
+        transparent 5px,
+        transparent 10px /* Increased gap between lines */
     );
     pointer-events: none;
     opacity: 0.05;
+    animation: scanlines 1s linear infinite;
 }
+
+/* Updated animation to match the larger scanline height */
+@keyframes scanlines {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-10px); } /* Matches the new height of the pattern */
+}
+
 code {
-    font-size:0.9em;
+    font-size: 0.9em;
     background-color: rgba(0, 255, 0, 0.2);
     color: #00FF00;
     padding: 4px 6px;
