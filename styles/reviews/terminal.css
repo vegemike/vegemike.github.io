@@ -91,7 +91,7 @@ a {
     50% { opacity: 0; }
 }
 
-/* Larger scanlines with continuous upward animation */
+
 .terminal::before {
     content: "";
     position: absolute;
@@ -102,21 +102,20 @@ a {
     background-image: repeating-linear-gradient(
         0deg,
         rgba(0, 255, 0, 0.3) 0px,
-        rgba(0, 255, 0, 0.3) 5px, /* Increased line thickness */
+        rgba(0, 255, 0, 0.3) 5px, 
         transparent 5px,
-        transparent 10px /* Increased gap between lines */
+        transparent 10px
     );
     pointer-events: none;
     opacity: 0.05;
     animation: scanlines 1s linear infinite;
 }
 
-/* Updated animation to match the larger scanline height */
+
 @keyframes scanlines {
     0% { transform: translateY(0); }
-    100% { transform: translateY(-10px); } /* Matches the new height of the pattern */
+    100% { transform: translateY(-10px); } 
 }
-
 code {
     font-size: 0.9em;
     background-color: rgba(0, 255, 0, 0.2);
