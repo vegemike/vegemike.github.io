@@ -85,8 +85,10 @@ async function loadEntry(entryIndex) {
                 else if (i.includes("'''")){
                     
                     if (!coding){
+                        prepart = document.createElement("pre")
                         codeBit = document.createElement("code")
-                        textBox.appendChild(codeBit)
+                        prepart.appendChild(codeBit)
+                        textBox.appendChild(prepart)
                     }
                     else {
                         textbit = document.createElement("p")
