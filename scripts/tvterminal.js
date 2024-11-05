@@ -2,7 +2,7 @@
 params = new URLSearchParams(window.location.search);
 pID = params.get('id');
 var entryJSON
-var titlebit = "TV/film reviews"
+var toptitlething = "TV/film reviews"
 //encodeURIComponent(name)
 //params.set("example", "test");  set a qury value
 //history.pushState(null, "", "?" + params.toString());   sets query

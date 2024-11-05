@@ -61,7 +61,7 @@ async function loadEntry(entryIndex) {
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
         for (i of x.split(" ")){
-            if (!(document.getElementById("titley").textContent == titlebit)){
+            if (!(document.getElementById("titley").textContent == toptitlething)){
                 if (i.includes('<IMG="')){
                     imageElement = document.createElement("img")
                     source = i.replace('<IMG="', "")
@@ -95,7 +95,7 @@ async function loadEntry(entryIndex) {
                     coding = !coding
                 }
                 else if (coding){
-                    codeBit += i + " "
+                    codeBit.textContent += i + " "
                     await delay(30)
                 }
                 else {
