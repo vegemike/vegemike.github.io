@@ -13,8 +13,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Install jq
+        run: sudo apt-get install -y jq
 
       - name: Get last modified dates
         run: |
@@ -43,18 +44,13 @@ jobs:
 
       - name: Check for changes
         run: |
-          if git diff --quiet last_modified_dates.json; then
-            echo "No changes in last_modified_dates.json. Skipping commit."
-            exit 0
-          fi
+          git add last_modified_dates.json
+          git diff --exit-code last_modified_dates.json || exit 0
 
       - name: Commit and push changes
         if: success()
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add last_modified_dates.json
           git commit -m "Update last modified dates"
           git push
