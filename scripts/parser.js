@@ -28,9 +28,10 @@ async function fileContents(url) {
 
 async function loadEntry(entryIndex) {
     console.log("title found to be", toptitlething)
+    domain = {"music projects":"music", "Music Reviews":"music", "techy projects":"tech","TV/film reviews":"tv"}[toptitlething]
     coding = false
     console.log(entryJSON)
-    entryJSON = entryJSON["music"]
+    entryJSON = entryJSON[domain]
     params.set("name", encodeURIComponent(entryJSON[entryIndex]["name"]));
     params.set("id", entryIndex);
     history.pushState(null, "", "?" + params.toString());
