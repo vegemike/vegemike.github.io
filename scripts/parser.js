@@ -28,10 +28,10 @@ async function fileContents(url) {
 
 async function loadEntry(entryIndex) {
     console.log("title found to be", toptitlething)
-    domain = {"music projects":"music", "Music Reviews":"music", "techy projects":"tech","TV/film reviews":"tv"}[toptitlething]
+    domain = {"music projects":["music", "/projects"], "Music Reviews":["music","/reviews"], "techy projects":["tech", "/projects"],"TV/film reviews":["tv","/reviews"]}[toptitlething]
     coding = false
     console.log(entryJSON)
-    entryJSON = entryJSON[domain]
+    entryJSON = entryJSON[domain[0]]
     params.set("name", encodeURIComponent(entryJSON[entryIndex]["name"]));
     params.set("id", entryIndex);
     history.pushState(null, "", "?" + params.toString());
@@ -42,7 +42,7 @@ async function loadEntry(entryIndex) {
     backButton.textContent = "> back"
     backButton.onclick = unloadEntry
     parentDiv.append(backButton)
-    postData = await fileContents("/reviews" + entryJSON[entryIndex]["path"])
+    postData = await fileContents(domain[1] + entryJSON[entryIndex]["path"])
     tempString = postData.split("%")
     header = tempString[0]
     tempString = tempString[1]
