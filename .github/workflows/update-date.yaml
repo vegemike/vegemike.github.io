@@ -43,18 +43,22 @@ jobs:
           echo "Last modified dates saved to last_modified_dates.json."
 
       - name: Check for changes
+        id: check_changes
         run: |
           git add last_modified_dates.json
           if git diff --exit-code last_modified_dates.json; then
             echo "No changes detected, skipping commit."
+            echo "::set-output name=changes_detected::false"
             exit 0
+          else
+            echo "::set-output name=changes_detected::true"
           fi
 
-
       - name: Commit and push changes
-        if: success()
+        if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           git commit -m "Update last modified dates"
           git push
+
