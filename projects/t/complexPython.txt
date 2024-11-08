@@ -1,2 +1,0 @@
-%efficiency of calculations with complex numbers in python
-
