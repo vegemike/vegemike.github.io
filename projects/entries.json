@@ -3,7 +3,6 @@
             {"name":"template example like thing", "path":"/m/name.mike", "date":"04/11/2024"}
         ],
     "tech":[
-        {"name":"template example like thing", "path":"/t/name.mike", "date":"04/11/2024"},
         {"name":"speed of arithmetic with complex numbers in python", "path":"/t/complexPython.mike", "date":"08/11/2024"}
     ]
 }
