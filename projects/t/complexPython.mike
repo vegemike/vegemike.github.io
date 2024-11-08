@@ -9,7 +9,7 @@ i immediately wanted to do something with this newfound datatype (not often you 
  <IMG="assets\techstuff\complexnumberspython1\fullgraph1.png"> 
 wtf (;) 
 for some reason the non-zero real numbers took exponentially longer to calculate (20 seconds??) i couldnt really figure it out but i did realise that i was using the *= operator instead of just *, so the value of x would get exponentially bigger (why that changed the time and like didnt affect the complex numbers is beyond me), which would explain why x=0 followed the same path as the complex x's.
-if you zoom in at the start you can see that they follow the same path as the complex numbers initially but very quickly diverge (after maybe 15000 tests). also worth noting that the two non-zero real numbers follow the exact same path for a bit
+ \n if you zoom in at the start you can see that they follow the same path as the complex numbers initially but very quickly diverge (after maybe 15000 tests). also worth noting that the two non-zero real numbers follow the exact same path for a bit
  <IMG="assets\techstuff\complexnumberspython1\beginning1.png"> 
 i would just like to mention now that you shouldnt really look at the heights that the lines reach, but the gradient, as that is a more accurate way of comparing them.
 (;) 
@@ -21,10 +21,10 @@ the logical next step for this was to check other operations, so i tried with -=
  <IMG="assets\techstuff\complexnumberspython1\raisedtoitself1.png"> 
 (**all_of_em**) 
  <IMG="assets\techstuff\complexnumberspython1\allofem1.png"> 
-(note that this doesnt have /= but it was still linear and about in line with the other results)
-there's a bit of a rush from some of them so i ran it again to see if it was just error and eh theres a bit of correlation to look at 
+(note that this doesnt have /= but it was still linear and about in line with the other results) \n 
+there's a bit of a rush from some of them so i ran it again to see if it was just error and eh theres a bit of correlation to look at \n 
  <IMG="assets\techstuff\complexnumberspython1\allofem2.png"> 
 not much to look at really (;) 
  (**conclusion**) 
-i have left this with more questions than answers which sucks
+i have left this with more questions than answers which sucks \n 
 thanks for reading yeah
