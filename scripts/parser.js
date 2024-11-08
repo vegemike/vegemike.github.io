@@ -103,7 +103,7 @@ async function loadEntry(entryIndex) {
                 }
                 else {
                     textbit.textContent += i + " "
-                    await delay(40)
+                    await delay(25)
                 }
         }
         else {
