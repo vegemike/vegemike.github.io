@@ -45,7 +45,11 @@ jobs:
       - name: Check for changes
         run: |
           git add last_modified_dates.json
-          git diff --exit-code last_modified_dates.json || exit 0
+          if git diff --exit-code last_modified_dates.json; then
+            echo "No changes detected, skipping commit."
+            exit 0
+          fi
+
 
       - name: Commit and push changes
         if: success()
