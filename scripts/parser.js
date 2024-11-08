@@ -73,6 +73,12 @@ async function loadEntry(entryIndex) {
                     textbit = document.createElement("p")
                     textBox.appendChild(textbit)
                 }
+                else if (i.includes("\\n")){
+                    br = document.createElement("br")
+                    textBox.appendChild(br)
+                    textbit = document.createElement("p")
+                    textBox.appendChild(textbit)
+                }
                 else if (i.includes("(**")) {
                     imageElement = document.createElement("h1")
                     texthead = i.replace('(**', "")
