@@ -8,6 +8,9 @@ body, html {
     justify-content: center;
     align-items: center;
 }
+#textHere{
+    font-size:1.1em;
+}
 h1{
     font-size:3em;
 }
