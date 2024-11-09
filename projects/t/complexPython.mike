@@ -1,5 +1,6 @@
-%python has complex numbers???
-&efficiency of calculations with complex numbers in python
+python has complex numbers???%
+efficiency of calculations with complex numbers in python&
+just as a warning, graphs suck on mobile here. if you can pinch to zoom then that's a very good idea
  (**intro**) 
 i don't know much of complex numbers. i know they're written in the form a+bi where a represents the "real" part and b is the coefficient of the root of -1 (also called i). i was recently working on a program involving polynomials, and some error somewhere led to it giving a result as ''' (5.7+13.2j) ''' which was confusing to say the least. it was pretty obvious that this was an attempt at a complex number, using j instead of i, something i'd never encountered before. \n "In contexts in which use of the letter i is ambiguous or problematic, the letter j is sometimes used instead. For example, in electrical engineering and control systems engineering, the imaginary unit is normally denoted by j instead of i, because i is commonly used to denote electric current." - wikipedia (;) 
  (**so_what?**) 
