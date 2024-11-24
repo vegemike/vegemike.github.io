@@ -75,7 +75,7 @@ async function loadEntry(entryIndex) {
                 }
                 else if (i.includes('<AUD="')){
                     audElement = document.createElement("audio")
-                    source = i.replace('<IMG="', "")
+                    source = i.replace('<AUD="', "")
                     console.log(source)
                     source = source.replace('">', "")
                     audElement.src = "../" + source
