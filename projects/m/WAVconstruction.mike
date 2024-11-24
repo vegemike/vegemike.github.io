@@ -1,4 +1,107 @@
 building an audio file from scratch%
 in python&
 
- <AUD="assets\techstuff\randomSounds\44100hz-16bit-28waves-avg-16bit-gen.wav"> 
+ <AUD="assets\techstuff\randomSounds\44100hz-16bit-28waves-avg-16bit-gen.wav"> \n 
+that is the horrifying result of self-made wav files. i cant actually remember why i got interested in this, but it went by with only a few hiccups. most of my work was based off the following website: http://soundfile.sapp.org/doc/WaveFormat/ which has some fantastic visualisations.
+ \n in short, the aim of this project was to create a wav file, fully from scratch. i chose wav files because they are probably the simplest (no maths). this was achieved with python
+
+ (**header**) 
+basically every file has a header, telling the computer some key info. the header of a wav file is either RIFF (little endian (stores the least significant byte first)) or RIFX (big endian). <IMG="assets\techstuff\randomSounds\imgs\endianness.png"> RIFF is more commonly used. \n 
+the first part of the header is the chunkID, which is just "riff" (or rifx) in ascii. this is big-endian regardless. \n the next 4 bytes are the size of the file, minus the 8 bytes of this field and chunkID. this is calculated last. \n 
+finally, the header ends with Format, which is just "WAVE" in ascii. big endian again. 
+'''
+ChunkID = bytes.fromhex('52 49 46 46') #"riff"
+Format = bytes.fromhex('57 41 56 45') #"wave"
+ChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +
+                           len(SampleRate) + len(ByteRate) + len(BlockAlign) + len(BitsPerSample)) +
+                           (8 + len(data))) #spoilers
+'''
+ (;)
+ (**file**) 
+the file is made of two chunks, fmt and data. \n 
+the fmt chunk stores data about the format of the audio. \n 
+'''
+Subchunk1ID = bytes.fromhex('66 6d 74 20') #"fmt "
+Subchunk1Size = bytes.fromhex('10 00 00 00') #16 bytes
+AudioFormat  = bytes.fromhex('01 00') #no compression/PCM
+
+#you can change these
+NumChannels = bytes.fromhex('01 00') #1 channel
+SampleRate = bytes.fromhex('44 AC 00 00') #44100 samplerate
+BitsPerSample = bytes.fromhex('10 00') #16 bit
+''' 
+you can see what makes up the fmt part in that snippet, it's pretty simple. however, there are two which are missing: 
+'''
+temp = int.from_bytes(SampleRate, byteorder="little") * int.from_bytes(NumChannels, byteorder="little") * int.from_bytes(BitsPerSample, byteorder="little")
+ByteRate = int_to_hex(temp)
+
+temp = int.from_bytes(NumChannels, byteorder="little") * (int.from_bytes(BitsPerSample, byteorder="little") / 8)
+BlockAlign = int_to_hex(temp, 2)
+''' 
+the byterate is just the product of the samplerate, the number of channels and the number of bits per sample. the block align is just the product of the bytes per sample and the number of channels. (;) 
+(**actual_data**) 
+now you have to create the data subchunk. this is very simple, only 3 parts: the subchunk2ID which is just "DATA" in ascii, subchunk2Size which is the number of bytes in the data part, and the data part, which is a load of bytes. "8-bit samples are stored as unsigned bytes, ranging from 0 to 255. 16-bit samples are stored as 2's-complement signed integers, ranging from -32768 to 32767." \n
+heres an example file:
+'''\x52\x49\x46\x46\x84\x61\x74\x61\x57\x41\x56\x45\x66\x6d\x74\x20\x10\x00\x00\x00\x01\x00\x01\x00\x10\x27\x00\x00\x80\x38\x01\x00\x01\x00\x08\x00\x64\x61\x74\x61\x71\x3e\x02\x00\xfe\xff\xff\xd9\x05\xff\xff\xd8\xf5\xd6\x6a\xff\xff\x64\x71\xff\xff\xff\xff\x3f\x83\xff\xff\x8b\xf6\xbb\xe0\xff\xff\x08''' 
+finally, just combine it all. i used the "ba" file writing in python which just appends binary data to a file. 
+'''
+#create file (or overwrite previous)
+with open("test.wav", "wb"):
+    pass
+
+#write
+audioFile = open("test.wav", "ab")
+
+
+#riff header
+audioFile.write(ChunkID)
+audioFile.write(ChunkSize)
+audioFile.write(Format)
+#fmt sub
+audioFile.write(Subchunk1ID)
+audioFile.write(Subchunk1Size)
+audioFile.write(AudioFormat)
+audioFile.write(NumChannels)
+audioFile.write(SampleRate)
+audioFile.write(ByteRate)
+audioFile.write(BlockAlign)
+audioFile.write(BitsPerSample)
+#data sub
+audioFile.write(Subchunk2ID)
+audioFile.write(Subchunk2Size)
+audioFile.write(data)
+
+audioFile.close()
+''' 
+it must be in this order too. time to make the "data". 
+ (;) 
+(**making_the_sound**) 
+my first thought was a sine wave because they make nice sounds. most pure tones are just sine waves and i think all audio can be expressed as a sum of loads of sine waves. seeing as each sample is a measurement of the amplitude of the wave, i needed the amplitude of a sine wave, which is A(t)= Amplitude × sin(2πft), where f=frequency of the wave and t is the time along the wave. so, just needed to write a function to generate a list of bytes that represent a sound wave: 
+'''
+#dont forget to import math
+def generate_sine_wave(frequency, num_samples, sample_rate=int.from_bytes(SampleRate, byteorder="little")):
+    sine_wave = []
+    for i in range(num_samples):
+        t = i / sample_rate
+        amplitude = math.sin(2 * math.pi * frequency * t)
+        byte_value = int((amplitude + 1) * 127.5)
+        sine_wave.append(byte_value)
+    
+    return bytes(sine_wave) #convert list into a bunch of bytes
+''' 
+and then: 
+'''dataArray.append(generate_sine_wave(440, 441000))''' 440hz is the frequency of A4 in modern music, the A above middle C. then, write everything and it sounded awful, and then i remembered that i was using 16bit, and my sine function was giving an 8bit output, so i rewrote it: 
+'''
+def generate_16bit_sine_wave(frequency, num_samples, sample_rate=int.from_bytes(SampleRate, byteorder="little")):
+    sine_wave = bytearray() #quicker
+    for i in range(num_samples):
+        t = i / sample_rate 
+        amplitude = math.sin(2 * math.pi * frequency * t)
+        sample_value = max(-32768, min(32767, int(amplitude * 32767))) #stops it going over the limits
+        sine_wave.extend(struct.pack('<h', sample_value)) #magic
+    
+    return bytes(sine_wave)
+''' 
+which did as expected: 
+<AUD="assets\techstuff\randomSounds\test.wav"> 
+then i had the amazing idea to combine two waves, to play an interval.
