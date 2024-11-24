@@ -129,7 +129,7 @@ data = sum_bytes(dataArray)
 as the samplerate is 44.1khz i can multiply that by a value to return that many seconds of wave. \n 
 i doubled the 440 to make the two waves an octave apart, which should be nice and consonant. 
 <AUD="assets\techstuff\randomSounds\octave.wav"> 
-it's hard to hear the seperate waves. I added a fifth: 
+for some reason, you can only hear the A4. I added a fifth: 
  '''  dataArray.append(generate_16bit_sine_wave(440*(chromaticRatio**7), 44100*secs))  '''  (the chromatic ratio is the twelfth root of two, and is the ratio of frequencies one semitone apart in 12TET, a fifth is 7 semitones. i might do more on this another time) 
 <AUD="assets\techstuff\randomSounds\octave+fifth.wav"> 
 that sounds nice, so i added a few more tones: 
