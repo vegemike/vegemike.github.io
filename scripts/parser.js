@@ -73,6 +73,17 @@ async function loadEntry(entryIndex) {
                     textbit = document.createElement("p")
                     textBox.appendChild(textbit)
                 }
+                else if (i.includes('<AUD="')){
+                    audElement = document.createElement("audio")
+                    source = i.replace('<IMG="', "")
+                    console.log(source)
+                    source = source.replace('">', "")
+                    audElement.src = "../" + source
+                    audElement.controls = true
+                    textBox.appendChild(audElement)
+                    textbit = document.createElement("p")
+                    textBox.appendChild(textbit)
+                }
                 else if (i.includes("\\n")){
                     br = document.createElement("br")
                     textBox.appendChild(br)
