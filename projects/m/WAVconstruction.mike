@@ -200,20 +200,20 @@ dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(10000, 20000), r.
 ''' 
 
 some fun ones: 
-
-(**10kHz,_8bit,_2_waves_moving_randomly:**)
+ 
+(**10kHz,_8bit,_2_waves_moving_randomly:**) 
 <AUD="assets\techstuff\randomSounds\10000hz-8bit-2waves.wav"> 
 the same at 16bit (still using the 8bit method to generate the amplitude, which causes the weird noise) 
 <AUD="assets\techstuff\randomSounds\10000hz-16bit-2waves.wav"> 
-
-(**20.005kHz,_16bit,_3_waves**)
+ 
+(**20.005kHz,_16bit,_3_waves**) 
 same as above, here is with 8bit generation:
 <AUD="assets\techstuff\randomSounds\20003hz-16bit-3waves-8bit-generation.wav"> 
 and 16bit:
 <AUD="assets\techstuff\randomSounds\20003hz-16bit-3waves-16bit-generation.wav"> 
 which sounds worse. still some fun stuff in there i might sample
-
-(**fun_sounds**)
+ 
+(**fun_sounds**) 
 this is 44.1kHz, 16bit, one wave moving randomly very fast. i think i undersampled this which is what lead to the jumpyness: 
 <AUD="assets\techstuff\randomSounds\44100hz-16bit-1wave.wav"> \n 
 44.1, 16bit, 16bit generation, 6 waves apparently: 
