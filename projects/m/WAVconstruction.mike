@@ -9,18 +9,18 @@ that is the horrifying result of self-made wav files. i cant actually remember w
 basically every file has a header, telling the computer some key info. the header of a wav file is either RIFF (little endian (stores the least significant byte first)) or RIFX (big endian). <IMG="assets\techstuff\randomSounds\imgs\endianness.png"> RIFF is more commonly used. \n 
 the first part of the header is the chunkID, which is just "riff" (or rifx) in ascii. this is big-endian regardless. \n the next 4 bytes are the size of the file, minus the 8 bytes of this field and chunkID. this is calculated last. \n 
 finally, the header ends with Format, which is just "WAVE" in ascii. big endian again. 
-'''
+''' 
 ChunkID = bytes.fromhex('52 49 46 46') #"riff"
 Format = bytes.fromhex('57 41 56 45') #"wave"
 ChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +
                            len(SampleRate) + len(ByteRate) + len(BlockAlign) + len(BitsPerSample)) +
-                           (8 + len(data))) #spoilers
+                           (8 + len(data))) #spoilers 
 '''
  (;)
  (**file**) 
 the file is made of two chunks, fmt and data. \n 
 the fmt chunk stores data about the format of the audio. \n 
-'''
+''' 
 Subchunk1ID = bytes.fromhex('66 6d 74 20') #"fmt "
 Subchunk1Size = bytes.fromhex('10 00 00 00') #16 bytes
 AudioFormat  = bytes.fromhex('01 00') #no compression/PCM
@@ -28,23 +28,23 @@ AudioFormat  = bytes.fromhex('01 00') #no compression/PCM
 #you can change these
 NumChannels = bytes.fromhex('01 00') #1 channel
 SampleRate = bytes.fromhex('44 AC 00 00') #44100 samplerate
-BitsPerSample = bytes.fromhex('10 00') #16 bit
+BitsPerSample = bytes.fromhex('10 00') #16 bit 
 ''' 
 you can see what makes up the fmt part in that snippet, it's pretty simple. however, there are two which are missing: 
-'''
+''' 
 temp = int.from_bytes(SampleRate, byteorder="little") * int.from_bytes(NumChannels, byteorder="little") * int.from_bytes(BitsPerSample, byteorder="little")
 ByteRate = int_to_hex(temp)
 
 temp = int.from_bytes(NumChannels, byteorder="little") * (int.from_bytes(BitsPerSample, byteorder="little") / 8)
-BlockAlign = int_to_hex(temp, 2)
+BlockAlign = int_to_hex(temp, 2) 
 ''' 
 the byterate is just the product of the samplerate, the number of channels and the number of bits per sample. the block align is just the product of the bytes per sample and the number of channels. (;) 
 (**actual_data**) 
 now you have to create the data subchunk. this is very simple, only 3 parts: the subchunk2ID which is just "DATA" in ascii, subchunk2Size which is the number of bytes in the data part, and the data part, which is a load of bytes. "8-bit samples are stored as unsigned bytes, ranging from 0 to 255. 16-bit samples are stored as 2's-complement signed integers, ranging from -32768 to 32767." \n
 heres an example file:
-'''\x52\x49\x46\x46\x84\x61\x74\x61\x57\x41\x56\x45\x66\x6d\x74\x20\x10\x00\x00\x00\x01\x00\x01\x00\x10\x27\x00\x00\x80\x38\x01\x00\x01\x00\x08\x00\x64\x61\x74\x61\x71\x3e\x02\x00\xfe\xff\xff\xd9\x05\xff\xff\xd8\xf5\xd6\x6a\xff\xff\x64\x71\xff\xff\xff\xff\x3f\x83\xff\xff\x8b\xf6\xbb\xe0\xff\xff\x08''' 
+''' \x52\x49\x46\x46\x84\x61\x74\x61\x57\x41\x56\x45\x66\x6d\x74\x20\x10\x00\x00\x00\x01\x00\x01\x00\x10\x27\x00\x00\x80\x38\x01\x00\x01\x00\x08\x00\x64\x61\x74\x61\x71\x3e\x02\x00\xfe\xff\xff\xd9\x05\xff\xff\xd8\xf5\xd6\x6a\xff\xff\x64\x71\xff\xff\xff\xff\x3f\x83\xff\xff\x8b\xf6\xbb\xe0\xff\xff\x08 ''' 
 finally, just combine it all. i used the "ba" file writing in python which just appends binary data to a file. 
-'''
+''' 
 #create file (or overwrite previous)
 with open("test.wav", "wb"):
     pass
@@ -71,13 +71,13 @@ audioFile.write(Subchunk2ID)
 audioFile.write(Subchunk2Size)
 audioFile.write(data)
 
-audioFile.close()
+audioFile.close() 
 ''' 
 it must be in this order too. time to make the "data". 
  (;) 
 (**making_the_sound**) 
 my first thought was a sine wave because they make nice sounds. most pure tones are just sine waves and i think all audio can be expressed as a sum of loads of sine waves. seeing as each sample is a measurement of the amplitude of the wave, i needed the amplitude of a sine wave, which is A(t)= Amplitude × sin(2πft), where f=frequency of the wave and t is the time along the wave. so, just needed to write a function to generate a list of bytes that represent a sound wave: 
-'''
+''' 
 #dont forget to import math
 def generate_sine_wave(frequency, num_samples, sample_rate=int.from_bytes(SampleRate, byteorder="little")):
     sine_wave = []
@@ -87,11 +87,11 @@ def generate_sine_wave(frequency, num_samples, sample_rate=int.from_bytes(Sample
         byte_value = int((amplitude + 1) * 127.5)
         sine_wave.append(byte_value)
     
-    return bytes(sine_wave) #convert list into a bunch of bytes
+    return bytes(sine_wave) #convert list into a bunch of bytes 
 ''' 
 and then: 
-'''dataArray.append(generate_sine_wave(440, 441000))''' 440hz is the frequency of A4 in modern music, the A above middle C. then, write everything and it sounded awful, and then i remembered that i was using 16bit, and my sine function was giving an 8bit output, so i rewrote it: 
-'''
+''' dataArray.append(generate_sine_wave(440, 441000)) ''' 440hz is the frequency of A4 in modern music, the A above middle C. then, write everything and it sounded awful, and then i remembered that i was using 16bit, and my sine function was giving an 8bit output, so i rewrote it: 
+''' 
 def generate_16bit_sine_wave(frequency, num_samples, sample_rate=int.from_bytes(SampleRate, byteorder="little")):
     sine_wave = bytearray() #quicker
     for i in range(num_samples):
@@ -105,7 +105,7 @@ def generate_16bit_sine_wave(frequency, num_samples, sample_rate=int.from_bytes(
 which did as expected: 
 <AUD="assets\techstuff\randomSounds\a.wav"> 
 then i went to combine two waves, to play an interval. i thought adding the amplitudes would work, and lucky guess from me because that is indeed how that works. heres the function i wrote to add them, 16 bits at a time: 
-'''
+''' 
 def sum_bytes(byte_arrays):
     max_length = max(len(arr) for arr in byte_arrays)
     padded_arrays = [arr + bytes(max_length - len(arr)) for arr in byte_arrays] # makes them the same length
@@ -117,56 +117,56 @@ def sum_bytes(byte_arrays):
         byte_sum = max(-32768, min(byte_sum, 32767)) # clip it
         result.extend(byte_sum.to_bytes(2, byteorder="little", signed=True))
     
-    return bytes(result)
+    return bytes(result) 
 ''' 
 so then i did this, which would generate two sine waves an octave apart:
-'''
+''' 
 dataArray = []
 dataArray.append(generate_16bit_sine_wave(440, 44100*secs))
 dataArray.append(generate_16bit_sine_wave(440*2, 44100*secs))
-data = sum_bytes(dataArray)
+data = sum_bytes(dataArray) 
 ''' 
 as the samplerate is 44.1khz i can multiply that by a value to return that many seconds of wave. \n 
 i doubled the 440 to make the two waves an octave apart, which should be nice and consonant. 
 <AUD="assets\techstuff\randomSounds\octave.wav"> 
 it's hard to hear the seperate waves. I added a fifth: 
-'''dataArray.append(generate_16bit_sine_wave(440*(chromaticRatio**7), 44100*secs))''' (the chromatic ratio is the twelfth root of two, and is the ratio of frequencies one semitone apart in 12TET, a fifth is 7 semitones. i might do more on this another time) 
+''' dataArray.append(generate_16bit_sine_wave(440*(chromaticRatio**7), 44100*secs)) ''' (the chromatic ratio is the twelfth root of two, and is the ratio of frequencies one semitone apart in 12TET, a fifth is 7 semitones. i might do more on this another time) 
 <AUD="assets\techstuff\randomSounds\octave+fifth.wav"> 
 that sounds nice, so i added a few more tones: 
-'''
+''' 
 dataArray.append(generate_16bit_sine_wave(220, 44100*secs))
 dataArray.append(generate_16bit_sine_wave(440, 44100*secs))
 dataArray.append(generate_16bit_sine_wave(440*(chromaticRatio**7), 44100*secs))
 dataArray.append(generate_16bit_sine_wave(880*(chromaticRatio**7), 44100*secs))
 dataArray.append(generate_16bit_sine_wave(440*(chromaticRatio**4), 44100*secs))
-dataArray.append(generate_16bit_sine_wave(440*2, 44100*secs))
+dataArray.append(generate_16bit_sine_wave(440*2, 44100*secs)) 
 '''
  <AUD="assets\techstuff\randomSounds\polyphony.wav"> 
 it has started clipping, so i've floored the sums by 2. this should make it half as loud, and used these tones: 
-'''
+''' 
 dataArray.append(generate_16bit_sine_wave(440*2, 44100*secs)) #root 8va
 dataArray.append(generate_16bit_sine_wave(440, 44100*secs)) #root
 dataArray.append(generate_16bit_sine_wave(440*(chromaticRatio**7), 44100*secs)) #5th
 dataArray.append(generate_16bit_sine_wave(440*(chromaticRatio**10), 44100*secs)) #7th
 dataArray.append(generate_16bit_sine_wave(440*(chromaticRatio**4), 44100*secs)) #3rd
-dataArray.append(generate_16bit_sine_wave(440*3, 44100*secs)) #root 16va
+dataArray.append(generate_16bit_sine_wave(440*3, 44100*secs)) #root 16va 
 ''' 
 <AUD="assets\techstuff\randomSounds\lots.wav"> 
 sounds quite cool. now time for a progression? 
-'''
+''' 
 secs = 4
 dataArray.append(b"".join([generate_16bit_sine_wave(440, 44100*secs), generate_16bit_sine_wave(440*(chromaticRatio**2), 44100*secs)]))
 dataArray.append(b"".join([generate_16bit_sine_wave(440*(chromaticRatio**7), 44100*secs), generate_16bit_sine_wave(440*(chromaticRatio**7)*(chromaticRatio**2), 44100*secs)]))
-dataArray.append(b"".join([generate_16bit_sine_wave(440*(chromaticRatio**4), 44100*secs), generate_16bit_sine_wave(440*(chromaticRatio**4)*(chromaticRatio**2), 44100*secs)]))
+dataArray.append(b"".join([generate_16bit_sine_wave(440*(chromaticRatio**4), 44100*secs), generate_16bit_sine_wave(440*(chromaticRatio**4)*(chromaticRatio**2), 44100*secs)])) 
 ''' 
 this should play the A major triad, for 4 seconds, then go a tone above, B major, for 4 seconds: 
 <AUD="assets\techstuff\randomSounds\moving.wav"> it kinda works, although its difficult to hear the different tones.
 then i went into doing random noises, like so 
-'''
-dataArray.append(b"".join([generate_16bit_sine_wave(r.randint(50, 5000), r.randint(10000, 80000)) for i in range(50)]))
+''' 
+dataArray.append(b"".join([generate_16bit_sine_wave(r.randint(50, 5000), r.randint(10000, 80000)) for i in range(50)])) 
 '''
 in fact, the audio file at the top of this page was generated from the following lines: 
-'''
+''' 
 dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(50, 5000), r.randint(10000, 80000)) for i in range(50)]))
 dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(50, 2000), r.randint(10000, 80000)) for i in range(50)]))
 dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(2000, 5000), r.randint(10000, 80000)) for i in range(50)]))
@@ -196,7 +196,7 @@ dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(50, 5000), r.rand
 dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(50, 2000), r.randint(10000, 80000)) for i in range(50)]))
 dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(2000, 5000), r.randint(10000, 80000)) for i in range(50)]))
 dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(5000, 10000), r.randint(10000, 80000)) for i in range(50)]))
-dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(10000, 20000), r.randint(10000, 80000)) for i in range(50)]))
+dataArray.append(b"".join( [generate_16bit_sine_wave(r.randint(10000, 20000), r.randint(10000, 80000)) for i in range(50)])) 
 ''' 
 
 some fun ones: 
@@ -224,11 +224,9 @@ similar vibe here, 5 waves instead:
 <AUD="assets\techstuff\randomSounds\44100hz-16bit-5waves-avg.wav"> 
 nice one
 \n
-so thats about it. see below a gallery of 3 helpful graphics. 
+so thats about it. see below a gallery of 2 helpful graphics. 
 (**gallery**) 
 the photos that helped me do this: 
-<IMG="assets\techstuff\randomSounds\imgs\endianness.png"> 
-helps explain what endian stuff means 
 <IMG="assets\techstuff\randomSounds\imgs\wav-sound-format.gif"> 
 <IMG="assets\techstuff\randomSounds\imgs\wav-bytes.gif"> 
 these are gifs for some reason but yes very helpful \n 
