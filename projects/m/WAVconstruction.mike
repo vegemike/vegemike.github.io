@@ -207,9 +207,9 @@ the same at 16bit (still using the 8bit method to generate the amplitude, which 
 <AUD="assets\techstuff\randomSounds\10000hz-16bit-2waves.wav"> 
  
 (**20.005kHz,_16bit,_3_waves**) 
-same as above, here is with 8bit generation:
+same as above, here is with 8bit generation: 
 <AUD="assets\techstuff\randomSounds\20003hz-16bit-3waves-8bit-generation.wav"> 
-and 16bit:
+and 16bit: 
 <AUD="assets\techstuff\randomSounds\20003hz-16bit-3waves-16bit-generation.wav"> 
 which sounds worse. still some fun stuff in there i might sample
  
