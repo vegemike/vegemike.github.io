@@ -28,7 +28,7 @@ function getModifiedDate(path) {
       console.error('Error fetching data:', error);
       return null;
     });
-}*/
+}
 
 function getMaxDate(dates) {
   console.log(dates)
@@ -81,3 +81,4 @@ async function setDates() {
 }
 
 setDates()
+*/
