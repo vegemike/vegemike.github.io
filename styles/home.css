@@ -77,13 +77,13 @@ nav {
 }
 
 
-.sub-directory li a {
+li a {
   color: #ff0000;
   text-decoration: none;
   font-size:1.3em;
 }
 
-.sub-directory li a:hover {
+li a:hover {
   color: #61dafb;
   text-decoration: underline;
 }
