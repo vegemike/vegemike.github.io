@@ -6,8 +6,8 @@ var toptitlething = document.getElementById("titley").textContent
 
 //set category to current folder (e.g. tv, misc etc)
 splitURL = String(document.URL).split("/")
-category = splitURL[splitURL.length-2]
-subCategory = splitURL[splitURL.length-3]
+category = "all"
+subCategory = "all"
 //encodeURIComponent(name)
 //params.set("example", "test");  set a qury value
 //history.pushState(null, "", "?" + params.toString());   sets query
@@ -18,21 +18,42 @@ var commands = Array.from(parentDiv.children)
 const delay = ms => new Promise(res => setTimeout(res, ms));
 var highlightedCommand = 0
 
+function flattenAndSort(dictionary) {
+    const flattenedList = Object.values(dictionary)
+        .flatMap(category => Object.values(category))
+        .flat();
+    //del duplicates
+    const uniqueList = Array.from(new Map(
+        flattenedList.map(item => [JSON.stringify(item), item])
+    ).values());
+
+    const sortedList = uniqueList.sort((a, b) => {
+        const [dayA, monthA, yearA] = a.date.split("/").map(Number);
+        const [dayB, monthB, yearB] = b.date.split("/").map(Number);
+
+        return yearA - yearB || monthA - monthB || dayA - dayB;
+    });
+
+    return sortedList.reverse();
+}
+
 async function addEntries(skip = false){
     console.log("generating anchors from JSON")
-    const entries = await getJson("../../entries.json")
+    const entries = flattenAndSort(await getJson("../../entries.json"))
+    j = 0
     if (!skip){
-    for (let x of entries[subCategory][category]){
+    for (let x of entries){
         let entry = document.createElement("a")
         entry.textContent = `> ${x["name"]} - ${x["date"]}`
         entry.style.display = "none"
-        entry.id = entries[subCategory][category].indexOf(x)
+        entry.id = j
+        j++
         entry.classList.add("entry")
         parentDiv.appendChild(entry)
 
     }}
     console.log("finished generation")
-    return entries[subCategory]
+    return entries
 }
 
 async function delayLoad(){

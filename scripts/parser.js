@@ -28,11 +28,12 @@ async function fileContents(url) {
 
 async function loadEntry(entryIndex) {
     console.log("title found to be", toptitlething)
-    domain = {"music projects":["music", "/projects"], "Music Reviews":["music","/reviews"], "techy projects":["tech", "/projects"],"TV/film reviews":["tv","/reviews"]}[toptitlething]
+    //domain = {"music projects":["music", "/projects"], "Music Reviews":["music","/reviews"], "techy projects":["tech", "/projects"],"TV/film reviews":["tv","/reviews"]}[toptitlething]
     coding = false
     console.log(entryJSON)
-    entryJSON = entryJSON[domain[0]]
-    params.set("name", encodeURIComponent(entryJSON[entryIndex]["name"]));
+    if (category != "all"){
+    entryJSON = entryJSON[category]}
+    params.set("name", encodeURI(entryJSON[entryIndex]["name"].replace(/ /g, "-")));
     params.set("id", entryIndex);
     history.pushState(null, "", "?" + params.toString());
     parentDiv.innerHTML = ""
@@ -42,7 +43,13 @@ async function loadEntry(entryIndex) {
     backButton.textContent = "> back"
     backButton.onclick = unloadEntry
     parentDiv.append(backButton)
-    postData = await fileContents(domain[1] + entryJSON[entryIndex]["path"])
+    dir1 = subCategory
+    if (subCategory == "all") {
+        storedPath = entryJSON[entryIndex]["path"]
+        lowestFolder = storedPath.split("/")[1]
+        dir1 = {"mi":"other", "r":"other", "t":"main", "m":"main"}[lowestFolder]
+    }
+    postData = await fileContents("/" + dir1 + entryJSON[entryIndex]["path"])
     tempString = postData.split("%")
     header = tempString[0]
     tempString = tempString[1]
@@ -68,7 +75,7 @@ async function loadEntry(entryIndex) {
                     source = i.replace('<IMG="', "")
                     console.log(source)
                     source = source.replace('">', "")
-                    imageElement.src = "../" + source
+                    imageElement.src = "../../" + source
                     textBox.appendChild(imageElement)
                     textbit = document.createElement("p")
                     textBox.appendChild(textbit)
@@ -78,7 +85,7 @@ async function loadEntry(entryIndex) {
                     source = i.replace('<AUD="', "")
                     console.log(source)
                     source = source.replace('">', "")
-                    audElement.src = "../" + source
+                    audElement.src = "../../" + source
                     audElement.controls = true
                     textBox.appendChild(audElement)
                     textbit = document.createElement("p")
