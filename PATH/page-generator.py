@@ -1,8 +1,13 @@
-import sys
+import sys, re
 #converts .mike docs into blank html (for metadata etc)
 print("running")
 path = sys.argv[1]
 #path = "\\complexPython.mike"
+
+def sanitiser(input_str: str) -> str:
+    filename = input_str.lower()
+    filename = re.sub(r'[^a-z0-9._-]', '-', filename)
+    filename = re.sub(r'-+', '-', filename).strip('-')
 
 if True:
 #try:
@@ -32,8 +37,8 @@ if True:
     desc = " ".join(desc).replace("\n", "").replace('"', "'")
     'for filename'
     titlelength = len(title.split(" "))
-    if titlelength > 8:
-        titlelength = 8
+    if titlelength > 6:
+        titlelength = 6
     dashedtitle = " ".join(title.split(" ")[:titlelength]).replace(" ", "-")
 
     'for link'
@@ -41,7 +46,7 @@ if True:
     while sub not in ["music", "tech", "tv", "misc"]:
         sub = input("subcategory (music, tech, tv, misc): ")
     main = "main" if sub in ["music", "tech"] else "other"
-    url = f"https://vegemike.github.io/{main}/{sub}/{dashedtitle}"
+    url = f"https://vegemike.github.io/{main}/{sub}/{sanitiser(dashedtitle)}"
     
     titlesect = {"music":"music stuff", "tech":"techy projects", "tv":"TV/film stuff", "misc":"misc"}[sub]
 
@@ -93,8 +98,8 @@ if True:
         </body>
     </html>
     """
-    print(dashedtitle)
-    with open(f"{dashedtitle}.html", "w") as f:
+    print(sanitiser(dashedtitle))
+    with open(f"{sanitiser(dashedtitle)}.html", "w") as f:
         f.write(HTMLcontent)
 
 
