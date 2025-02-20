@@ -32,7 +32,12 @@ async function loadEntry(entryIndex) {
     coding = false
     console.log(entryJSON)
     if (category != "all"){
-    entryJSON = entryJSON[category]}
+    entryJSON = entryJSON[category];
+    params.set("fromAll", "false")}
+    else {
+        params.set("fromAll", "true")
+    }
+    
     params.set("name", encodeURI(entryJSON[entryIndex]["name"].replace(/ /g, "-")));
     params.set("id", entryIndex);
     history.pushState(null, "", "?" + params.toString());
