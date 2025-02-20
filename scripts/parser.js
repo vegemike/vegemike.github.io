@@ -123,11 +123,11 @@ async function loadEntry(entryIndex) {
                 }
                 else if (coding){
                     codeBit.textContent += i + " "
-                    await delay(30)
+                    await delay(20)
                 }
                 else {
                     textbit.textContent += i + " "
-                    await delay(25)
+                    await delay(15)
                 }
         }
         else {
