@@ -1,0 +1,47 @@
+
+    <!DOCTYPE html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>python has complex numbers??? - vegemike.github.io</title>
+            <meta name="description" content="as a warning, graphs suck on mobile here. if you can pinch to zoom then that's a very good idea i don't know much of complex numbers. i know they're written in the form a+bi where a represents the 'real' part and b is the">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta property="og:title" content="python has complex numbers???">
+            <meta property="og:description" content="as a warning, graphs suck on mobile here. if you can pinch to zoom then that's a very good idea i don't know much of complex numbers. i know they're written in the form a+bi where a represents the 'real' part and b is the">
+            <meta property="og:image" content="https://vegemike.github.io/assets\techstuff\complexnumberspython1\allofem2.png">
+            <meta property="og:url" content="https://vegemike.github.io/main/tech/python-has-complex-numbers">
+            <meta property="og:type" content="article">
+            <link rel="stylesheet" href="../../styles/reviews/terminal.css">
+        </head>
+        <body>
+            <div id="everything" style="position: absolute; left: -999999px;opacity:1%;">['python has complex numbers???', '\nefficiency of calculations with complex numbers in python&\njust as a warning, graphs suck on mobile here. if you can pinch to zoom then that\'s a very good idea\n (**intro**) \ni don\'t know much of complex numbers. i know they\'re written in the form a+bi where a represents the "real" part and b is the coefficient of the root of -1 (also called i). i was recently working on a program involving polynomials, and some error somewhere led to it giving a result as \'\'\' (5.7+13.2j) \'\'\' which was confusing to say the least. it was pretty obvious that this was an attempt at a complex number, using j instead of i, something i\'d never encountered before. \\n "In contexts in which use of the letter i is ambiguous or problematic, the letter j is sometimes used instead. For example, in electrical engineering and control systems engineering, the imaginary unit is normally denoted by j instead of i, because i is commonly used to denote electric current." - wikipedia (;) \n (**so_what?**) \ni immediately wanted to do something with this newfound datatype (not often you accidentally find one of them) so i thought it might be good to see how they fare in terms of efficiency. i started out with something very simple, i took a few complex and real numbers and doubled them a million times or so and graphed the results. i suspected that the complex numbers would take much longer overall\n <IMG="assets\\techstuff\\complexnumberspython1\\fullgraph1.png"> \nwtf (;) \nfor some reason the non-zero real numbers took exponentially longer to calculate (20 seconds??) i couldnt really figure it out but i did realise that i was using the *= operator instead of just *, so the value of x would get exponentially bigger (why that changed the time and like didnt affect the complex numbers is beyond me), which would explain why x=0 followed the same path as the complex x\'s.\n \\n if you zoom in at the start you can see that they follow the same path as the complex numbers initially but very quickly diverge (after maybe 15000 tests). also worth noting that the two non-zero real numbers follow the exact same path for a bit\n <IMG="assets\\techstuff\\complexnumberspython1\\beginning1.png"> \ni would just like to mention now that you shouldnt really look at the heights that the lines reach, but the gradient, as that is a more accurate way of comparing them.\n(;) \n (**other_operations**) \nthe logical next step for this was to check other operations, so i tried with -=, /=, rooting and raising it to itself. nothing gave the same result: \n (**multiplication**) \n <IMG="assets\\techstuff\\complexnumberspython1\\justMultiply.png"> \n (**power_of_itself**) \n <IMG="assets\\techstuff\\complexnumberspython1\\raisedtoitself1.png"> \n(**all_of_em**) \n <IMG="assets\\techstuff\\complexnumberspython1\\allofem1.png"> \n(note that this doesnt have /= but it was still linear and about in line with the other results) \\n \nthere\'s a bit of a rush from some of them so i ran it again to see if it was just error and eh theres a bit of correlation to look at \\n \n <IMG="assets\\techstuff\\complexnumberspython1\\allofem2.png"> \nnot much to look at really (;) \n (**conclusion**) \ni have left this with more questions than answers which sucks \\n \nthanks for reading yeah']</div>
+            <div class="terminal">
+                <div class="header">
+                    <p>mOS VERSION 311.24.2.71828</p>
+                    <!--<p>COPYRIGHT 2024 KBPRecords</p>-->
+                    <p>Server 8</p>
+                    <p>mouse-over or use up/down and enter</p>
+                    <p id="titley">techy projects</p>
+                </div>
+                <div class="content" id="commands">
+                </div>
+                <div id="textHere">
+                </div>
+                <div class="footer">
+                    <p>thanks for visiting</p>
+                </div>
+            </div>
+            <!--[if lt IE 7]>
+                <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+            
+            <script src="../../scripts/parser.js" defer></script>
+            <script src="../../scripts/terminal.js" defer></script>
+        </body>
+    </html>
+    

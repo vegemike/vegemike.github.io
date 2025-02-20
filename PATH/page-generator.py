@@ -4,10 +4,11 @@ print("running")
 path = sys.argv[1]
 #path = "\\complexPython.mike"
 
-def sanitiser(input_str: str) -> str:
+def sanitiser(input_str):
     filename = input_str.lower()
     filename = re.sub(r'[^a-z0-9._-]', '-', filename)
     filename = re.sub(r'-+', '-', filename).strip('-')
+    return filename
 
 if True:
 #try:
