@@ -52,10 +52,15 @@ async function delayLoad(){
 async function unloadEntry() {
     //restore style.display.block to all the commands and delete all children of #textHere as well as the button itself
     //done
-    history.replaceState(null, "", window.location.pathname);
     document.getElementById("textHere").innerHTML = ""
     document.getElementById("titley").textContent = toptitlething
-    setup()
+    if (params.get("fromAll") != "true"){
+    newLink = window.location.pathname.replace(/\/[^/]+\.html$/, "/")
+    window.history.replaceState(null, "", newLink);
+    setup()}
+    else {
+        window.location.href = "../../all/"
+    }
 }
 
 

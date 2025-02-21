@@ -11,6 +11,14 @@ async function getJson(filePath) {
     }
   }
 
+function sanitizeHtmlFilename(inputStr) {
+    let filename = inputStr.toLowerCase();
+    filename = filename.replace(/[^a-z0-9._-]/g, '-');
+    filename = filename.replace(/-+/g, '-').replace(/^-+|-+$/g, '');
+    return filename;
+}
+
+
 async function fileContents(url) {
     try {
         const response = await fetch(url);
