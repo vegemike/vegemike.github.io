@@ -39,8 +39,16 @@ async function loadEntry(entryIndex) {
     //domain = {"music projects":["music", "/projects"], "Music Reviews":["music","/reviews"], "techy projects":["tech", "/projects"],"TV/film reviews":["tv","/reviews"]}[toptitlething]
     coding = false
     console.log(entryJSON)
-    if (category != "all"){
+    dir1 = subCategory
     entryJSON = entryJSON[category];
+    postData = await fileContents("/" + dir1 + entryJSON[entryIndex]["path"])
+    tempString = postData.split("%")
+    header = tempString[0]
+    htmlheader = sanitizeHtmlFilename(header)
+    history.replaceState(null, '', window.location + htmlheader);
+    if (category != "all"){
+    
+
     params.set("fromAll", "false")}
     else {
         params.set("fromAll", "true")
@@ -56,15 +64,13 @@ async function loadEntry(entryIndex) {
     backButton.textContent = "> back"
     backButton.onclick = unloadEntry
     parentDiv.append(backButton)
-    dir1 = subCategory
+    
     if (subCategory == "all") {
         storedPath = entryJSON[entryIndex]["path"]
         lowestFolder = storedPath.split("/")[1]
         dir1 = {"mi":"other", "r":"other", "t":"main", "m":"main"}[lowestFolder]
     }
-    postData = await fileContents("/" + dir1 + entryJSON[entryIndex]["path"])
-    tempString = postData.split("%")
-    header = tempString[0]
+
     tempString = tempString[1]
     tempString = tempString.split("&")
     subheader = tempString[0]
@@ -154,3 +160,21 @@ async function loadEntry(entryIndex) {
     // also ,make the mouse change highlightedCommand
     //cant be bothered actually maybe in a few weeks
 }
+window.onload = async function(){
+
+if (document.getElementById("pathToGenerator")!= null){
+    entryJSON = await addEntries(true)
+    console.log(entryJSON)
+    fileToLoad = document.getElementById("pathToGenerator").textContent
+    await setup(true)
+    countID = 0
+    for (entry of entryJSON[category]){
+        if (entry["path"].includes(fileToLoad)) {
+            loadEntry(countID)
+        }
+        else {
+            countID += 1
+        }
+    }
+}    
+};

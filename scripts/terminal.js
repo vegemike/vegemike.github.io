@@ -6,8 +6,12 @@ var toptitlething = document.getElementById("titley").textContent
 
 //set category to current folder (e.g. tv, misc etc)
 splitURL = String(document.URL).split("/")
-category = splitURL[splitURL.length-2]
-subCategory = splitURL[splitURL.length-3]
+offset = 0/*
+if (document.getElementById("pathToGenerator") == null ){
+    offset = 1
+}*/
+category = splitURL[splitURL.length-(2)]
+subCategory = splitURL[splitURL.length-(3)]
 //encodeURIComponent(name)
 //params.set("example", "test");  set a qury value
 //history.pushState(null, "", "?" + params.toString());   sets query
@@ -56,7 +60,10 @@ async function unloadEntry() {
     document.getElementById("titley").textContent = toptitlething
     if (params.get("fromAll") != "true"){
     newLink = window.location.pathname.replace(/\/[^/]+\.html$/, "/")
-    window.history.replaceState(null, "", newLink);
+    newLink = newLink.split("/")
+    newLink.pop()
+    newLink = newLink.join("/")
+    window.history.replaceState(null, "", newLink+"/");
     setup()}
     else {
         window.location.href = "../../all/"
@@ -117,10 +124,10 @@ async function setup(skipEntries = false) {
 
 async function start() {
     
-if (pID == null){
+if (pID == null && document.getElementById("pathToGenerator") == null){
     setup()
 }
-else {
+else if (pID != null){
     await setup(true)
     await loadEntry(pID)
 }}

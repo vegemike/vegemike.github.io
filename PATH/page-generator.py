@@ -31,7 +31,7 @@ if True:
             ignore = False
         if len(desc) > 45 and imgFound:
             break
-        if "<IMG=" in i:
+        if "<IMG=" in i and not imgFound:
             img = "https://vegemike.github.io/" + i.replace("<IMG=", "").replace(">", "").replace('"', "")
             imgFound = True
 
@@ -71,7 +71,7 @@ if True:
             <meta property="og:url" content="{url}">
             <meta property="og:type" content="article">
             <link rel="stylesheet" href="../../styles/reviews/terminal.css">
-            <div id="pathToGenerator">{path}</div>
+            <div id="pathToGenerator" style="display:none;">{path}</div>
         </head>
         <body>
             <div id="everything" style="position: absolute; left: -999999px;opacity:1%;">{fileContent}</div>
