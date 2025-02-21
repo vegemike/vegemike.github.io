@@ -65,7 +65,7 @@ if True:
             <title>{title} - vegemike.github.io</title>
             <meta name="description" content="{desc}">
             <meta name="viewport" content="width=device-width, initial-scale=1">
-            <meta property="og:title" content="{title}">
+            <meta property="og:title" content="{title} - vegemike.github.io">
             <meta property="og:description" content="{desc}">
             <meta property="og:image" content="{img}">
             <meta property="og:url" content="{url}">
