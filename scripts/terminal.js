@@ -6,12 +6,12 @@ var toptitlething = document.getElementById("titley").textContent
 
 //set category to current folder (e.g. tv, misc etc)
 splitURL = String(document.URL).split("/")
-offset = 0/*
-if (document.getElementById("pathToGenerator") == null ){
+offset = 0
+if (document.getElementById("pathToGenerator") != null ){
     offset = 1
-}*/
-category = splitURL[splitURL.length-(2)]
-subCategory = splitURL[splitURL.length-(3)]
+}
+category = splitURL[splitURL.length-(2+offset)]
+subCategory = splitURL[splitURL.length-(3+offset)]
 //encodeURIComponent(name)
 //params.set("example", "test");  set a qury value
 //history.pushState(null, "", "?" + params.toString());   sets query
@@ -24,18 +24,23 @@ var highlightedCommand = 0
 
 async function addEntries(skip = false){
     console.log("generating anchors from JSON")
-    const entries = await getJson("../../entries.json")
+    jsonPath = "../../entries.json"
+    if (document.getElementById("pathToGenerator")!=null)
+        {jsonPath = "../../../entries.json"}
+    const entries = await getJson(jsonPath)
     if (!skip){
-    for (let x of entries[subCategory][category]){
-        let entry = document.createElement("a")
-        entry.textContent = `> ${x["name"]} - ${x["date"]}`
-        entry.style.display = "none"
-        entry.id = entries[subCategory][category].indexOf(x)
-        entry.classList.add("entry")
-        parentDiv.appendChild(entry)
+        for (let x of entries[subCategory][category]){
+            let entry = document.createElement("a")
+            entry.textContent = `> ${x["name"]} - ${x["date"]}`
+            entry.style.display = "none"
+            entry.id = entries[subCategory][category].indexOf(x)
+            entry.classList.add("entry")
+            parentDiv.appendChild(entry)
 
-    }}
+        }
+    }
     console.log("finished generation")
+    console.log(entries[subCategory])
     return entries[subCategory]
 }
 
@@ -59,12 +64,15 @@ async function unloadEntry() {
     document.getElementById("textHere").innerHTML = ""
     document.getElementById("titley").textContent = toptitlething
     if (params.get("fromAll") != "true"){
-    newLink = window.location.pathname.replace(/\/[^/]+\.html$/, "/")
-    newLink = newLink.split("/")
-    newLink.pop()
-    newLink = newLink.join("/")
-    window.history.replaceState(null, "", newLink+"/");
-    setup()}
+        newLink = window.location.pathname.replace(/\/[^/]+\.html$/, "/")
+        newLink = newLink.split("/")
+        newLink.pop()
+        if (document.getElementById("pathToGenerator") != null){
+            newLink.pop()
+        }
+        newLink = newLink.join("/")
+        window.location.replace(newLink)
+    }
     else {
         window.location.href = "../../all/"
     }

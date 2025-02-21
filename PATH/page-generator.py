@@ -1,4 +1,4 @@
-import sys, re
+import sys, re, os
 #converts .mike docs into blank html (for metadata etc)
 print("running")
 path = sys.argv[1]
@@ -70,7 +70,7 @@ if True:
             <meta property="og:image" content="{img}">
             <meta property="og:url" content="{url}">
             <meta property="og:type" content="article">
-            <link rel="stylesheet" href="../../styles/reviews/terminal.css">
+            <link rel="stylesheet" href="../../../styles/reviews/terminal.css">
             <div id="pathToGenerator" style="display:none;">{path}</div>
         </head>
         <body>
@@ -95,13 +95,17 @@ if True:
                 <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
             <![endif]-->
             
-            <script src="../../scripts/parser.js" defer></script>
-            <script src="../../scripts/terminal.js" defer></script>
+            <script src="../../../scripts/parser.js" defer></script>
+            <script src="../../../scripts/terminal.js" defer></script>
         </body>
     </html>
     """
-    print(sanitiser(dashedtitle))
-    with open(f"{sanitiser(dashedtitle)}.html", "w") as f:
+    dashedtitle = sanitiser(dashedtitle)
+    try:
+        os.mkdir(f"../../{main}/{sub}/{dashedtitle}")
+    except FileExistsError:
+        pass
+    with open(f"../../{main}/{sub}/{dashedtitle}/index.html", "w") as f:
         f.write(HTMLcontent)
 
 

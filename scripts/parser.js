@@ -13,8 +13,12 @@ async function getJson(filePath) {
 
 function sanitizeHtmlFilename(inputStr) {
     let filename = inputStr.toLowerCase();
+    if (filename.split(" ").length > 6){
+        filename = filename.split(" ").slice(0, 6).join(" ")
+    }
     filename = filename.replace(/[^a-z0-9._-]/g, '-');
     filename = filename.replace(/-+/g, '-').replace(/^-+|-+$/g, '');
+
     return filename;
 }
 
@@ -41,15 +45,20 @@ async function loadEntry(entryIndex) {
     console.log(entryJSON)
     dir1 = subCategory
     entryJSON = entryJSON[category];
+    
     postData = await fileContents("/" + dir1 + entryJSON[entryIndex]["path"])
     tempString = postData.split("%")
     header = tempString[0]
-    htmlheader = sanitizeHtmlFilename(header)
-    history.replaceState(null, '', window.location + htmlheader);
-    if (category != "all"){
-    
 
-    params.set("fromAll", "false")}
+    if (document.getElementById("pathToGenerator") == null){
+        htmlheader = sanitizeHtmlFilename(header)
+        temp2 = entryJSON[entryIndex]["path"].split("/")[1]
+        newOne = {"t":"main/tech/", "m":"main/music/", "r":"other/tv/", "mi":"other/misc/"}[temp2]
+        newrl = `../../${newOne}`
+        window.location.replace(newrl + htmlheader)
+    }
+    if (category != "all"){
+        params.set("fromAll", "false")}
     else {
         params.set("fromAll", "true")
     }
@@ -84,6 +93,7 @@ async function loadEntry(entryIndex) {
     titlebit.textContent = subheader
     textBox.appendChild(titlebit)
     textBox.appendChild(document.createElement("hr"))
+    if (document.readyState == "complete"){
     for (x of content){
         textbit = document.createElement("p")
         textBox.appendChild(textbit)
@@ -94,7 +104,7 @@ async function loadEntry(entryIndex) {
                     source = i.replace('<IMG="', "")
                     console.log(source)
                     source = source.replace('">', "")
-                    imageElement.src = "../../" + source
+                    imageElement.src = "../../../" + source
                     textBox.appendChild(imageElement)
                     textbit = document.createElement("p")
                     textBox.appendChild(textbit)
@@ -104,7 +114,7 @@ async function loadEntry(entryIndex) {
                     source = i.replace('<AUD="', "")
                     console.log(source)
                     source = source.replace('">', "")
-                    audElement.src = "../../" + source
+                    audElement.src = "../../../" + source
                     audElement.controls = true
                     textBox.appendChild(audElement)
                     textbit = document.createElement("p")
@@ -156,15 +166,16 @@ async function loadEntry(entryIndex) {
 
         textBox.appendChild(document.createElement("hr"))
         textBox.appendChild(document.createElement("br"))
-    }
+    }}
     // also ,make the mouse change highlightedCommand
     //cant be bothered actually maybe in a few weeks
 }
 window.onload = async function(){
 
 if (document.getElementById("pathToGenerator")!= null){
-    entryJSON = await addEntries(true)
-    console.log(entryJSON)
+/*     entryJSON = await getJson("../../../entries.json")
+    entryJSON = entryJSON[subCategory]
+    console.log(entryJSON) */
     fileToLoad = document.getElementById("pathToGenerator").textContent
     await setup(true)
     countID = 0
