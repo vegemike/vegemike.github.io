@@ -89,7 +89,9 @@ async function loadEntry(entryIndex) {
     titlebit.textContent = subheader
     textBox.appendChild(titlebit)
     textBox.appendChild(document.createElement("hr"))
-    
+    rule = document.createElement("hr")
+    rule.id = "commandRule"
+    document.getElementById("commands").appendChild(rule)
         console.log("loading doc")
         for (x of content){
             textbit = document.createElement("p")
@@ -173,6 +175,7 @@ async function loadEntry(entryIndex) {
         }}
     // also ,make the mouse change highlightedCommand
     //cant be bothered actually maybe in a few weeks
+    
 }
 window.onload = async function(){
 

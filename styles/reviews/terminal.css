@@ -9,6 +9,12 @@ body, html {
     align-items: center;
 }
 
+#commandRule{
+    margin-top:10px;
+    margin-bottom:10px;
+    height:2px;
+}
+
 #textHere{
     font-size:1.1em;
 }
@@ -92,7 +98,7 @@ hr {
     padding-top: 10px;
     font-size: 1.3em;
     line-height: 1.5;
-    padding: 10px 20px 10px 20px;
+    /*padding: 10px 20px 10px 20px;*/
 }
 
 .header * {
