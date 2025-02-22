@@ -96,7 +96,7 @@ hr {
     margin: 8px 0px 8px 0px;
 }
 
-.command {
+.command, #backButton:hover {
     background-color: rgba(0, 255, 0, 0.1);
 }
 
