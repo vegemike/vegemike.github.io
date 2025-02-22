@@ -18,7 +18,7 @@ var commands = Array.from(parentDiv.children)
 const delay = ms => new Promise(res => setTimeout(res, ms));
 var highlightedCommand = 0
 
-function flattenAndSort(dictionary) {
+/* function flattenAndSort(dictionary) {
     const flattenedList = Object.values(dictionary)
         .flatMap(category => Object.values(category))
         .flat();
@@ -35,23 +35,49 @@ function flattenAndSort(dictionary) {
     });
 
     return sortedList.reverse();
+} */
+
+function processEntries(data) {
+    const sectionMapping = { music: "m", tech: "t", misc: "mi", tv: "r" };
+    let flattened = [];
+    let seen = new Map();
+    
+    for (const [section, categories] of Object.entries(data)) {
+        for (const [category, entries] of Object.entries(categories)) {
+            for (const entry of entries) {
+                const expectedPrefix = `/${sectionMapping[category]}/`;
+                if (entry.path.startsWith(expectedPrefix)) {
+                    if (!seen.has(entry.name)) {
+                        seen.set(entry.name, { ...entry, dir: `${section}/${category}` });
+                    }
+                }
+            }
+        }
+    }
+    
+    flattened = Array.from(seen.values());
+    flattened.sort((a, b) => new Date(b.date) - new Date(a.date));
+    return flattened;
 }
 
 async function addEntries(skip = false){
     console.log("generating anchors from JSON")
-    const entries = flattenAndSort(await getJson("../../entries.json"))
+    const entries = processEntries(await getJson("../../entries.json"))
     j = 0
     if (!skip){
-    for (let x of entries){
-        let entry = document.createElement("a")
-        entry.textContent = `> ${x["name"]} - ${x["date"]}`
-        entry.style.display = "none"
-        entry.id = j
-        j++
-        entry.classList.add("entry")
-        parentDiv.appendChild(entry)
+        for (let x of entries){
+            let entry = document.createElement("a")
+            entry.textContent = `> ${x["name"]} - ${x["dir"]}/ - ${x["date"]}`
+            entry.style.display = "none"
+            entry.id = j
+            j++
+            entry.classList.add("entry")
+            entry.setAttribute("data-pathto", x["dir"])
+            entry.setAttribute("data-name", x["name"])
+            parentDiv.appendChild(entry)
 
-    }}
+        }
+    }
     console.log("finished generation")
     return entries
 }
@@ -66,7 +92,9 @@ async function delayLoad(){
 }
 
 
-
+function getObjectByName(data, targetName) {
+    return data.find(obj => obj.name === targetName) || null;
+}
 
 
 
@@ -80,7 +108,19 @@ async function unloadEntry() {
 }
 
 
+async function allLoad(){
+    targetObj = getObjectByName(entryJSON, this.dataset.name)
+    temp2 = targetObj["path"].split("/")[1]
+    newOne = {"t":"main/", "m":"main/", "r":"other/", "mi":"other/"}[temp2]
+    postData = await fileContents("../"+ newOne + targetObj["path"])
+    tempString = postData.split("%")
+    header = tempString[0]
+    htmlheader = sanitizeHtmlFilename(header)
+    pathTo = this.dataset.pathto + "/"
+    localStorage.setItem("fromAll", "true");
+    window.location.replace("../"+pathTo+htmlheader)
 
+}
 
 
 async function setup(skipEntries = false) {
@@ -92,9 +132,7 @@ async function setup(skipEntries = false) {
         entriesList = document.querySelectorAll(".entry");
         var commands = Array.from(parentDiv.children)
         entriesList.forEach(element => {
-            element.addEventListener("click", function() {
-                loadEntry(this.id); 
-            });});
+            element.addEventListener("click", allLoad);});
         function updateCommandClass(index) {
             commands.forEach(child => {
                 child.classList.remove('command');

@@ -63,7 +63,7 @@ async function unloadEntry() {
     //done
     document.getElementById("textHere").innerHTML = ""
     document.getElementById("titley").textContent = toptitlething
-    if (params.get("fromAll") != "true"){
+    if (localStorage.getItem("fromAll") != "true"){
         newLink = window.location.pathname.replace(/\/[^/]+\.html$/, "/")
         newLink = newLink.split("/")
         newLink.pop()
@@ -74,7 +74,8 @@ async function unloadEntry() {
         window.location.replace(newLink)
     }
     else {
-        window.location.href = "../../all/"
+        localStorage.setItem("fromAll", "false")
+        window.location.href = "../../../all/"
     }
 }
 

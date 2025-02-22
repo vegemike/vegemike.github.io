@@ -1,0 +1,1 @@
+allow paths to source files that r outside current (like /m/wavConstruction.mike from /tech/) and have the redirect work right (localStorage to store original location, like with host/all/ ??)

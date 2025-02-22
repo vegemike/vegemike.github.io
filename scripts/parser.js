@@ -58,11 +58,6 @@ async function loadEntry(entryIndex) {
         newrl = `../../${newOne}`
         window.location.replace(newrl + htmlheader)
     }
-    if (category != "all"){
-        params.set("fromAll", "false")}
-    else {
-        params.set("fromAll", "true")
-    }
     
     params.set("name", encodeURI(entryJSON[entryIndex]["name"].replace(/ /g, "-")));
     params.set("id", entryIndex);
