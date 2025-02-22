@@ -86,30 +86,34 @@ async function setup(skipEntries = false) {
     parentDiv.innerHTML = '<a href="../../" class="command">> back</a>'
     entryJSON = await addEntries(skipEntries)
     console.log(entryJSON)
-    if (!skipEntries){
+    
+    if (!skipEntries) {
         await delayLoad()
-        entriesList = document.querySelectorAll(".entry");
+        entriesList = document.querySelectorAll('.entry');
         var commands = Array.from(parentDiv.children)
-        entriesList.forEach(element => {
-            element.addEventListener("click", function() {
-                loadEntry(this.id); 
-            });});
+        entriesList.forEach(
+            element => {
+            element.addEventListener('click', function () {
+                loadEntry(this.id);
+            });
+            }
+        );
         function updateCommandClass(index) {
             commands.forEach(child => {
-                child.classList.remove('command');
+            child.classList.remove('command');
             });
             if (index >= 0 && index < commands.length) {
-                commands[index].classList.add('command');
+            commands[index].classList.add('command');
             }
         }
         function handleKeyDown(event) {
             if (event.key === 'ArrowDown') {
-                // Move down
-                highlightedCommand = (highlightedCommand + 1) % commands.length; 
+                //  down
+                highlightedCommand = (highlightedCommand + 1) % commands.length;
                 updateCommandClass(highlightedCommand);
             } else if (event.key === 'ArrowUp') {
-                // Move up
-                highlightedCommand = (highlightedCommand - 1 + commands.length) % commands.length; 
+                // up
+                highlightedCommand = (highlightedCommand - 1 + commands.length) % commands.length;
                 updateCommandClass(highlightedCommand);
             } else if (event.key === 'Enter') {
                 if (highlightedCommand >= 0 && highlightedCommand < commands.length) {
@@ -120,24 +124,28 @@ async function setup(skipEntries = false) {
         document.addEventListener('keydown', handleKeyDown);
         function handleMouseOver(event) {
             commands.forEach(child => {
-                child.classList.remove('command');
+            child.classList.remove('command');
             });
             event.target.classList.add('command');
             var highlightedCommand = parseInt(event.target.id)
         }
-        commands.forEach(child => {
+        commands.forEach(
+            child => {
             child.addEventListener('mouseover', handleMouseOver);
-    });}
-}
+            }
+        );
+        }
+    }
 
 async function start() {
-    
-if (pID == null && document.getElementById("pathToGenerator") == null){
-    setup()
+    if (pID == null){
+        await setup()
+    }
+    else{
+        await setup(true)
+        await loadEntry(pID)
+    }
 }
-else if (pID != null){
-    await setup(true)
-    await loadEntry(pID)
-}}
 
-start()
+if (document.getElementById("pathToGenerator") == null){
+start()}
