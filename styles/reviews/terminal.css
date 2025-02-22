@@ -73,10 +73,13 @@ hr {
     height: 90vh;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
     box-shadow: 0 0 10px rgba(0, 255, 0, 0.5);
     position: relative;
     overflow: hidden;
+}
+
+.terminal about{
+    margin-top:20px;
 }
 
 .header, .footer {
@@ -98,11 +101,13 @@ hr {
 .docLink{
     text-decoration: underline dotted;
     cursor: pointer;
+    display: inline-block;
 }
 
 
 .command, #backButton:hover, .docLink:hover{
     background-color: rgba(0, 255, 0, 0.1);
+    cursor: pointer;
 }
 
 a {
