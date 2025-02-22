@@ -56,8 +56,12 @@ function processEntries(data) {
     }
     
     flattened = Array.from(seen.values());
-    flattened.sort((a, b) => new Date(b.date) - new Date(a.date));
-    return flattened;
+    const sortedData = flattened.sort((a, b) => {
+        const dateA = new Date(a.date.split("/").reverse().join("-"));
+        const dateB = new Date(b.date.split("/").reverse().join("-"));
+        return dateB - dateA;
+      });
+    return sortedData;
 }
 
 async function addEntries(skip = false){

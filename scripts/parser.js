@@ -151,6 +151,13 @@ async function loadEntry(entryIndex) {
                         codeBit.textContent += i + " "
                         await delay(5)
                     }
+                    else if (isAValidURL(i)){
+                        anchor = document.createElement("a")
+                        anchor.href = i
+                        anchor.classList.add("docLink")
+                        anchor.textContent = i
+                        textBox.appendChild(anchor)
+                    }
                     else {
                         textbit.textContent += i + " "
                         await delay(2)
@@ -186,3 +193,8 @@ if (document.getElementById("pathToGenerator")!= null){
     }
 }    
 };
+
+function isAValidURL(url) {
+    const pattern = /^(https?:\/\/)?([\w-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;
+    return pattern.test(url);
+}

@@ -95,8 +95,13 @@ hr {
 .header * {
     margin: 8px 0px 8px 0px;
 }
+.docLink{
+    text-decoration: underline dotted;
+    cursor: pointer;
+}
 
-.command, #backButton:hover {
+
+.command, #backButton:hover, .docLink:hover{
     background-color: rgba(0, 255, 0, 0.1);
 }
 
