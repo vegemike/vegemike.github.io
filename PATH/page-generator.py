@@ -12,7 +12,7 @@ def sanitiser(input_str):
 
 if True:
 #try:
-    with open(path, "r") as f:
+    with open(path, "r", encoding="utf-8") as f:
         fileContent = f.read()
         print(path)
     fileContent = fileContent.split("%")
@@ -105,7 +105,7 @@ if True:
         os.mkdir(f"../../{main}/{sub}/{dashedtitle}")
     except FileExistsError:
         pass
-    with open(f"../../{main}/{sub}/{dashedtitle}/index.html", "w") as f:
+    with open(f"../../{main}/{sub}/{dashedtitle}/index.html", "w", encoding="utf-8") as f:
         f.write(HTMLcontent)
 
 
