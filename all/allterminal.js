@@ -70,6 +70,10 @@ async function addEntries(skip = false){
     j = 0
     if (!skip){
         for (let x of entries){
+            rule2 = document.createElement("hr")
+            rule2.id = "cmdSep"+j
+            rule2.classList.add("cmdSep")
+            parentDiv.appendChild(rule2)
             let entry = document.createElement("a")
             entry.textContent = `> ${x["name"]} - ${x["dir"]}/ - ${x["date"]}`
             entry.style.display = "none"
@@ -134,7 +138,7 @@ async function setup(skipEntries = false) {
     if (!skipEntries){
         await delayLoad()
         entriesList = document.querySelectorAll(".entry");
-        var commands = Array.from(parentDiv.children)
+        var commands = Array.from(parentDiv.children).filter(el => el.tagName !== "HR");
         entriesList.forEach(element => {
             element.addEventListener("click", allLoad);});
         function updateCommandClass(index) {

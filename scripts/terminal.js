@@ -30,12 +30,17 @@ async function addEntries(skip = false){
     const entries = await getJson(jsonPath)
     if (!skip){
         for (let x of entries[subCategory][category]){
+            rule2 = document.createElement("hr")
+            rule2.id = "cmdSep"+entries[subCategory][category].indexOf(x)
+            rule2.classList.add("cmdSep")
+            parentDiv.appendChild(rule2)
             let entry = document.createElement("a")
             entry.textContent = `> ${x["name"]} - ${x["date"]}`
             entry.style.display = "none"
             entry.id = entries[subCategory][category].indexOf(x)
             entry.classList.add("entry")
             parentDiv.appendChild(entry)
+
 
         }
     }
@@ -48,7 +53,7 @@ async function delayLoad(){
     console.log("staggering display...")
     for (let x of parentDiv.children){
         x.style.display = "block"
-        await delay(120)
+        await delay(100)
     }
     console.log("displayed all")
 }
@@ -91,7 +96,7 @@ async function setup(skipEntries = false) {
     if (!skipEntries) {
         await delayLoad()
         entriesList = document.querySelectorAll('.entry');
-        var commands = Array.from(parentDiv.children)
+        var commands = Array.from(parentDiv.children).filter(el => el.tagName !== "HR");
         entriesList.forEach(
             element => {
             element.addEventListener('click', function () {

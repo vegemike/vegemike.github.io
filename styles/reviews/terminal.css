@@ -84,6 +84,8 @@ hr {
     overflow: hidden;
 }
 
+
+
 .terminal about{
     margin-top:20px;
 }
@@ -174,3 +176,10 @@ pre{
 }
 
 
+.cmdSep{
+    display: none;
+    padding:0px;
+    height:1px;
+    margin: 1px;
+    opacity: 50%;
+}
