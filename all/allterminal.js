@@ -136,7 +136,7 @@ async function setup(skipEntries = false) {
     entryJSON = await addEntries(skipEntries)
     console.log(entryJSON)
     if (!skipEntries){
-        await delayLoad()
+        delayLoad()
         entriesList = document.querySelectorAll(".entry");
         var commands = Array.from(parentDiv.children).filter(el => el.tagName !== "HR");
         entriesList.forEach(element => {
@@ -180,7 +180,7 @@ async function setup(skipEntries = false) {
 async function start() {
     
 if (pID == null){
-    setup()
+    await setup()
 }
 else {
     await setup(true)
