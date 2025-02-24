@@ -18,6 +18,11 @@ body, html {
 #textHere{
     font-size:1.1em;
 }
+
+#textHere p, a{
+    font-size:1.2em; 
+}
+
 h1{
     font-size:3em;
 }
@@ -182,4 +187,21 @@ pre{
     height:1px;
     margin: 1px;
     opacity: 50%;
+}
+
+@media screen and (max-width: 600px) {
+#textHere p, a{
+    font-size:1.2em; 
+}
+
+h1{
+    font-size:2.5em;
+}
+h2{
+    font-size:1.7em
+}
+h3{
+    font-size:1.6em;
+}
+    
 }
