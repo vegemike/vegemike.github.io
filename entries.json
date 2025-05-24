@@ -11,7 +11,8 @@
     },
     "other":{
         "misc":[
-            {"name":"Ethical Implications of Pain Responses in Fish", "path":"/mi/fish pain ethics.mike", "date":"12/02/2025"}
+            {"name":"Ethical Implications of Pain Responses in Fish", "path":"/mi/fish pain ethics.mike", "date":"12/02/2025"},
+            {"name":"nihilism", "path":"/mi/nihilism.mike", "date":"24/05/2025"}
         ],
         "tv":[
             {"name":"from (2022-)", "path":"/r/from.mike", "date":"03/01/2025"},

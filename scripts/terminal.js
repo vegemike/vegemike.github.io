@@ -17,6 +17,28 @@ subCategory = splitURL[splitURL.length-(3+offset)]
 //history.pushState(null, "", "?" + params.toString());   sets query
 //history.replaceState(null, "", window.location.pathname);  clears query
 
+function sortByDate(data, category, subcategory) {
+  const newData = JSON.parse(JSON.stringify(data));
+  if (
+    newData[category] &&
+    Array.isArray(newData[category][subcategory])
+  ) {
+    newData[category][subcategory].sort((a, b) => {
+      const [dA, mA, yA] = a.date.split("/").map(Number);
+      const [dB, mB, yB] = b.date.split("/").map(Number);
+
+      const dateA = new Date(yA, mA - 1, dA);
+      const dateB = new Date(yB, mB - 1, dB);
+
+      return dateB - dateA;
+    });
+  }
+
+  return newData;
+}
+
+
+
 const parentDiv = document.getElementById("commands")
 var commands = Array.from(parentDiv.children)
 const delay = ms => new Promise(res => setTimeout(res, ms));
@@ -27,9 +49,12 @@ async function addEntries(skip = false){
     jsonPath = "../../entries.json"
     if (document.getElementById("pathToGenerator")!=null)
         {jsonPath = "../../../entries.json"}
-    const entries = await getJson(jsonPath)
+    entries = await getJson(jsonPath)
+    console.log(entries, subCategory, category)
+    entries = sortByDate(entries, subCategory, category)
     if (!skip){
         for (let x of entries[subCategory][category]){
+            console.log(sortByDate(entries, subCategory, category))
             rule2 = document.createElement("hr")
             rule2.id = "cmdSep"+entries[subCategory][category].indexOf(x)
             rule2.classList.add("cmdSep")
