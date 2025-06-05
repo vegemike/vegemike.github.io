@@ -1,0 +1,6 @@
+making a lethal company mod%
+very fun!!&
+i noticed after the latest v70 lethal company update some of my QOL mods stopped working, and when, even after a day or two, there was no update i was like hey i can make my own it cant be that hard surely \n 
+so i got to it and looked at some startup guides and realised it was in C# which was (until now) completely beyond me (it still really is). regardless, i installed rider and the project template and got going. 
+the weirdest part was understanding all the libraries and stuff. it's built with unity so like theres all the unity methods and classes to work with and like it mainly hinges around harmony. 
+harmony is a library that basically allows you to hook into and modify methods. i very shortly realised that those QOL mods were way beyond me
