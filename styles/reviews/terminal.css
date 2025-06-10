@@ -9,6 +9,20 @@ body, html {
     align-items: center;
 }
 
+#contentsDiv *{
+    margin: 0px 0px 0px 0px;
+}
+#contentsDiv{
+    font-size:0.5em;
+    color:#FFFF00;
+}
+
+#contentsDiv *:hover{
+    background-color: rgba(255, 255, 0, 0.1);
+    cursor: pointer;
+    text-decoration:underline;
+}
+
 #commandRule{
     margin-top:10px;
     margin-bottom:10px;

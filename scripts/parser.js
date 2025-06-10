@@ -89,8 +89,16 @@ async function loadEntry(entryIndex) {
     textBox.appendChild(titlebit)
     titlebit = document.createElement("h2")
     titlebit.textContent = subheader
+    contentsTitle = document.createElement("h5")
+    contentsTitle.textContent = "contents:"
+    contentsTitle.style.marginBottom = "5px"
+    contentsDiv = document.createElement("div")
+    contentsDiv.id = "contentsDiv"
+    titlebit.append(contentsTitle)
+    titlebit.append(contentsDiv)
     textBox.appendChild(titlebit)
     textBox.appendChild(document.createElement("hr"))
+
     rule = document.createElement("hr")
     rule.id = "commandRule"
     document.getElementById("commands").appendChild(rule)
@@ -169,8 +177,15 @@ async function loadEntry(entryIndex) {
                         imageElement = document.createElement("h3")
                         texthead = i.replace('(**', "")
                         texthead = texthead.replace('**)', "")
+                        imageElement.id = texthead
+                        contentsP = document.createElement("p")
+                        contentsP.dataset.targetid = texthead
                         texthead = texthead.replace(/_/g, " ")
+                        contentsP.textContent = "- "+ texthead
+                        contentsP.onclick = scrollToContent
+                        contentsDiv.appendChild(contentsP)
                         imageElement.textContent = texthead
+                        imageElement.style.textDecoration = "underline"
                         textBox.appendChild(imageElement)
                         textbit = document.createElement("p")
                         textBox.appendChild(textbit)
@@ -225,4 +240,8 @@ if (document.getElementById("pathToGenerator")!= null){
 function isAValidURL(url) {
     const pattern = /^(https?:\/\/)?([\w-]+\.)+[a-zA-Z]{2,}(:\d+)?(\/.*)?$/;
     return pattern.test(url);
+}
+
+function scrollToContent(){
+    document.getElementById(this.dataset.targetid).scrollIntoView()
 }
