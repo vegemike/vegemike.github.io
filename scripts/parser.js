@@ -76,10 +76,12 @@ async function loadEntry(entryIndex) {
         dir1 = {"mi":"other", "r":"other", "t":"main", "m":"main"}[lowestFolder]
     }
     if (document.getElementById("pathToGenerator") != null){
-    tempString = tempString[1]
+    tempString = tempString.slice(1).join("%")
     tempString = tempString.split("&")
+    console.log(tempString)
     subheader = tempString[0]
-    content = tempString[1].split("(;)")
+    content = tempString.slice(1).join("&")
+    content = content.split("(;)")
     delete tempString
     textBox = document.getElementById("textHere")
     titlebit = document.createElement("h1")
@@ -94,11 +96,49 @@ async function loadEntry(entryIndex) {
     document.getElementById("commands").appendChild(rule)
         console.log("loading doc")
         for (x of content){
+            //x = x.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + " ";
             textbit = document.createElement("p")
             textBox.appendChild(textbit)
             for (i of x.split(" ")){
                 if (!(document.getElementById("titley").textContent == toptitlething)){
-                    if (i.includes('<IMG="')){
+                    if (i.includes("'''")){
+                        
+                        if (!coding){
+                            prepart = document.createElement("pre")
+                            codeBit = document.createElement("code")
+                            prepart.appendChild(codeBit)
+                            textBox.appendChild(prepart)
+                        }
+                        else {
+                            textbit = document.createElement("p")
+
+                            textBox.appendChild(textbit)
+                        }
+                        coding = !coding
+                    } 
+                    else if (i.includes("''")){
+                        
+                        if (!coding){
+                            textbit.style.display = "inline"
+                            textbit.textContent += "  "
+                            codeBit = document.createElement("code")
+                            codeBit.style.display = "inline"
+                            textBox.appendChild(codeBit)
+                        }
+                        else {
+                            textbit = document.createElement("p")
+                            textbit.style.display = "inline"
+                            textbit.textContent += "  "
+                            textBox.appendChild(textbit)
+                        }
+                        coding = !coding
+                    } 
+                    else if (coding){
+                        
+                        codeBit.textContent += i + " "
+                        await delay(5)
+                    }
+                    else if (i.includes('<IMG="')){
                         imageElement = document.createElement("img")
                         source = i.replace('<IMG="', "")
                         console.log(source)
@@ -135,30 +175,15 @@ async function loadEntry(entryIndex) {
                         textbit = document.createElement("p")
                         textBox.appendChild(textbit)
                     }
-                    else if (i.includes("'''")){
-                        
-                        if (!coding){
-                            prepart = document.createElement("pre")
-                            codeBit = document.createElement("code")
-                            prepart.appendChild(codeBit)
-                            textBox.appendChild(prepart)
-                        }
-                        else {
-                            textbit = document.createElement("p")
-                            textBox.appendChild(textbit)
-                        }
-                        coding = !coding
-                    }
-                    else if (coding){
-                        codeBit.textContent += i + " "
-                        await delay(5)
-                    }
-                    else if (isAValidURL(i)){
+                    
+                    else if (isAValidURL(i.substring(2)) && i.startsWith("a:")){
                         anchor = document.createElement("a")
-                        anchor.href = i
+                        anchor.href = i.substring(2)
                         anchor.classList.add("docLink")
-                        anchor.textContent = i
+                        anchor.textContent = i.substring(2)
                         textBox.appendChild(anchor)
+                        textbit = document.createElement("p")
+                        textBox.appendChild(textbit)
                     }
                     else {
                         textbit.textContent += i + " "

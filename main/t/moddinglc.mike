@@ -1,6 +1,250 @@
 making a lethal company mod%
 very fun!!&
+ <IMG="assets\techstuff\lethalmodding\boombox\BoomboxIcon.webp"> 
 i noticed after the latest v70 lethal company update some of my QOL mods stopped working, and when, even after a day or two, there was no update i was like hey i can make my own it cant be that hard surely \n 
 so i got to it and looked at some startup guides and realised it was in C# which was (until now) completely beyond me (it still really is). regardless, i installed rider and the project template and got going. 
 the weirdest part was understanding all the libraries and stuff. it's built with unity so like theres all the unity methods and classes to work with and like it mainly hinges around harmony. 
 harmony is a library that basically allows you to hook into and modify methods. i very shortly realised that those QOL mods were way beyond me
+i first wanted to go for a boombox mod, one that would play songs i choose on the boombox instead of the 5 default ones 
+(;) 
+(**modding_the_boombox**) 
+first step is to see how the boombox works. this is pretty easy with using dotPeek to decompile the main game assembly, "Assembly-CSharp.dll". 
+most of the stuff under the BoomboxItem class is irrelevant, but a few things stick out:
+this declaration - '''  public AudioSource boomboxAudio; public AudioClip[] musicAudios; public AudioClip[] stopAudios; public System.Random musicRandomizer; ''' 
+and the following method: 
+ 
+''' 
+  private void StartMusic(bool startMusic, bool pitchDown = false)
+  {
+    if (startMusic)
+    {
+      this.boomboxAudio.clip = this.musicAudios[this.musicRandomizer.Next(0, this.musicAudios.Length)];
+      this.boomboxAudio.pitch = 1f;
+      this.boomboxAudio.Play();
+    }
+    else if (this.isPlayingMusic)
+    {
+      if (pitchDown)
+      {
+        this.StartCoroutine(this.musicPitchDown());
+      }
+      else
+      {
+        this.boomboxAudio.Stop();
+        this.boomboxAudio.PlayOneShot(this.stopAudios[UnityEngine.Random.Range(0, this.stopAudios.Length)]);
+      }
+      this.timesPlayedWithoutTurningOff = 0;
+    }
+    this.isBeingUsed = startMusic;
+    this.isPlayingMusic = startMusic;
+  }
+ ''' 
+
+so all that needs to be done is to overwrite the boomboxAudio.clip to whatever song id like, and .Play(). pretty easy. 
+(**modifying_the_StartMusic()_method**) 
+using harmony, we want to append code to the END of the method, done like so: 
+''' 
+[HarmonyPatch(typeof(BoomboxItem))]
+[HarmonyPatch("StartMusic", MethodType.Normal)] 
+class LaDeDaDeDaBoomboxPatch
+{
+    static void Postfix(BoomboxItem __instance, bool startMusic)
+    {
+    }
+} 
+''' 
+any code in the Postfix method gets run AFTER the StartMusic() method.
+taking the current BoomboxItem as __instance we can directly configure the specific boombox that is running the StartMusic() method.
+next step is to embed the song i want to play (i don't like having extra files about the place), so i set a file "song.wav" to build as an EmbeddedResource.
+this file can then be accessed through 
+ 
+''' 
+var assembly = Assembly.GetExecutingAssembly();
+var resourceName = "LaDeDaDeDaBoombox.Assets.song.wav"; 
+byte[] wavBytes;
+using (Stream stream = assembly.GetManifestResourceStream(resourceName) //grab embedded wav file)
+    {
+        wavBytes = new byte[stream.Length]; //prepare container for the wav
+        stream.Read(wavBytes, 0, wavBytes.Length); // load the PCM into the container
+    }
+// convert those bytes into an AudioClip
+AudioClip clip = WavUtility.ToAudioClip(wavBytes, 0, "EmbeddedSong");
+ ''' 
+
+please note i am using WavUtility to decode the wav file \n 
+and then, easily, to play:
+
+ ''' 
+boombox.boomboxAudio.clip = clip;
+boombox.boomboxAudio.Play();
+ ''' 
+
+make sure it all gets patched at startup: 
+
+ ''' 
+[BepInEx.BepInPlugin("com.vegemike.LaDeDaDeDaBoombox", "Boombox Patch", "1.0.0")]
+public class BoomboxMod : BaseUnityPlugin
+{
+    private void Awake()
+    {
+        var harmony = new Harmony("com.vegemike.LaDeDaDeDaBoombox");
+        Harmony.CreateAndPatchAll(typeof(LaDeDaDeDaBoomboxPatch));
+    }
+}
+ ''' 
+
+build, place the dll in the BepInEx\plugins\ folder and it works nicely. 
+(;) 
+(**adding_more_songs**) 
+actually was very easy to add more songs. considering space requirements, i switched from wav to ogg, which is supported just as much and is actually compressed (don't want my plugin being 5 gigs). it also means we don't need WavUtility anymore which is nice. 
+
+ ''' 
+var assembly = Assembly.GetExecutingAssembly(); //same as before
+string prefix = "LaDeDaDeDaBoombox.Assets."; //because we're accessing multiple resources (and using this a few times), it's easier now to store this prefix separately 
+var songs = assembly.GetManifestResourceNames()
+            .Where(name => name.StartsWith(prefix) && name.EndsWith(".ogg")) //only take the embedded resources that are within Assets and are .ogg files
+            .ToArray(); //make this a list. 
+''' 
+
+cool, now there's a list of all the available embedded songs, just pick one (randomly?) and play it? but wait: for the sake of processing speeds, i decided to cache the songs when they get played (\plugins\cached_songs\) 
+first, make the directory: 
+ 
+''' string cacheDir = Path.Combine(Paths.PluginPath, "cached_songs");
+Directory.CreateDirectory(cacheDir); ''' 
+and check if the file has been cached yet:
+ ''' string cachedPath = Path.Combine(cacheDir, songFileName /*we'll sort this later*/); 
+ if (!File.Exists(cachedPath)) {
+    //do stuff
+ } ''' 
+
+if it has, nice, just load it: 
+
+ ''' 
+using var request = UnityWebRequestMultimedia.GetAudioClip("file://" + cachedPath, AudioType.OGGVORBIS); 
+yield return request.SendWebRequest(); 
+AudioClip clip = DownloadHandlerAudioClip.GetContent(request); 
+''' 
+
+and play it as before.
+if not, though, it has to be cached. if the file DOESN'T exist:  
+
+ ''' 
+using var stream = assembly.GetManifestResourceStream(chosenResource);
+using var fileStream = File.Create(cachedPath);
+stream.CopyTo(fileStream); 
+''' 
+
+and then continue to load the song as normal.
+ \n 
+choosing the song: 
+
+ '''  
+string chosenResource = songs[UnityEngine.Random.Range(0, songs.Length)];
+string songFileName = chosenResource.Substring(prefix.Length);  
+''' 
+
+easy! (;) 
+one issue: when playing with friends (who also have the mod), sure they hear music, just not the same song as i or any other player. this is the hardest part of the entire project 
+(**NETWORKING!!_getting_songs_to_sync_cross-client**) 
+quickly, before doing scary network stuff, the boombox plays the original music before the songs i've chosen. easy fix, just by putting '' __instance.boomboxAudio.Stop(); '' at the top of the Postfix patch.
+ \n 
+okay, networking. \n \n 
+the first step is to set out the logic: 
+''' 
+when boombox is played:
+1. choose song somehow 
+2. send song name to everyone in the server somehow
+3. get everyone else's to play that song 
+4. happiness 
+''' 
+ \n 
+(**step_1:_choosing_a_song**) 
+first issue: who should choose the song? if everyone connected does so, it'll get all messy. the obvious solution is to have only the host choose the song. 
+lethal company uses NetworkManager (accessible globally), which has the handy property of .IsHost. so: 
+''' 
+boombox on:
+am i host?
+if yes:
+    pick a song
+    tell everyone
+if no:
+    wait for the host to tell me what song to play
+ ''' 
+which, in c#, should look a little like:
+
+ ''' 
+if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)
+        {
+            BoomboxSyncManager.Instance.HandleBoomboxStart(__instance);
+        }
+ ''' 
+
+and would go in the startMusic Postfix. 
+okay, lets sort that HandleBoomboxStart(). for the scope of picking a song, it's identical to before. it only changes for the next step: 
+(**step_2:_announcing_chosen_song**) 
+NetworkManager has another handy property, .ConnectedClientsIds. we can just form this to a list and send a message to each client somehow. 
+we can form the list like so: 
+''' 
+List<ulong> clientList = NetworkManager.Singleton.ConnectedClientsIds.ToList(); 
+''' 
+okay, that's easy. it's harder to send the song names though. 
+\n 
+right, sending stuff. 
+first, let's store the boombox's ID, so we can tell the clients which boombox to play the sound from: 
+''' ulong boomboxNetworkId = boombox.NetworkObjectId; ''' 
+we'll use FastBufferWriter to prepare and send the song name. to set up a new one, it is done as so: 
+''' 
+using var writer = new FastBufferWriter(sizeof(ulong) + 512, Allocator.Temp); 
+''' 
+let's break it down:
+we write '' using var writer '' so that with "using" the buffer gets disposed of afterwards, regardless of what happens. \n \n 
+passing '' sizeof(ulong) + 512 '' sets the size, which is the size of one ulong type and an extra 512 bytes. the ulong is to store the boombox ID from earlier, and we reserve 512 for the song name. \n 
+ \n finally, we pass '' Allocator.Temp '' as the allocation strategy, which means it won't persist past the current frame. \n 
+ \n 
+with this set up, we can write the information to this new buffer: 
+''' 
+writer.WriteValueSafe(chosenSongName);
+writer.WriteValueSafe(boomboxNetworkId); 
+''' 
+so, now to send it across. we have our message buffered (writer), and a list of recipients (clientList), so how can we send it all over? 
+well, it turns out that the CustomMessagingManager of the NetworkManager is capable of this. sending it over is done like so: 
+''' 
+NetworkManager.Singleton.CustomMessagingManager.SendNamedMessage(
+    "BoomboxPlay",
+    clientList,
+    writer,
+    NetworkDelivery.Reliable
+    ); 
+''' 
+what does this do? well, it's actually not as crazy as previously alluded: \n 
+"BoomboxPlay" is the name of the NamedMessage (crazy) and so is passed first. \n \n 
+next, we send the '' clientList '' through, and Unity deals with sending the message to everyone in this list \n \n 
+next is our message (messageStream), the previously made '' writer '' of type FastBufferWriter. it HAS to be a FastBufferWriter. \n \n 
+finally, the networkDelivery method to send it. '' Reliable '' means it WILL reach its target, just a little slower than sending it unreliably. we can't risk the message not being sent, so we must send it reliably. \n \n 
+cool! we've sent the message. now, we just have to receive it! fun! 
+ \n 
+(**step_3:_receiving_and_playing_the_chosen_song**) 
+the first step is to prepare the clients for when the receive the message with the name BoomboxPlay. we do this easily, just by: 
+''' 
+NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler(
+                "BoomboxPlay",
+                OnReceiveBoomboxPlayMessage
+            ); 
+ ''' 
+this runs the OnReceiveBoomboxPlayMessage when it receives a message by the name of BoomboxPlay. we register this handler in the Awake() method. 
+now lets set up that function 
+''' private void OnReceiveBoomboxPlayMessage(ulong senderClientId, FastBufferReader reader) ''' 
+we read the values in the buffer as so: 
+''' 
+reader.ReadValueSafe(out string songName);
+reader.ReadValueSafe(out ulong boomboxNetworkId); 
+''' 
+then, easily: 
+''' 
+boombox.StartCoroutine(PlayClipFromResource(boombox, songName)); 
+''' 
+and that's it. 
+(;) 
+(**closing_remarks**) 
+there's a lot of finicky stuff i've overlooked here. you can skim the most up-to-date source code at my github a:https://github.com/vegemike/LaDeDaDeDaBoombox which is also where you can download the binary.
+thank you for reading!!

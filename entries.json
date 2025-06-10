@@ -6,7 +6,8 @@
         "tech":[
             {"name":"mechanism of damage on liver by high blood alcohol", "path":"/t/bloodalcoholcontent.mike", "date":"15/01/2025"},
             {"name":"constructing digital audio files from scratch (python)", "path":"/t/WAVconstruction.mike", "date":"23/11/2024"},
-            {"name":"speed of arithmetic with complex numbers in python", "path":"/t/complexPython.mike", "date":"08/11/2024"}
+            {"name":"speed of arithmetic with complex numbers in python", "path":"/t/complexPython.mike", "date":"08/11/2024"},
+            {"name":"modding lethal company (boomboxes)", "path":"/t/moddinglc.mike", "date":"07/06/2025"}
         ]
     },
     "other":{

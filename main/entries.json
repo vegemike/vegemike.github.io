@@ -3,6 +3,7 @@
             {"name":"constructing digital audio files from scratch (python)", "path":"/m/WAVconstruction.mike", "date":"23/11/2024"}
         ],
     "tech":[
-        {"name":"speed of arithmetic with complex numbers in python", "path":"/t/complexPython.mike", "date":"08/11/2024"}
+        {"name":"speed of arithmetic with complex numbers in python", "path":"/t/complexPython.mike", "date":"08/11/2024"},
+        {"name":"modding lethal company", "path":"/t/moddinglc.mike", "date":"08/06/2025"}
     ]
 }

@@ -6,3 +6,4 @@ subsubheaders are surrounded by (**text**) and should use _s instead of spaces (
 should also be surrounded by spaces
 surround code blocks with ''' (surrounded by spaces)
 new line with \n
+prepend links with a:
