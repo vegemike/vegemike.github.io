@@ -1,0 +1,165 @@
+LC boombox mod update 1%
+more songs, range and battery&
+i've just updated the boombox mod from the last post (a little).
+ (;) (**range_update**) 
+one of the more important things i changed, that i felt need to be changed, was the so short boombox range. friends far away in the facility couldn't hear the sweet tones of the boombox, which sort of defeated the point. \n 
+this is an easy fix, you can just edit the properties of '' boombox.boomboxAudio '' directly. \n 
+see the following: 
+
+''' 
+boombox.boomboxAudio.volume = 1f;                // max volume
+
+boombox.boomboxAudio.spatialBlend = 1f;          // fully 3D
+
+boombox.boomboxAudio.maxDistance = 500f;
+
+boombox.boomboxAudio.rolloffMode = AudioRolloffMode.Custom;
+
+var curve = new AnimationCurve(
+    new Keyframe(0f, 1f),       // 0m = full volume
+    new Keyframe(30f, 0.6f),    // 30m = 60% volume
+    new Keyframe(50f, 0.5f),    // 50m = 50% volume
+    new Keyframe(500f, 0f)      // 500m = 0% volume
+    );
+
+boombox.boomboxAudio.SetCustomCurve(AudioSourceCurveType.CustomRolloff, curve);
+
+boombox.boomboxAudio.Play(); 
+''' 
+i dont really know what '' spatialBlend '' does, but i was told to set it to 1. \n 
+the main thing to focus on here is setting '' maxDistance '' to 500, meaning 500 metres. the clip can be heard playing until 500 metres, which is great. \n \n 
+although, i noticed that this was a little too loud. it would be nice if you could persistently hear it throughout but just quietly. that is the purpose of the custom curve. \n looking at the keyframes and comments, it should be pretty clear the nature of the curve: sharp dropoff, then subtle linear taper for the last 450 metres 
+(;) (**infinite_battery**) 
+the entire battery patch is <10 lines: 
+''' 
+[HarmonyPatch(typeof(BoomboxItem))]
+[HarmonyPatch("Update", MethodType.Normal)]
+class PreventBoomboxBatteryDrain
+{
+    static void Postfix(BoomboxItem __instance)
+    {
+        __instance.insertedBattery.charge = 1f;
+    }
+} 
+''' 
+by patching the Update() method, which presumably runs each frame (complete guess) you can just set the battery to full each update, which is a lot.pretty straightforward. 
+(;) (**more_songs**) finally, i added some more songs. here's the current list: 
+''' 
+Electric Light Orchestra - 10538 Overture - 2021 Mix
+Green Day - 21 Guns
+Green Day - 21st Century Breakdown
+Have a Nice Life - A Quick One Before the Eternal Worm Devours Connecticut
+Green Day - American Idiot (Album Version)
+Madness - Baggy Trousers
+Sabrina Carpenter - Bed Chem
+AC/DC - Big Balls
+Electric Light Orchestra - Birmingham Blues
+Frank Sinatra - Blue Moon (1999 Remastered)
+Kisspink and the Boobies - Brain When No Boobs
+The Blow Monkeys - Choice? (Long Version)
+Bing Crosby - Count Your Blessings Instead of Sheep
+Electric Light Orchestra - Daytripper
+The Blow Monkeys - Digging Your Scene
+AC/DC - Dirty Deeds Done Dirt Cheap
+Ninja Sex Party - Do Math With U
+Electric Light Orchestra - Don't Walk Away
+Kisspink and the Boobies - Dreams of a Titless Meow
+Ninja Sex Party - Eating Food In The Shower
+Sabrina Carpenter - Espresso
+Pearl Jam - Even Flow [2008 Brendan O'Brien Mix]
+Ninja Sex Party - Everybody Shut Up (I Have An Erection)
+Electric Light Orchestra - Evil Woman
+Ninja Sex Party - First Date
+Electric Light Orchestra - From the End of the World
+Mingus Big Band - Goodbye Pork Pie Hat
+Chat Pile - grimace_smoking_weed.jpeg
+Ninja Sex Party - Heart Boner (Part II Of The Boner Trilogy)
+The Smiths - Heaven Knows I'm Miserable Now
+Negativland - Helter Stupid
+Rick Astley - Hold Me In Your Arms
+Have a Nice Life - Holy Fucking Shit: 40,000
+Chat Pile - I Am Dog Now
+Rick Astley - I Don't Want To Be Your Lover
+Ninja Sex Party - I Own A Car
+Christian McBride Big Band - I Thought About You
+Bing Crosby - I'm A Fool To Care
+Bing Crosby - If I Give My Heart To You
+Tim Minchin - If You Really Loved Me
+Electric Light Orchestra - Illusions In G Major
+Tim Minchin - Inflatable You
+Electric Light Orchestra - It's Over
+Ella Fitzgerald - IΓÇÖm Glad There Is You (in This World of Ordinary People)
+Electric Light Orchestra - Kuiama
+Green Day - Last Of The American Girls
+Jeff Lynne - Let It Run
+Eddy Arnold - Lonely Again
+The Cardigans - Lovefool
+Jeff Buckley - Lover, You ShouldΓÇÖve Come Over
+Ella Fitzgerald - Lullaby of Birdland
+Olivia Newton-John - Magic
+Eddy Arnold - Make The World Go Away
+Electric Light Orchestra - Mama
+Agabas - Megafon i et ekkokammer
+Chat Pile - Milk of Human Kindness
+Mingus Big Band - Moanin'
+Dire Straits - Money for Nothing
+Electric Light Orchestra - Mr. Radio - 2021 Mix
+Bloodstone - Natural High
+Electric Light Orchestra - Nellie Takes Her Bow - 2021 Mix
+Madness - Night Boat To Cairo
+Green Day - No One Knows
+Count Basie - Now Will You Be Good
+Electric Light Orchestra - On the Run
+Green Day - One for the Razorbacks
+Count Basie - One O'Clock Jump
+Brojob - OPEN UP A SAVINGS ACCOUNT IN YOUR ASS SO I CAN DEPOSIT MY BALLS OST
+Bloodstone - Outside Woman
+Agabas - Overstimulert
+Sabrina Carpenter - Please Please Please
+The Smiths - Please, Please, Please Let Me Get What I Want
+Clairo - Pretty Girl
+AC/DC - Problem Child
+Chappell Roan - Red Wine Supernova
+Lizz Robinett - Renai Circulation (English Cover) [Full Version]
+Electric Light Orchestra - Roll Over Beethoven
+Frank Sinatra - September In The Rain (1998 Remastered)
+Electric Light Orchestra - Shine a Little Love
+Art Garfunkel - Since I Don't Have You
+Brojob - SIZE KING
+Chat Pile - Slaughterhouse
+Bing Crosby - Something's Gotta Give
+Electric Light Orchestra - Starlight
+The Cardigans - Step On Me
+Green Day - Strangeland
+Dire Straits - Sultans Of Swing
+Ninja Sex Party - Symphony in P Minor
+Eddy Arnold - Take Me In Your Arms And Hold Me
+Sabrina Carpenter - Taste
+Electric Light Orchestra - The Fall
+Brojob - THE INCEL ANTHEM
+Jackyl - The Lumberjack
+Green Day - The Static Age
+Electric Light Orchestra - The Whale
+Smiths - There Is A Light That Never Goes Out
+Electric Light Orchestra - Ticket to the Moon
+Electric Light Orchestra - Tightrope
+Eddy Arnold - Turn The World Around
+Jeff Lynne - Video
+The Blow Monkeys - Wait (Long Version)
+Electric Light Orchestra - Waterfall
+Ninja Sex Party - Welcome to My Parents' House
+Eddy Arnold - What's He Doing In My World
+Christian McBride Big Band - When I Fall in Love
+Frank Sinatra - When You're Smiling (The Whole World Smiles With You) (1999 Remastered)
+Chat Pile - Why 
+''' 
+(;) 
+(**conclusion**) 
+there's a few more things i want to add, namely: \n \n 
+better song syncing across clients, sometimes it gets >10 seconds out \n 
+reduce lag when loading a song \n 
+probably more i cant think of. 
+as always, the project is still on github, a:https://github.com/vegemike/LaDeDaDeDaBoombox \n 
+(;) 
+also, i made a mod for the flashlights. ill make a post about this later, but, as it's an actually useful mod to people who aren't me or my friends, i put it on thunderstore, where it's getting a few downloads (which i am happy about): a:https://thunderstore.io/c/lethal-company/p/vegemike/ProFlashlightPlus/ \n 
+i'll make some more mods at some point. thanks!!
