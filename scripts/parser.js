@@ -90,7 +90,7 @@ async function loadEntry(entryIndex) {
     titlebit = document.createElement("h2")
     titlebit.textContent = subheader
     contentsTitle = document.createElement("h5")
-    contentsTitle.textContent = "contents:"
+    contentsTitle.textContent = "contents (loading):"
     contentsTitle.style.marginBottom = "5px"
     contentsDiv = document.createElement("div")
     contentsDiv.id = "contentsDiv"
@@ -209,13 +209,13 @@ async function loadEntry(entryIndex) {
                 return ""
             }
         }
-
+            
             textBox.appendChild(document.createElement("hr"))
             textBox.appendChild(document.createElement("br"))
         }}
     // also ,make the mouse change highlightedCommand
     //cant be bothered actually maybe in a few weeks
-    
+    contentsTitle.textContent = "contents:"
 }
 window.onload = async function(){
 
