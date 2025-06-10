@@ -156,6 +156,17 @@ async function loadEntry(entryIndex) {
                         textbit = document.createElement("p")
                         textBox.appendChild(textbit)
                     }
+                    else if (i.includes('<VID="')){
+                        vidElement = document.createElement("video")
+                        source = i.replace('<VID="', "")
+                        console.log(source)
+                        source = source.replace('">', "")
+                        vidElement.src = "../../../" + source
+                        vidElement.controls = true;
+                        textBox.appendChild(vidElement)
+                        textbit = document.createElement("p")
+                        textBox.appendChild(textbit)
+                    }
                     else if (i.includes('<AUD="')){
                         audElement = document.createElement("audio")
                         source = i.replace('<AUD="', "")

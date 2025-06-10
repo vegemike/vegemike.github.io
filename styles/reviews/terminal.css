@@ -16,6 +16,15 @@ body, html {
     font-size:0.5em;
     color:#FFFF00;
 }
+video {
+  display: block;
+  width: 50%;
+  margin: 2rem auto;
+  border: 2px solid #00ff00;
+  background-color: black;
+  box-shadow: 0 0 10px #00ff00;
+  filter: grayscale(1) contrast(1.2);
+}
 
 #contentsDiv *:hover{
     background-color: rgba(255, 255, 0, 0.1);
