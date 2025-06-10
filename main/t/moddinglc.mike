@@ -41,7 +41,7 @@ and the following method:
  ''' 
 
 so all that needs to be done is to overwrite the boomboxAudio.clip to whatever song id like, and .Play(). pretty easy. 
-(**modifying_the_StartMusic()_method**) 
+(**modifying_the_StartMusic()_method_(singleplayer)**) 
 using harmony, we want to append code to the END of the method, done like so: 
 ''' 
 [HarmonyPatch(typeof(BoomboxItem))]
@@ -158,7 +158,7 @@ when boombox is played:
 4. happiness 
 ''' 
  \n 
-(**step_1:_choosing_a_song**) 
+(**step_1:_choosing_a_song_(as_host)**) 
 first issue: who should choose the song? if everyone connected does so, it'll get all messy. the obvious solution is to have only the host choose the song. 
 lethal company uses NetworkManager (accessible globally), which has the handy property of .IsHost. so: 
 ''' 
@@ -181,7 +181,7 @@ if (NetworkManager.Singleton.IsServer || NetworkManager.Singleton.IsHost)
 
 and would go in the startMusic Postfix. 
 okay, lets sort that HandleBoomboxStart(). for the scope of picking a song, it's identical to before. it only changes for the next step: 
-(**step_2:_announcing_chosen_song**) 
+(**step_2:_announcing_chosen_song_to_clients**) 
 NetworkManager has another handy property, .ConnectedClientsIds. we can just form this to a list and send a message to each client somehow. 
 we can form the list like so: 
 ''' 
@@ -223,7 +223,7 @@ next is our message (messageStream), the previously made '' writer '' of type Fa
 finally, the networkDelivery method to send it. '' Reliable '' means it WILL reach its target, just a little slower than sending it unreliably. we can't risk the message not being sent, so we must send it reliably. \n \n 
 cool! we've sent the message. now, we just have to receive it! fun! 
  \n 
-(**step_3:_receiving_and_playing_the_chosen_song**) 
+(**step_3:_receiving_and_playing_the_chosen_song_(as_a_client)**) 
 the first step is to prepare the clients for when the receive the message with the name BoomboxPlay. we do this easily, just by: 
 ''' 
 NetworkManager.Singleton.CustomMessagingManager.RegisterNamedMessageHandler(
