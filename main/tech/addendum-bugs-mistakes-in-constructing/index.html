@@ -1,0 +1,48 @@
+
+    <!DOCTYPE html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>ADDENDUM: bugs + mistakes in "constructing digital audio files from scratch" - vegemike.github.io</title>
+            <meta name="description" content="been doing more stuff on constructing and decoding digital audio files, and found some mistakes in my previous article, a:https://vegemike.github.io/main/music/building-an-audio-file-from-scratch/ i was calculating the chunk size as: ChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +    ">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta property="og:title" content="ADDENDUM: bugs + mistakes in "constructing digital audio files from scratch" - vegemike.github.io">
+            <meta property="og:description" content="been doing more stuff on constructing and decoding digital audio files, and found some mistakes in my previous article, a:https://vegemike.github.io/main/music/building-an-audio-file-from-scratch/ i was calculating the chunk size as: ChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +    ">
+            <meta property="og:image" content="https://vegemike.github.io/assets/reviews/music/misc/Sakamoto.webp">
+            <meta property="og:url" content="https://vegemike.github.io/main/tech/addendum-bugs-mistakes-in-constructing">
+            <meta property="og:type" content="article">
+            <link rel="stylesheet" href="../../../styles/reviews/terminal.css">
+            <div id="pathToGenerator" style="display:none;">wavaddendum.mike</div>
+        </head>
+        <body>
+            <div id="everything" style="position: absolute; left: -999999px;opacity:1%;">['ADDENDUM: bugs + mistakes in "constructing digital audio files from scratch"', '\ntwo major corrections&\ni\'ve been doing more stuff on constructing and decoding digital audio files, and found some mistakes in my previous article, a:https://vegemike.github.io/main/music/building-an-audio-file-from-scratch/ \n(**ERROR_1:_miscalculated_chunk_size**) \ni was calculating the chunk size as: \n\'\'\' \nChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +\n                           len(SampleRate) + len(ByteRate) + len(BlockAlign) + len(BitsPerSample)) +\n                           (8 + len(data))) \n\'\'\' \nthis is WRONG! i forgot to subtract an 8 from the end. apologies, it should be: \n\'\'\' \nChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +\n                           len(SampleRate) + len(ByteRate) + len(BlockAlign) + len(BitsPerSample)) +\n                           (8 + len(data)) - 8) \n\'\'\' \nnote the \'\' -8 \'\' \n\n(**ERROR_2:_byte_rate_miscalculation**) \ni was calculating the byte rate as: \n\'\'\' \ntemp = int.from_bytes(SampleRate, byteorder="little") * int.from_bytes(NumChannels, byteorder="little") * int.from_bytes(BitsPerSample, byteorder="little")\nByteRate = int_to_hex(temp) \n\'\'\' \nwhich is WRONG!! this is the BITRATE, not the byterate. all i missed was to divide it by eight. so, it should be: \n\'\'\' \ntemp = int.from_bytes(SampleRate, byteorder="little") * int.from_bytes(NumChannels, byteorder="little") * int.from_bytes(BitsPerSample, byteorder="little") / 8\nByteRate = int_to_hex(int(temp)) \n\'\'\' \n(**afterword**) \nso, that\'s about it. thank you. \nas a final note, i redid the whole section that these two errors came from, it now reads: \n\'\'\' \nSubchunk2Size = int_to_hex(int(len(data) * int.from_bytes(NumChannels, byteorder="little") * (int.from_bytes(BitsPerSample, byteorder="little") / 8)))\nprint( int.from_bytes(SampleRate, byteorder="little"))\ntemp = int.from_bytes(SampleRate, byteorder="little") * int.from_bytes(NumChannels, byteorder="little") * int.from_bytes(BitsPerSample, byteorder="little") / 8\nByteRate = int_to_hex(int(temp))\n\ntemp = int.from_bytes(NumChannels, byteorder="little") * (int.from_bytes(BitsPerSample, byteorder="little") / 8)\nBlockAlign = int_to_hex(int(temp), 2)\n\nChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +\n                           len(SampleRate) + len(ByteRate) + len(BlockAlign) + len(BitsPerSample)) +\n                           (8 + len(data)) - 8) \n\'\'\' \nthanks! it\'s likely lots of the things that didnt work previously will do so now, but i havent yet tested that\n']</div>
+            <div class="terminal">
+                <div class="header">
+                    <p>mOS VERSION 311.24.2.71828</p>
+                    <!--<p>COPYRIGHT 2024 KBPRecords</p>-->
+                    <p>Server 8</p>
+                    <p>mouse-over or use up/down and enter</p>
+                    <p id="titley">techy projects</p>
+                </div>
+                <div class="content" id="commands">
+                </div>
+                <div id="textHere">
+                </div>
+                <div class="footer">
+                    <p>thanks for visiting</p>
+                </div>
+            </div>
+            <!--[if lt IE 7]>
+                <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+            
+            <script src="../../../scripts/parser.js" defer></script>
+            <script src="../../../scripts/terminal.js" defer></script>
+        </body>
+    </html>
+    

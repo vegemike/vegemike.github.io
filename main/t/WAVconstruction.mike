@@ -1,6 +1,8 @@
 building an audio file from scratch%
 in python&
 
+(06/07/2025): please check the addendum to this article
+
  <AUD="assets\techstuff\randomSounds\44100hz-16bit-28waves-avg-16bit-gen.wav"> \n 
 that is the horrifying result of self-made wav files. i cant actually remember why i got interested in this, but it went by with only a few hiccups. most of my work was based off the following website: a:http://soundfile.sapp.org/doc/WaveFormat/ which has some fantastic visualisations.
  \n in short, the aim of this project was to create a wav file, fully from scratch. i chose wav files because they are probably the simplest (no maths). this was achieved with python

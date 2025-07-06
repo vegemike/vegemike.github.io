@@ -1,0 +1,9 @@
+building a PCM decoder from scratch%
+in python&
+you'll recall a previous project of mine, encoding PCM (wav) files fully from scratch. that's fun and all, but a bit useless if you can't play them back (ignoring every media player). so, (also in preparation for another project) i set out to make a very simple decoder for the file 
+(**forenote**) 
+you should skim the previous article about PCM audio files, a:https://vegemike.github.io/main/music/building-an-audio-file-from-scratch/ to get a necessary understanding of their structure. \n i went into this with the hopes of using NO external libraries, but for (reasonable) ease i had to use one, pyaudio. 
+(**getting_started**) 
+this program uses two libs, one built in (os) and pyaudio. we use os to validate the filesize and pyaudio to send the decoded data to an audio stream, which does all the interfacing with the operating system and actually gets the speakers to make noises \n 
+the most important thing is to have a file to decode, so, using the code from last time, i just made one second of a 440hz sine wave. \n 
+NOTE: i found while doing this, that a lot of my code in the last project was inaccurate, forgive me for this - i'll create an addendum article (before or after this one)

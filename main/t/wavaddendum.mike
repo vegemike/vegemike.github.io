@@ -1,0 +1,46 @@
+ADDENDUM: bugs + mistakes in "constructing digital audio files from scratch"%
+two major corrections&
+i've been doing more stuff on constructing and decoding digital audio files, and found some mistakes in my previous article, a:https://vegemike.github.io/main/music/building-an-audio-file-from-scratch/ 
+(**ERROR_1:_miscalculated_chunk_size**) 
+i was calculating the chunk size as: 
+''' 
+ChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +
+                           len(SampleRate) + len(ByteRate) + len(BlockAlign) + len(BitsPerSample)) +
+                           (8 + len(data))) 
+''' 
+this is WRONG! i forgot to subtract an 8 from the end. apologies, it should be: 
+''' 
+ChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +
+                           len(SampleRate) + len(ByteRate) + len(BlockAlign) + len(BitsPerSample)) +
+                           (8 + len(data)) - 8) 
+''' 
+note the '' -8 '' 
+
+(**ERROR_2:_byte_rate_miscalculation**) 
+i was calculating the byte rate as: 
+''' 
+temp = int.from_bytes(SampleRate, byteorder="little") * int.from_bytes(NumChannels, byteorder="little") * int.from_bytes(BitsPerSample, byteorder="little")
+ByteRate = int_to_hex(temp) 
+''' 
+which is WRONG!! this is the BITRATE, not the byterate. all i missed was to divide it by eight. so, it should be: 
+''' 
+temp = int.from_bytes(SampleRate, byteorder="little") * int.from_bytes(NumChannels, byteorder="little") * int.from_bytes(BitsPerSample, byteorder="little") / 8
+ByteRate = int_to_hex(int(temp)) 
+''' 
+(**afterword**) 
+so, that's about it. thank you. 
+as a final note, i redid the whole section that these two errors came from, it now reads: 
+''' 
+Subchunk2Size = int_to_hex(int(len(data) * int.from_bytes(NumChannels, byteorder="little") * (int.from_bytes(BitsPerSample, byteorder="little") / 8)))
+print( int.from_bytes(SampleRate, byteorder="little"))
+temp = int.from_bytes(SampleRate, byteorder="little") * int.from_bytes(NumChannels, byteorder="little") * int.from_bytes(BitsPerSample, byteorder="little") / 8
+ByteRate = int_to_hex(int(temp))
+
+temp = int.from_bytes(NumChannels, byteorder="little") * (int.from_bytes(BitsPerSample, byteorder="little") / 8)
+BlockAlign = int_to_hex(int(temp), 2)
+
+ChunkSize = int_to_hex(4 + (8 + len(Subchunk1Size) + len(Subchunk1ID) + len(AudioFormat) + len(NumChannels) +
+                           len(SampleRate) + len(ByteRate) + len(BlockAlign) + len(BitsPerSample)) +
+                           (8 + len(data)) - 8) 
+''' 
+thanks! it's likely lots of the things that didnt work previously will do so now, but i havent yet tested that

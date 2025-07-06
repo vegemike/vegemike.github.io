@@ -63,6 +63,7 @@ async function loadEntry(entryIndex) {
     params.set("id", entryIndex);
     history.pushState(null, "", "?" + params.toString());
     document.getElementById("titley").textContent = entryJSON[entryIndex]["name"] + "  -  " + entryJSON[entryIndex]["date"]
+    document.getElementById("commands").style.overflowY = "clip";
     backButton = document.createElement("a")
     backButton.id="backButton"
     backButton.textContent = "> back"
