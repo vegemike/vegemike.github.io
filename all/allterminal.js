@@ -94,7 +94,7 @@ async function delayLoad(){
     console.log("staggering display...")
     for (let x of parentDiv.children){
         x.style.display = "block"
-        await delay(120)
+        await delay(30)
     }
     console.log("displayed all")
 }
