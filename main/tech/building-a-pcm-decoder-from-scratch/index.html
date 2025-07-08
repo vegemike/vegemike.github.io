@@ -1,0 +1,48 @@
+
+    <!DOCTYPE html>
+    <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]>      <html class="no-js"> <![endif]-->
+    <html>
+        <head>
+            <meta charset="utf-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <title>building a PCM decoder from scratch - vegemike.github.io</title>
+            <meta name="description" content="recall a previous project of mine, encoding PCM (wav) files fully from scratch. that's fun and all, but a bit useless if you can't play them back (ignoring every media player). so, (also in preparation for another project) i set out to make a very">
+            <meta name="viewport" content="width=device-width, initial-scale=1">
+            <meta property="og:title" content="building a PCM decoder from scratch - vegemike.github.io">
+            <meta property="og:description" content="recall a previous project of mine, encoding PCM (wav) files fully from scratch. that's fun and all, but a bit useless if you can't play them back (ignoring every media player). so, (also in preparation for another project) i set out to make a very">
+            <meta property="og:image" content="https://vegemike.github.io/assets/reviews/music/misc/Sakamoto.webp">
+            <meta property="og:url" content="https://vegemike.github.io/main/tech/building-a-pcm-decoder-from-scratch">
+            <meta property="og:type" content="article">
+            <link rel="stylesheet" href="../../../styles/reviews/terminal.css">
+            <div id="pathToGenerator" style="display:none;">PCM-decoder.mike</div>
+        </head>
+        <body>
+            <div id="everything" style="position: absolute; left: -999999px;opacity:1%;">['building a PCM decoder from scratch', '\nin python&\nyou\'ll recall a previous project of mine, encoding PCM (wav) files fully from scratch. that\'s fun and all, but a bit useless if you can\'t play them back (ignoring every media player). so, (also in preparation for another project) i set out to make a very simple decoder for the file \n(**forenote**) \nyou should skim the previous article about PCM audio files, a:https://vegemike.github.io/main/music/building-an-audio-file-from-scratch/ to get a necessary understanding of their structure. \\n i went into this with the hopes of using NO external libraries, but for (reasonable) ease i had to use one, pyaudio. \n(**getting_started**) \nthis program uses two libs, one built in (os) and pyaudio. we use os to validate the filesize and pyaudio to send the decoded data to an audio stream, which does all the interfacing with the operating system and actually gets the speakers to make noises \\n \nthe most important thing is to have a file to decode, so, using the code from last time, i just made one second of a 440hz sine wave. <AUD="assets\\techstuff\\PCMdecode\\test.wav"> \\n \nNOTE: i found while doing this, that a lot of my code in the last project was inaccurate, forgive me for this - i\'ll create an addendum article (before or after this one)']</div>
+            <div class="terminal">
+                <div class="header">
+                    <p>mOS VERSION 311.24.2.71828</p>
+                    <!--<p>COPYRIGHT 2024 KBPRecords</p>-->
+                    <p>Server 8</p>
+                    <p>mouse-over or use up/down and enter</p>
+                    <p id="titley">techy projects</p>
+                </div>
+                <div class="content" id="commands">
+                </div>
+                <div id="textHere">
+                </div>
+                <div class="footer">
+                    <p>thanks for visiting</p>
+                </div>
+            </div>
+            <!--[if lt IE 7]>
+                <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+            <![endif]-->
+            
+            <script src="../../../scripts/parser.js" defer></script>
+            <script src="../../../scripts/terminal.js" defer></script>
+        </body>
+    </html>
+    

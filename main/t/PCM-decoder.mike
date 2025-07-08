@@ -4,6 +4,102 @@ you'll recall a previous project of mine, encoding PCM (wav) files fully from sc
 (**forenote**) 
 you should skim the previous article about PCM audio files, a:https://vegemike.github.io/main/music/building-an-audio-file-from-scratch/ to get a necessary understanding of their structure. \n i went into this with the hopes of using NO external libraries, but for (reasonable) ease i had to use one, pyaudio. 
 (**getting_started**) 
-this program uses two libs, one built in (os) and pyaudio. we use os to validate the filesize and pyaudio to send the decoded data to an audio stream, which does all the interfacing with the operating system and actually gets the speakers to make noises \n 
-the most important thing is to have a file to decode, so, using the code from last time, i just made one second of a 440hz sine wave. \n 
-NOTE: i found while doing this, that a lot of my code in the last project was inaccurate, forgive me for this - i'll create an addendum article (before or after this one)
+this program uses two libs, one built in (os) and pyaudio. we use os just to validate the filesize and pyaudio to send the decoded data to an audio stream, which does all the interfacing with the operating system and actually gets the speakers to make noises \n 
+the most important thing is to have a file to decode, so, using the code from last time, i just made one second of a 440hz sine wave. <AUD="assets\techstuff\PCMdecode\test.wav"> \n 
+NOTE: i found while doing this, that a lot of my code in the last project was inaccurate, forgive me for this - i'll create an addendum article (before or after this one) 
+(**decoding_metadata**) 
+the first step is to just gather and validate all the information about the file, stored in the first subchunk. recall this picture: <IMG="assets\techstuff\randomSounds\imgs\wave-bytes.gif"> 
+to parse each byte of the file, it has to be opened in the binary read mode,  '' f = open(file_path, "rb") '', and check each piece of information. 
+''' 
+header = f.read(4)
+if header != b"RIFF":
+    abort() 
+''' 
+etc, etc. a key part is to validate the filesize: 
+''' 
+file_size = os.path.getsize(file_path)
+chunkSize = f.read(4)
+chunkSizeInt = int.from_bytes(chunkSize, byteorder="little")
+if chunkSizeInt != file_size - 8:
+    print("WARNING: reported chunk size incorrect") 
+''' 
+and, you can fairly easily read the whole format subchunk, using the reported SubChunk1Size (this is important to use, as if you read too many or too few bytes then other data will be read incorrectly): 
+''' 
+Subchunk1Size = f.read(4)
+Subchunk1SizeInt = int.from_bytes(Subchunk1Size, byteorder="little") 
+
+Subchunk1Data = f.read(Subchunk1SizeInt)
+
+AudioFormat = Subchunk1Data[:2]
+Subchunk1Data = Subchunk1Data[2:]
+
+NumChannels = Subchunk1Data[:2]
+Subchunk1Data = Subchunk1Data[2:]
+
+SampleRate = Subchunk1Data[:4]
+Subchunk1Data = Subchunk1Data[4:]
+
+ByteRate = Subchunk1Data[:4]
+Subchunk1Data = Subchunk1Data[4:]
+
+BlockAlign = Subchunk1Data[:2]
+Subchunk1Data = Subchunk1Data[2:]
+
+BitsPerSample = Subchunk1Data[:2]
+Subchunk1Data = Subchunk1Data[2:] 
+''' 
+currently we are only decoding PCM, so we throw if the AudioFormat is NOT 1: 
+''' 
+AudioFormatInt = int.from_bytes(AudioFormat, byteorder="little")
+''' 
+converting important bits of data into integers where necessary (int.from_bytes()) \n 
+(**parsing_audio_data**) 
+''' 
+Subchunk2ID = f.read(4)
+if Subchunk2ID != b"data":
+    print("subchunk2ID malformed.")
+    abort()
+
+Subchunk2Size = f.read(4)
+Subchunk2SizeInt = int.from_bytes(Subchunk2Size, byteorder="little")
+
+data = f.read(Subchunk2SizeInt) 
+''' 
+N.B. sometimes (infrequently), WAV files can have other sub-chunks BEFORE the data sub-chunk. The main code above throws an error if the second sub-chunk is not the data sub-chunk (and ignores all following sub-chunks). to robustly handle files with extra sub-chunks, you could add a loop to skip any non-data sub-chunks: 
+''' 
+while Subchunk2ID != b"data":
+    print("WARNING: Subchunk2ID is not 'data', skipping to next sub-chunk")
+    Subchunk2Size = f.read(4)
+    Subchunk2SizeInt = int.from_bytes(Subchunk2Size, byteorder="little")
+    f.seek(Subchunk2SizeInt, 1)
+    Subchunk2ID = f.read(4) 
+''' 
+
+currently, we are fully loading the entire song into memory, in the data variable. for large files, this won't be viable (as you'd likely run out of or use a ridiculous amount of memory), and you'd cache a certain amount, play that, cache some more (while discarding previously cached data) etc etc. for this though, there's not much point. \n 
+(**playing_audio**) 
+as mentioned prior, we use pyaudio to interface with the speakers. i would've liked to have done this manually, but that is a job for another day. 
+initialise pyaudio like so: '' p = pa.PyAudio() ''
+\n in audio, a frame is the data in each channel at an instance, which, for a mono track, is just one sample. the size of a frame is just '' channels * bytes per sample '' . \n 
+using pyaudio, we just send chunks to a stream, which is played. i'm using a chunk size of 1024 frames, calculated like '' chunk_size = 1024*frameSize '' \n 
+we then have to pick an audio format (bit depth), using pyaudio's own variables: '' pyaudioFormat = {8:pyaudio.paInt8, 16:pyaudio.paInt16, 32:pyaudio.paInt32, 24:pyaudio.paInt24}[BitsPerSampleInt] '' \n 
+finally, we open the stream, sending some key data: 
+''' 
+ stream = p.open(format=pyaudioFormat, rate=SampleRateInt, channels=NumChannelsInt, output=True)  
+''' 
+self explanatory. '' output = true '' just sets it up as an audio output stream, not an input stream (i.e. a microphone) \n 
+\n 
+we can then iterate over the audio data we found, a chunk at a time. 
+''' 
+for offset in range(0, len(data), chunk_size):
+    stream.write(data[offset:offset+chunk_size]) 
+''' 
+and close the stream when finished 
+''' 
+stream.stop_stream()
+stream.close()
+p.terminate() 
+''' 
+and that is done. it should play (and does): 
+<IMG="assets\techstuff\PCMdecode\terminalsc.png"> 
+(**closing_remarks**) 
+i am going to hopefully work on allowing extra formats, both encoding and decoding different compressions into the WAV file and maybe experimenting with other audio filetypes. eyes peeled!! \n thanks!!
