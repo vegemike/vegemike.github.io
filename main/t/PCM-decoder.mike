@@ -50,7 +50,7 @@ Subchunk1Data = Subchunk1Data[2:]
 ''' 
 currently we are only decoding PCM, so we throw if the AudioFormat is NOT 1: 
 ''' 
-AudioFormatInt = int.from_bytes(AudioFormat, byteorder="little")
+AudioFormatInt = int.from_bytes(AudioFormat, byteorder="little") 
 ''' 
 converting important bits of data into integers where necessary (int.from_bytes()) \n 
 (**parsing_audio_data**) 
