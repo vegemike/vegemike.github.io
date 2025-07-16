@@ -1,7 +1,8 @@
 {
     "main":{
         "music":[
-            {"name":"constructing digital audio files from scratch (python)", "path":"/t/WAVconstruction.mike", "date":"23/11/2024"}
+            {"name":"constructing digital audio files from scratch (python)", "path":"/t/WAVconstruction.mike", "date":"23/11/2024"},
+            {"name":"elo collection", "path":"/m/elo.mike", "date":"16/07/2025"}
         ],
         "tech":[
             {"name":"mechanism of damage on liver by high blood alcohol", "path":"/t/bloodalcoholcontent.mike", "date":"15/01/2025"},
@@ -11,12 +12,14 @@
             {"name":"lc boombox mod (update #1)", "path":"/t/moddinglc2.mike", "date":"10/06/2025"},
             {"name":"ADDENDUM! constructing digital audio files from scratch", "path":"/t/wavaddendum.mike", "date":"06/07/2025"},
             {"name":"from-scratch WAV decoder and playback in python", "path":"/t/PCM-decoder.mike", "date":"08/07/2025"}
+        ],
+        "personal":[
+            
         ]
     },
     "other":{
         "misc":[
-            {"name":"Ethical Implications of Pain Responses in Fish", "path":"/mi/fish pain ethics.mike", "date":"12/02/2025"},
-            {"name":"nihilism", "path":"/mi/nihilism.mike", "date":"24/05/2025"}
+            {"name":"Ethical Implications of Pain Responses in Fish", "path":"/mi/fish pain ethics.mike", "date":"12/02/2025"}
         ],
         "tv":[
             {"name":"from (2022-)", "path":"/r/from.mike", "date":"03/01/2025"},

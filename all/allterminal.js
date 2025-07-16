@@ -38,7 +38,7 @@ var highlightedCommand = 0
 } */
 
 function processEntries(data) {
-    const sectionMapping = { music: "m", tech: "t", misc: "mi", tv: "r" };
+    const sectionMapping = { music: "m", tech: "t", misc: "mi", tv: "r", personal: "p" };
     let flattened = [];
     let seen = new Map();
     

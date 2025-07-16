@@ -8,3 +8,6 @@ should also be surrounded by spaces
 surround code blocks with ''' (surrounded by spaces)
 new line with \n
 prepend links with a:
+bold with /** text /**
+underline with /__ ....
+italics with /* ...

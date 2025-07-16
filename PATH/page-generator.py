@@ -44,12 +44,12 @@ if True:
 
     'for link'
     sub = ""
-    while sub not in ["music", "tech", "tv", "misc"]:
-        sub = input("subcategory (music, tech, tv, misc): ")
-    main = "main" if sub in ["music", "tech"] else "other"
+    while sub not in ["music", "tech", "tv", "misc", "personal"]:
+        sub = input("subcategory (music, tech, tv, misc, personal): ")
+    main = "main" if sub in ["music", "tech", "personal"] else "other"
     url = f"https://vegemike.github.io/{main}/{sub}/{sanitiser(dashedtitle)}"
     
-    titlesect = {"music":"music stuff", "tech":"techy projects", "tv":"TV/film stuff", "misc":"misc"}[sub]
+    titlesect = {"music":"music stuff", "tech":"techy projects", "tv":"TV/film stuff", "misc":"misc", "personal":"personal blog"}[sub]
 
 
     HTMLcontent = f"""

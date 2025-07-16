@@ -43,6 +43,10 @@ async function loadEntry(entryIndex) {
     console.log("title found to be", toptitlething)
     //domain = {"music projects":["music", "/projects"], "Music Reviews":["music","/reviews"], "techy projects":["tech", "/projects"],"TV/film reviews":["tv","/reviews"]}[toptitlething]
     coding = false
+    let bolding = false;
+    let italics = false;
+    let underlining = false;
+
     console.log(entryJSON)
     dir1 = subCategory
     entryJSON = entryJSON[category];
@@ -54,7 +58,7 @@ async function loadEntry(entryIndex) {
     if (document.getElementById("pathToGenerator") == null){
         htmlheader = sanitizeHtmlFilename(header)
         temp2 = entryJSON[entryIndex]["path"].split("/")[1]
-        newOne = {"t":"main/tech/", "m":"main/music/", "r":"other/tv/", "mi":"other/misc/"}[temp2]
+        newOne = {"t":"main/tech/", "m":"main/music/", "r":"other/tv/", "mi":"other/misc/", "p":"main/personal/"}[temp2]
         newrl = `../../${newOne}`
         window.location.replace(newrl + htmlheader)
     }
@@ -74,7 +78,7 @@ async function loadEntry(entryIndex) {
     if (subCategory == "all") {
         storedPath = entryJSON[entryIndex]["path"]
         lowestFolder = storedPath.split("/")[1]
-        dir1 = {"mi":"other", "r":"other", "t":"main", "m":"main"}[lowestFolder]
+        dir1 = {"mi":"other", "r":"other", "t":"main", "m":"main", "p":"personal"}[lowestFolder]
     }
     if (document.getElementById("pathToGenerator") != null){
     tempString = tempString.slice(1).join("%")
@@ -98,18 +102,25 @@ async function loadEntry(entryIndex) {
     titlebit.append(contentsTitle)
     titlebit.append(contentsDiv)
     textBox.appendChild(titlebit)
-    textBox.appendChild(document.createElement("hr"))
+    
 
     rule = document.createElement("hr")
     rule.id = "commandRule"
     document.getElementById("commands").appendChild(rule)
         console.log("loading doc")
+        wordcount = 0
+        wordcountElement = document.createElement("p")
+        textBox.appendChild(wordcountElement)
+        textBox.appendChild(document.createElement("hr"))
         for (x of content){
-            //x = x.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;") + " ";
+
             textbit = document.createElement("p")
             textBox.appendChild(textbit)
             for (i of x.split(" ")){
+                            wordcount += 1
+            wordcountElement.textContent = "word count: ~" + wordcount
                 if (!(document.getElementById("titley").textContent == toptitlething)){
+                    console.log(bolding, italics, underlining)
                     if (i.includes("'''")){
                         
                         if (!coding){
@@ -211,6 +222,63 @@ async function loadEntry(entryIndex) {
                         textBox.appendChild(anchor)
                         textbit = document.createElement("p")
                         textBox.appendChild(textbit)
+                    }
+                    else if (i.includes("\**") && !italics && !underlining) {
+                        if (!bolding) {
+                            textbit.style.display = "inline"
+                            bolding = true
+                            boldBit = document.createElement("b")
+                            textBox.appendChild(boldBit)
+                        } else {
+                            bolding = false
+                                                    textbit = document.createElement("p")
+                        textBox.appendChild(textbit)
+                        textbit.style.display = "inline"
+                        }
+                    }
+
+                    else if (i.includes("\*") && !bolding && !underlining) {
+                        if (!italics) {
+                            textbit.style.display = "inline"
+                            italics = true
+                            italicBit = document.createElement("i")
+                            textBox.appendChild(italicBit)
+                            console.log("italics enabled")
+                        } else {
+                            italics = false
+                                                    textbit = document.createElement("p")
+                        textBox.appendChild(textbit)
+                        textbit.style.display = "inline"
+                        }
+                    }
+
+                    else if (i.includes("\__") && !bolding && !italics) {
+                        if (!underlining) {
+                            textbit.style.display = "inline"
+                            underlining = true
+                            underlineBit = document.createElement("u")
+                            textBox.appendChild(underlineBit)
+                        } else {
+                            underlining = false
+                            //remove last space from underlineBit
+                            underlineBit.textContent = underlineBit.textContent.trimEnd()
+                        textbit = document.createElement("p")
+                        textBox.appendChild(textbit)
+                        textbit.style.display = "inline"
+                        }
+                    }
+
+                    else if (bolding) {
+                        boldBit.textContent += i + " "
+                        await delay(2)
+                    }
+                    else if (italics) {
+                        italicBit.textContent += i + " "
+                        await delay(2)
+                    }
+                    else if (underlining) {
+                        underlineBit.textContent += i + " "
+                        await delay(2)
                     }
                     else {
                         textbit.textContent += i + " "

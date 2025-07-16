@@ -229,3 +229,13 @@ h3{
 }
     
 }
+
+/* making these look cool */
+b, u, i{
+    font-size: 1.2em;
+    color: #00FF00;
+    text-shadow: 0 0 5px rgba(0, 255, 0, 0.5);
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+    
+
+}
