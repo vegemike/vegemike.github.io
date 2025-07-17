@@ -1,8 +1,7 @@
 {
     "main":{
         "music":[
-            {"name":"constructing digital audio files from scratch (python)", "path":"/t/WAVconstruction.mike", "date":"23/11/2024"},
-            {"name":"elo collection", "path":"/m/elo.mike", "date":"16/07/2025"}
+            {"name":"constructing digital audio files from scratch (python)", "path":"/t/WAVconstruction.mike", "date":"23/11/2024"}
         ],
         "tech":[
             {"name":"mechanism of damage on liver by high blood alcohol", "path":"/t/bloodalcoholcontent.mike", "date":"15/01/2025"},
