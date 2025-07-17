@@ -119,7 +119,7 @@ async function unloadEntry() {
 async function allLoad(){
     targetObj = getObjectByName(entryJSON, this.dataset.name)
     temp2 = targetObj["path"].split("/")[1]
-    newOne = {"t":"main/", "m":"main/", "r":"other/", "mi":"other/"}[temp2]
+    newOne = {"t":"main/", "m":"main/", "r":"other/", "mi":"other/", "p":"main/"}[temp2]
     postData = await fileContents("../"+ newOne + targetObj["path"])
     tempString = postData.split("%")
     header = tempString[0]
