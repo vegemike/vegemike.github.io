@@ -22,6 +22,7 @@ video {
   width: 80%;
   margin: 2rem auto;
   border: 2px solid #00ff00;
+  max-height: 65%;
   background-color: black;
   box-shadow: 0 0 10px #00ff00;
   filter: grayscale(0.2) contrast(1.5);
