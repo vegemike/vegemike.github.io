@@ -252,7 +252,7 @@ async function loadEntry(entryIndex) {
                         }
                     }
 
-                    else if (i.includes("\\__") && !bolding && !italics) {
+                    else if (i.includes("/__") && !bolding && !italics) {
                         if (!underlining) {
                             textbit.style.display = "inline"
                             underlining = true
