@@ -87,7 +87,6 @@ async function loadEntry(entryIndex) {
     subheader = tempString[0]
     content = tempString.slice(1).join("&")
     content = content.split("(;)")
-    delete tempString
     textBox = document.getElementById("textHere")
     titlebit = document.createElement("h1")
     titlebit.textContent = header
@@ -282,7 +281,7 @@ async function loadEntry(entryIndex) {
                     }
                     else {
                         textbit.textContent += i + " "
-                        await delay(2)
+                        await delay(1)
                     }
             }
             else {
