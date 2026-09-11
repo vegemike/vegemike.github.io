@@ -102,10 +102,10 @@ if True:
     """
     dashedtitle = sanitiser(dashedtitle)
     try:
-        os.mkdir(f"../../{main}/{sub}/{dashedtitle}")
+        os.mkdir(f"../{main}/{sub}/{dashedtitle}")
     except FileExistsError:
         pass
-    with open(f"../../{main}/{sub}/{dashedtitle}/index.html", "w", encoding="utf-8") as f:
+    with open(f"../{main}/{sub}/{dashedtitle}/index.html", "w", encoding="utf-8") as f:
         f.write(HTMLcontent)
 
 
