@@ -295,6 +295,9 @@ async function loadEntry(entryIndex) {
     // also ,make the mouse change highlightedCommand
     //cant be bothered actually maybe in a few weeks
     contentsTitle.textContent = "contents:"
+    if (contentsDiv.childNodes.length = 0){
+        contentsTitle.textContent = null;
+    }
 }
 window.onload = async function(){
 
