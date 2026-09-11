@@ -3,6 +3,7 @@ import sys, re, os
 print("running")
 path = sys.argv[1]
 #path = "\\complexPython.mike"
+#run from /main/t/ etc!
 
 def sanitiser(input_str):
     filename = input_str.lower()
@@ -102,10 +103,10 @@ if True:
     """
     dashedtitle = sanitiser(dashedtitle)
     try:
-        os.mkdir(f"../{main}/{sub}/{dashedtitle}")
+        os.mkdir(f"../../{main}/{sub}/{dashedtitle}")
     except FileExistsError:
         pass
-    with open(f"../{main}/{sub}/{dashedtitle}/index.html", "w", encoding="utf-8") as f:
+    with open(f"../../{main}/{sub}/{dashedtitle}/index.html", "w", encoding="utf-8") as f:
         f.write(HTMLcontent)
 
 
