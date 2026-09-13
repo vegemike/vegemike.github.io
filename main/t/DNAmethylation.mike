@@ -9,7 +9,7 @@ In the case of non-CpG methylation, opinion is split. Some claim that (at least 
 Of course, there are more sites suitable for methylation than CpXs, from CpXpGs to CpXpXs. These are found more in plants and probably assist further in repression of genes and transposons:
 Methylation is vital in transposons, as they are repressed regardless of their transposition. Methylation of symmetrical sites (CpXpG is complementary to GpX'pC) is maintained during transcription. \n 
 (;) 
-/** Gene Body Methylation /** 
+/** Gene Body Methylation /** \n 
 This is a slight departure from gene repression but we will discuss downregulation of spurious transcription so all is well! \n 
 Gene body methylation is a little paradoxical. In genes where the promoter regions are heavily methylated, expression is heavily repressed. However, genes where the gene body is methylated tend to be expressed /* more /* often. \n 
 It has been suggested that DNA methylation is primarily a mechanism for stopping spurious transcription rather than regulating entire promoters. It was shown at the human SHANK3 locus that gene body methylation correlated negatively with intragenic transcription. If this was the case though, you would expect intragenic DNA methylation to exist mostly at cryptic start sites and intronic promoters - this is not the case. \n 
